@@ -8,7 +8,7 @@ import Login from './components/login'
 document.body.style.backgroundColor="black"
 document.body.style.margin ="0 auto"
 ReactDOM.render(
-      <Login />, document.getElementById('root')
+      <Login/>, document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
