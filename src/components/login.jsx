@@ -36,7 +36,7 @@ class Login extends Component {
                                 <div className="col-4 offset-4">
                                     <div className="input-group mb-2">
                                         <div className="input-group-prepend">
-                                            <div className="input-group-text"><b>Email</b></div>
+                                            <div className="input-group-text"><b>E-mail</b></div>
                                         </div>
                                     <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" value={this.state.usuario.email} onChange={this.handleEmail}/>
                                     </div>
