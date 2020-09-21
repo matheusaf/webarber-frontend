@@ -36,7 +36,7 @@ class Login extends Component {
                                 <div className="col-4 offset-4">
                                     <div className="input-group mb-2">
                                         <div className="input-group-prepend">
-                                            <div className="input-group-text"><b>E-mail</b></div>
+                                            <div className="input-group-text"><b>Email</b></div>
                                         </div>
                                     <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" value={this.state.usuario.email} onChange={this.handleEmail}/>
                                     </div>
@@ -121,10 +121,7 @@ class Login extends Component {
     }
 
     handleLogin = async () => {
-        // let baseUrl = "https://webarber-back.herokuapp.com"
-        let baseUrl = 'localhost:8080';
-        
-        console.log(baseUrl);
+        let baseUrl = "https://webarber-back.herokuapp.com"        
         if(this.state.loginPage === false){
             this.setState({loginPage: true});
         }
@@ -140,8 +137,7 @@ class Login extends Component {
     }
 
      handleSignIn = async () => {
-        // let baseUrl = "https://webarber-back.herokuapp.com"
-        let baseUrl = 'localhost:8080';
+        let baseUrl = "https://webarber-back.herokuapp.com"
         if(this.state.loginPage === true){
             this.setState({loginPage: false});
         }
