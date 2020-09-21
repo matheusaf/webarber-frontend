@@ -13,9 +13,11 @@ class Login extends Component {
        },
        loginPage: true,
        fields: {
-            nome: ["Nome:", "Digite seu nome"],
-            sobrenome: ["Sobrenome:", "Digite seu Sobrenome"],
+            nome: ["Nome", "Digite seu nome"],
+            email: ["E-mail", "Digite seu e-mail"],
+            sobrenome: ["Sobrenome", "Digite seu Sobrenome"],
             confirmarEmail: ["Confirmar E-mail", "Confirme seu e-mail"],
+            senha: ["Senha", "Digite sua sneha"],
             confirmarSenha: ["Confirmar Senha", "Confirme sua senha"]
        }
     }
@@ -32,27 +34,9 @@ class Login extends Component {
                         <form>
                             {this.state.loginPage === false ? this.handleSignInPageFields('nome') : ""}
                             {this.state.loginPage === false ? this.handleSignInPageFields('sobrenome') : ""}
-                            <div className="form-row">
-                                <div className="col-4 offset-4">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                            <div className="input-group-text"><b>E-mail</b></div>
-                                        </div>
-                                    <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" value={this.state.usuario.email} onChange={this.handleEmail}/>
-                                    </div>
-                                </div>
-                            </div>
+                            {this.handleSignInPageFields('email')}
                             {this.state.loginPage === false ? this.handleSignInPageFields('confirmarEmail') : ""}
-                            <div className="form-row">
-                                <div className="col-4 offset-4">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                            <div className="input-group-text"><b>Senha:</b></div>
-                                        </div>
-                                        <input id="senha" className="form-control" name="password" minLength="8" maxLength="12" type="password" value = {this.state.usuario.senha} placeholder="Digite sua senha" onChange={this.handleSenha}/>
-                                    </div>
-                                </div>
-                            </div>
+                            {this.handleSignInPageFields('senha')}
                             {this.state.loginPage === false ? this.handleSignInPageFields('confirmarSenha') : ""}
                                 <button type="button" className={this.handleLoginButton()} onClick={this.handleLogin}>Login</button>
                                 <button type="button" className={this.handleSignInButton()} onClick={this.handleSignIn}>Cadastrar</button>
@@ -63,31 +47,16 @@ class Login extends Component {
                 )
     }
     
-    handleSignInAttributes = (fieldname, event) =>{
+    handleAttributes = (fieldname, event) =>{
         this.setState({ usuario: {
                     ...this.state.usuario,
                     [fieldname]: event.target.value}
                       }
                     )
     }
-
-    handleEmail = (event) => {
-        this.setState({ usuario: {
-            ...this.state.usuario,
-                email: event.target.value}
-            }
-        )
-    }
-    handleSenha = (event) => {
-        this.setState({ usuario: {
-            ...this.state.usuario,
-                senha: event.target.value}
-            }
-        )
-    }
      
     handleSignInPageFields = (fieldName) => {
-        if(this.state.loginPage === true){
+        if(this.state.loginPage === true && fieldName !== "email" && fieldName !== "senha"){
             return ""
         }
         else{
@@ -98,7 +67,7 @@ class Login extends Component {
                             <div className="input-group-prepend">
                                 <div className="input-group-text"><b>{this.state.fields[fieldName][0]}</b></div>
                             </div>
-                        <input id={fieldName} name={fieldName} className="form-control" type={fieldName==="confirmarSenha" ? "password" : "text"}  minLength={fieldName==="confirmarSenha" ? "8" : "1"} maxLength={fieldName==="confirmarSenha" ? "12" : "99"} placeholder={this.state.fields[fieldName][1]} value={this.state.usuario[fieldName]} onChange={(event) => {this.handleSignInAttributes(fieldName, event)}}/>
+                        <input id={fieldName} name={fieldName} className="form-control" type={fieldName==="confirmarSenha" || fieldName === "senha" ? "password" : "text"}  minLength={fieldName==="confirmarSenha" ? "8" : "1"} maxLength={fieldName==="confirmarSenha" ? "12" : "99"} placeholder={this.state.fields[fieldName][1]} value={this.state.usuario[fieldName]} onChange={(event) => {this.handleAttributes(fieldName, event)}}/>
                         </div>
                     </div>
                 </div>
@@ -142,26 +111,37 @@ class Login extends Component {
             this.setState({loginPage: false});
         }
         else{
-            const url = `${baseUrl}/users`;
-            console.log("start")
-            let user = {nome: this.state.usuario.nome, 
-                        sobrenome: this.state.usuario.sobrenome,
-                        email: this.state.usuario.email,
-                        password: this.state.usuario.senha,
-                        idTipo: 1
-                        };
-            const response = await fetch(url, {
-                                    method: "post",
-                                    headers: new Headers({ 'Content-Type': 'application/json' }),
-                                    body: JSON.stringify(user)
-                            })
-            const message = await response.json();
-            console.log(message);
-            if(message.status===201){
-                alert("Usuário cadastrado.");
+            if(this.state.usuario.email !== this.state.usuario.confirmarEmail){
+                alert("E-mail incompatíveis.")
+            }
+            else if(this.state.usuario.senha === this.state.usuario.confirmarSenha){
+                alert("Senhas incompatíveis.")
+            }
+            else if(this.state.usuario.senha.length <8 && this.state.usuario.confirmarSenha.length < 8){
+                alert("Senha precisa entre 8 e 12 caracteres.")
             }
             else{
-                alert("Usuário já cadastrado.");
+                const url = `${baseUrl}/users`;
+                console.log("start")
+                let user = {nome: this.state.usuario.nome, 
+                            sobrenome: this.state.usuario.sobrenome,
+                            email: this.state.usuario.email,
+                            password: this.state.usuario.senha,
+                            idTipo: 1
+                            };
+                const response = await fetch(url, {
+                                        method: "post",
+                                        headers: new Headers({ 'Content-Type': 'application/json' }),
+                                        body: JSON.stringify(user)
+                                })
+                const message = await response.json();
+                console.log(message);
+                if(response.status !== 400){
+                    alert("Usuário cadastrado.");
+                }
+                else{
+                    alert("Usuário já cadastrado.");
+                }
             }
         }
     }
