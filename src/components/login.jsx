@@ -36,7 +36,7 @@ class Login extends Component {
                                 <div className="col-4 offset-4">
                                     <div className="input-group mb-2">
                                         <div className="input-group-prepend">
-                                            <div className="input-group-text"><b>E-mail</b></div>
+                                            <div className="input-group-text"><b>Email</b></div>
                                         </div>
                                     <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" value={this.state.usuario.email} onChange={this.handleEmail}/>
                                     </div>
@@ -108,7 +108,7 @@ class Login extends Component {
 
     handleLoginButton = () => {
         let className = "btn btn-light";
-        return (this.state.usuario.email !== "" && this.state.usuario.senha !== "") ? `${className} active mr-2` : `${className} disabled mr-2`;
+        return (this.state.usuario.email !== "" && this.state.usuario.senha !== "" && this.state.usuario.senha.length >= 8) ? `${className} active mr-2` : `${className} disabled mr-2`;
     }
 
     handleSignInButton = (fieldName) => {
@@ -120,23 +120,49 @@ class Login extends Component {
         return valid === true ? `${className} active mr-2` : `${className} disabled mr-2`;
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
+        let baseUrl = "https://webarber-back.herokuapp.com"        
         if(this.state.loginPage === false){
             this.setState({loginPage: true});
         }
         else{
-            console.log(this.state.usuario);
-        
-        console.log(this.state.usuario);
+            let users = await fetch(`${baseUrl}/login`, {
+                method:"post",
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify({email: this.state.usuario.email, password: this.state.usuario.senha})
+            })
+            users = await users.json();
+            alert(users.message);
         }
     }
 
-    handleSignIn = () => {
+     handleSignIn = async () => {
+        let baseUrl = "https://webarber-back.herokuapp.com"
         if(this.state.loginPage === true){
             this.setState({loginPage: false});
         }
         else{
-            console.log(this.state.usuario);
+            const url = `${baseUrl}/users`;
+            console.log("start")
+            let user = {nome: this.state.usuario.nome, 
+                        sobrenome: this.state.usuario.sobrenome,
+                        email: this.state.usuario.email,
+                        password: this.state.usuario.senha,
+                        idTipo: 1
+                        };
+            const response = await fetch(url, {
+                                    method: "post",
+                                    headers: new Headers({ 'Content-Type': 'application/json' }),
+                                    body: JSON.stringify(user)
+                            })
+            const message = await response.json();
+            console.log(message);
+            if(message.status===201){
+                alert("Usuário cadastrado.");
+            }
+            else{
+                alert("Usuário já cadastrado.");
+            }
         }
     }
 }
