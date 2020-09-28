@@ -33,12 +33,12 @@ export default function Create() {
     }
     
     return (
-        <div className="jumbotron d-flex align-items-center" style= { { backgroundColor:'black'} }>
-            <div className="conteiner">
-                <div className="card text-center">
-                    <div>
-                        <img className="card-img-top-center" src={webarber} alt=" " style={{width: "310px", height: "90px"}}></img>
-                    </div>
+        <div className="conteiner d-flex justify-content-center">
+            <div className="card text-center">
+                <div class="card-header">
+                    <img className="card-img-top-center" src={webarber} alt="webarber logo" style={{width: "310px", height: "90px"}}></img>
+                </div>
+                <div class="card-body">
                     <br></br>
                     <form onSubmit={handleSubmit} >
                         <fieldset>
@@ -48,7 +48,8 @@ export default function Create() {
                                         <div className="input-group-prepend">
                                             <div className="input-group-text"><b>E-mail</b></div>
                                         </div>
-                                    <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" value={this.state.usuario.email} onChange={this.handleEmail}/>
+                                    <input id="email" name="email" className="form-control" type="text" placeholder="Digite seu e-mail" onChange={updateForm
+                                    }/>
                                     </div>
                                 </div>
                             </div>
