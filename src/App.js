@@ -5,14 +5,14 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import Login from './components/login.jsx';
+import Home from './components/home.jsx';
 
 function App() {
   return (
     <Router>
       <div>
         <Switch>
-          <Route path="/" component={Login} />
+          <Route path="/" component={Home} />
         </Switch>
       </div>
     </Router>
