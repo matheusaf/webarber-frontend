@@ -3,7 +3,7 @@ import webarber from "../images/webarber.png";
 
 class Login extends Component {
     state = {
-       usuario: {
+        usuario: {
             nome: "",
             sobrenome: "",
             email: "",
@@ -23,8 +23,8 @@ class Login extends Component {
     render() { 
         return (
             <div className="jumbotron d-flex align-items-center" style= { { backgroundColor:'black'} }>
-                <div className="conteiner h-120" style={ {display: 'flex', justifyContent: 'center', alignItems:'center', backgroundColor:'black'} }>
-                    <div className="card text-center" style={{width: '116rem', height: '280px', backgroundColor: 'black', justifyContent: 'center'}}>
+                <div className="conteiner">
+                    <div className="card text-center">
                         <div>
                             <img className="card-img-top-center" src={webarber} alt=" " style={{width: "310px", height: "90px"}}></img>
                         </div>
