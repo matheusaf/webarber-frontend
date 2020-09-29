@@ -32,7 +32,6 @@ export default function Log() {
     
     return (
         <div className="row">
-            <br></br>
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <div className="input-group form-group">
@@ -48,7 +47,7 @@ export default function Log() {
                         <input id="password" className="form-control" name="password" minLength="8" maxLength="12" type="password" placeholder="Digite sua senha" onChange={updateForm} required={true}/>
                     </div>
                     <br/>
-                    <button type="submit" className="btn btn-primary">Cadastrar</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </fieldset>
             </form>
         </div>

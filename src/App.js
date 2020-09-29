@@ -9,11 +9,15 @@ import Home from './components/home.jsx';
 function App() {
   return (
     <Router>
+      <header>
+      </header>
       <div>
         <Switch>
           <Route path="/" component={Home} />
         </Switch>
       </div>
+      <footer>
+      </footer>
     </Router>
   );
 }

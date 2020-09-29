@@ -1,7 +1,7 @@
-#active {
-    color: greenyellow;
+.active {
+    color: green;
 }
 
-#disabled {
+.disabled {
     color: grey;
 }
