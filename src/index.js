@@ -6,8 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
-document.body.style.backgroundColor="black"
-document.body.style.margin ="0 auto"
+document.body.style.backgroundColor='black';
 ReactDOM.render(
       <BrowserRouter>
             <App/>
