@@ -3,7 +3,7 @@ import webarber from "../images/webarber.png";
 
 class Login extends Component {
     state = {
-       usuario: {
+        usuario: {
             nome: "",
             sobrenome: "",
             email: "",
@@ -23,8 +23,8 @@ class Login extends Component {
     render() { 
         return (
             <div className="jumbotron d-flex align-items-center" style= { { backgroundColor:'black'} }>
-                <div className="conteiner h-120" style={ {display: 'flex', justifyContent: 'center', alignItems:'center', backgroundColor:'black'} }>
-                    <div className="card text-center" style={{width: '116rem', height: '280px', backgroundColor: 'black', justifyContent: 'center'}}>
+                <div className="conteiner">
+                    <div className="card text-center">
                         <div>
                             <img className="card-img-top-center" src={webarber} alt=" " style={{width: "310px", height: "90px"}}></img>
                         </div>
@@ -120,6 +120,10 @@ class Login extends Component {
         return valid === true ? `${className} active mr-2` : `${className} disabled mr-2`;
     }
 
+    validatePassword = () => {
+        return this.state.usuario.senha === this.state.usuario.confirmarSenha && this.state.usuario.senha.length >= 8 && this.state.usuario.confirmarSenha.length >=8;
+    }
+
     handleLogin = async () => {
         let baseUrl = "https://webarber-back.herokuapp.com"        
         if(this.state.loginPage === false){
@@ -142,26 +146,34 @@ class Login extends Component {
             this.setState({loginPage: false});
         }
         else{
-            const url = `${baseUrl}/users`;
-            console.log("start")
-            let user = {nome: this.state.usuario.nome, 
-                        sobrenome: this.state.usuario.sobrenome,
-                        email: this.state.usuario.email,
-                        password: this.state.usuario.senha,
-                        idTipo: 1
-                        };
-            const response = await fetch(url, {
-                                    method: "post",
-                                    headers: new Headers({ 'Content-Type': 'application/json' }),
-                                    body: JSON.stringify(user)
-                            })
-            const message = await response.json();
-            console.log(message);
-            if(message.status===201){
-                alert("Usuário cadastrado.");
+            if(this.state.usuario.email !== this.state.usuario.confirmarEmail){
+                alert("E-mail incompatíveis.")
+            }
+            else if(this.validatePassword() === false){
+                alert("Senhas incompatíveis.")
             }
             else{
-                alert("Usuário já cadastrado.");
+                const url = `${baseUrl}/users`;
+                console.log("start")
+                let user = {nome: this.state.usuario.nome, 
+                            sobrenome: this.state.usuario.sobrenome,
+                            email: this.state.usuario.email,
+                            password: this.state.usuario.senha,
+                            idTipo: 1
+                            };
+                const response = await fetch(url, {
+                                        method: "post",
+                                        headers: new Headers({ 'Content-Type': 'application/json' }),
+                                        body: JSON.stringify(user)
+                                })
+                const message = await response.json();
+                console.log(message);
+                if(response.status !== 400){
+                    alert("Usuário cadastrado.");
+                }
+                else{
+                    alert("Usuário já cadastrado.");
+                }
             }
         }
     }
