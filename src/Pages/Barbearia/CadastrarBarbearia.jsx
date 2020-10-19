@@ -120,7 +120,6 @@ export default function CadastrarBarbearia() {
                         </div>
                         <button className="btn btn-custom disabled" onClick={null} style = {{ marginLeft:"25%" }}>Cadastrar Barbearia</button>
                     </fieldset>
-
                 </form>
             </div>
             </>
