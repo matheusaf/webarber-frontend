@@ -1,7 +1,6 @@
 import './NavBar.css'
-import { logo } from './logo.png'
+import logo from '../images/logo.png';
 import React, { useState } from 'react';
-import User from './User/User';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
@@ -27,15 +26,15 @@ export default function NavBar() {
                 </button>
 
                 <Link className="navbar-brand" to="/">
-                    Webarber
+                    <img src={logo} alt="logo" className="logo"></img>
                 </Link>
                 <Link to='/login'>
-                    <button className="btn login">
+                    <button className="btn-nav login">
                         Entrar
                     </button>
                 </Link>
-                <Link to='/register'>
-                    <button className='btn signin'>
+                <Link to='/signin'>
+                    <button className='btn-nav signin'>
                         Cadastrar
                     </button>
                 </Link>
@@ -44,6 +43,9 @@ export default function NavBar() {
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
                             <a className="nav-link" href="\">Home</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="\barbearias">Minhas Barbearias</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="\agendamentos">Meus Agendamentos</a>

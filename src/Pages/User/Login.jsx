@@ -1,9 +1,10 @@
 import './Styles.css';
+import Header from './Header';
 import { Helmet } from 'react-helmet';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Log() {
-    // Hooks
+export default function Login() {
     const [login, setLogin] = useState({email: '', senha: ''});
 
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
@@ -31,7 +32,7 @@ export default function Log() {
 
     const handleButtonClass = () => {
         const button = "btn";
-        return (login.email !== "" && (login.senha.length >= 8 && login.senha.length <=12))? `${button} active` : `${button} disabled`;
+        return (handleButtonState())? `${button} active` : `${button} disabled`;
     }
 
     const handleButtonState = () => {
@@ -59,26 +60,36 @@ export default function Log() {
             <Helmet>
                 <title>Login</title>
             </Helmet>
-            <div className="row">
-                <form onSubmit={handleSubmit}>
-                    <fieldset>
-                        <div className="form-group row">
-                            <div className='label' htmlFor="email">
-                                E-mail
+            <Header></Header>
+            <div className="container">
+                <div className="row">
+                    <form onSubmit={handleSubmit}>
+                        <fieldset>
+                            <div className="form-group row">
+                                <div className='label' htmlFor="email">
+                                    E-mail
+                                </div>
+                                <input id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" onChange={updateForm}/>
                             </div>
-                            <input id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" onChange={updateForm}/>
-                        </div>
-                            {handleWrongEmailAlert()}
-                        <div className="form-group row">
-                            <div className='label' htmlFor="senha">
-                                Senha
+                                {handleWrongEmailAlert()}
+                            <div className="form-group row">
+                                <div className='label' htmlFor="senha">
+                                    Senha
+                                </div>
+                                <input id="senha" className="form-control" name="senha" minLength="8" type="password" placeholder="Digite sua senha" onChange={updateForm}/>
                             </div>
-                            <input id="senha" className="form-control" name="senha" minLength="8" type="password" placeholder="Digite sua senha" onChange={updateForm}/>
-                        </div>
                             {handleWrongPasswordAlert()}
-                        <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Login</button>
-                    </fieldset>
-                </form>
+                            <div className="container">
+                                <Link to="/signin">
+                                    <div className="mylink">
+                                        Não é cadastrado?
+                                    </div>
+                                </Link>
+                            </div>
+                            <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Login</button>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </>
     )
