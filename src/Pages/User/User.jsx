@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Register from './SignIn';
 import Log from './Login';
-import webarber from "../images/webarber.png";
-import './home.css';
+import webarber from "../../images/webarber.png";
+import './User.css';
 
-export default function Home() {
+export default function User() {
     // Hooks
     const [tab, setTab] = useState('login');
 
@@ -23,11 +23,13 @@ export default function Home() {
     return (<div>
                 <div className="row">
                 </div>
-                <div className="conteiner d-flex justify-content-center">
+                <div className="container">
                     <div className='row'>
                         <div className="card">
                             <div className="card-header">
-                                <img className="card-img-top-center" src={webarber} alt="webarber logo" style={{ width: "310px", height: "90px" }}></img>
+                                <Link to="/">
+                                    <img className="card-img-top-center" src={webarber} alt="webarber logo" style={{ width: "310px", height: "90px" }}></img>
+                                </Link>
                             </div>
                             <div className="card-body">
                                 <div className="row">

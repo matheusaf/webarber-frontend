@@ -15,6 +15,8 @@
 .container {
   justify-content: center;
   display: flex;
+  max-width: 960px;
+  margin: auto;
 }
 
 .col {
@@ -43,4 +45,5 @@
 .col:hover {
   background-color: #2bce3b;
   color: black;
+  cursor: pointer;
 }
