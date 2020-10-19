@@ -12,7 +12,7 @@ export default function Header() {
                         <div className="card">
                             <div className="card-header">
                                 <Link to="/">
-                                    <img className="card-img-top-center" src={webarber} alt="webarber logo" style={{ width: "310px", height: "90px" }}></img>
+                                    <img className="card-img-top-center" src={webarber} alt="webarber logo"></img>
                                 </Link>
                             </div>
                         </div>

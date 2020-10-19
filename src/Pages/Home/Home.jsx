@@ -1,7 +1,7 @@
 import './Home.css'
 import LukeCage from './Images/luke-cage-at-pops-barbershop.png'
 import NavBar from '../NavBar';
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function Home() {
@@ -14,13 +14,13 @@ export default function Home() {
             <NavBar></NavBar>
             <form>
                 <fieldset>
-                    <input className="search-bar" type="search" placeholder="Procure uma barbearia"></input>
+                    <input name="pesquisar" id="pesquisar" className="search-bar" type="search" placeholder="Pesquise uma barbearia"></input>
                 </fieldset>
-                <button className="btn search" type="submit">
-                    Buscar
+                <button className="btn btn-search" type="submit">
+                    Pesquisar
                 </button>
             </form>
-            <img src={LukeCage} className="banner"></img>
+            <img src={LukeCage} alt="cage" className="banner"></img>
             </>
     );
 

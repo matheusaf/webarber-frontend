@@ -55,7 +55,7 @@ export default function SignIn() {
     }
 
      const handleButtonClass = () => {
-        const button = "btn";
+        const button = "btn btn-custom";
         return handleButtonState() ? `${button} active` : `${button} disabled`;
     }
 

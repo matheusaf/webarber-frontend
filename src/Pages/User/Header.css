@@ -9,3 +9,8 @@
   max-width: 960px;
   margin: auto;
 }
+
+.card-img-top-center {
+  width: 310px;
+  height: 90px;
+}

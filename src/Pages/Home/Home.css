@@ -26,12 +26,23 @@
   border-width: thick;
 }
 
-.btn.search {
+.btn-search {
   border: #2bce3b;
   border-width: 3px;
   border-style: solid;
   margin-top: 1%;
-  margin-left: 47%;
+  margin-left: 45.5%;
   color: #2bce3b;
   background-color: black;
+  border-radius: 10rem;
+  width: 8%;
+  font-weight: bold;
+}
+
+.btn-search:hover {
+  background-color: #2bce3b;
+}
+
+input:focus {
+  outline: none;
 }
