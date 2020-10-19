@@ -1,9 +1,10 @@
 import './Styles.css';
+import Header from './Header';
 import { Helmet } from 'react-helmet';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Register() {
-    // Hooks
+export default function SignIn() {
     const [signin, setSignIn] = useState({nome:'', sobrenome: '', cpf: '', email: '', confirmacaoEmail: '', senha:'', confirmacaoSenha:''});
 
     const updateForm = (event) => setSignIn({ ...signin, [event.target.name]: event.target.value });
@@ -55,7 +56,7 @@ export default function Register() {
 
      const handleButtonClass = () => {
         const button = "btn";
-        return (signin.email !== "" && signin.senha.length >= 8 && (signin.cpf.length>=11 && signin.cpf.length<=15)) ? `${button} active` : `${button} disabled`;
+        return handleButtonState() ? `${button} active` : `${button} disabled`;
     }
 
 
@@ -68,56 +69,66 @@ export default function Register() {
             <Helmet>
                 <title>Cadastro</title>
             </Helmet>
-            <div className="row">
-                <form onSubmit={handleSubmit}>
-                    <fieldset>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="nome">
-                                Nome
+            <Header></Header>
+            <div className="container">
+                <div className="row">
+                    <form onSubmit={handleSubmit}>
+                        <fieldset>
+                            <div className="form-group row">
+                                <div className="label" htmlFor="nome">
+                                    Nome
+                                </div>
+                                <input id="nome" name="nome" className="form-control" type="text" placeholder="John" onChange={updateForm} required={true} />
                             </div>
-                            <input id="nome" name="nome" className="form-control" type="text" placeholder="John" onChange={updateForm} required={true} />
-                        </div>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="sobrenome">
-                                Sobrenome
+                            <div className="form-group row">
+                                <div className="label" htmlFor="sobrenome">
+                                    Sobrenome
+                                </div>
+                                <input id="sobrenome" name="sobrenome" className="form-control" type="text" placeholder="Eid Fernandes" onChange={updateForm} required={true} />
                             </div>
-                            <input id="sobrenome" name="sobrenome" className="form-control" type="text" placeholder="Eid Fernandes" onChange={updateForm} required={true} />
-                        </div>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="cpf">
-                                CPF
+                            <div className="form-group row">
+                                <div className="label" htmlFor="cpf">
+                                    CPF
+                                </div>
+                                <input id="cpf" className="form-control" name="cpf" minLength="11" maxLength="15" type="text" placeholder="123.456.789-10" pattern="(\d{3}\.){3}-(\d{2})" onChange={updateForm} required={true} />
                             </div>
-                            <input id="cpf" className="form-control" name="cpf" minLength="11" maxLength="15" type="text" placeholder="123.456.789-10" pattern="(\d{3}\.){3}-(\d{2})" onChange={updateForm} required={true} />
-                        </div>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="email">
-                                E-mail
+                            <div className="form-group row">
+                                <div className="label" htmlFor="email">
+                                    E-mail
+                                </div>
+                                <input id="email" className="form-control" name="email" type="email" placeholder="exemplo@email.com" onChange={updateForm}/>
                             </div>
-                            <input id="email" className="form-control" name="email" type="email" placeholder="exemplo@email.com" onChange={updateForm}/>
-                        </div>
-                        <div className="form-group row" >
-                            <div className="label" htmlFor="confirmacaoEmail">
-                                Confirme o e-mail
+                            <div className="form-group row" >
+                                <div className="label" htmlFor="confirmacaoEmail">
+                                    Confirme o e-mail
+                                </div>
+                                <input id="confirmacaoEmail" className="form-control" name="confirmacaoEmail" type="email" placeholder="exemplo@email.com" onChange={updateForm}/>
                             </div>
-                            <input id="confirmacaoEmail" className="form-control" name="confirmacaoEmail" type="email" placeholder="exemplo@email.com" onChange={updateForm}/>
-                        </div>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="senha">
-                                Senha
+                            <div className="form-group row">
+                                <div className="label" htmlFor="senha">
+                                    Senha
+                                </div>
+                                <input id="senha" className="form-control" name="senha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
                             </div>
-                            <input id="senha" className="form-control" name="senha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
-                        </div>
-                        <div className="form-group row">
-                            <div className="label" htmlFor="confirmacaoSenha">
-                                Confirme a senha
+                            <div className="form-group row">
+                                <div className="label" htmlFor="confirmacaoSenha">
+                                    Confirme a senha
+                                </div>
+                                <input id="confirmacaoSenha" className="form-control" name="confirmacaoSenha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
                             </div>
-                            <input id="confirmacaoSenha" className="form-control" name="confirmacaoSenha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
-                        </div>
-                        <p>A senha precisa ter no mínimo 8 caracteres</p>
-                        {handleAlerts()}
-                        <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Cadastrar</button>
-                    </fieldset>
-                </form>
+                            <p>A senha precisa ter no mínimo 8 caracteres</p>
+                            {handleAlerts()}
+                            <div className="container">
+                                <Link to="/login">
+                                    <div className="mylink">
+                                        Já é cadastrado?
+                                    </div>
+                                </Link>
+                            </div>
+                            <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Cadastrar</button>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </>
     )

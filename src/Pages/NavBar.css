@@ -2,21 +2,27 @@
   background-color: rgba(255, 255, 255, 0.686);
 }
 
-.btn {
+.btn-nav {
   font-weight: bold;
   border-radius: 10rem;
+  width: auto;
+  height: 30px;
 }
-.btn.login {
+.btn-nav.login {
   background-color: #2bce3b;
+  border: #2bce3b;
+  border-width: 1px;
+  border-style: solid;
 }
 
-.btn.login:hover {
+.btn-nav.login:hover {
   color: #2bce3b;
-  background-color: black;
+  background-color: white;
   cursor: pointer;
 }
 
-.btn.signin {
+.btn-nav.signin {
+  background-color: black;
   border: #2bce3b;
   border-width: 1px;
   border-style: solid;
@@ -24,8 +30,8 @@
   margin-left: 5%;
 }
 
-.btn.signin:hover {
-  background-color: #2bce3b;
+.btn-nav.signin:hover {
+  background-color: white;
   color: black;
   cursor: pointer;
 }
@@ -35,6 +41,11 @@
   margin-right: auto;
 }
 
-col:hover {
-  background-color: pink;
+.logo {
+  width: 45px;
+  height: 45px;
+  margin-left: 45%;
+}
+input:focus {
+  outline: none;
 }
