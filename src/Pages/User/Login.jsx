@@ -31,8 +31,7 @@ export default function Login() {
     }
 
     const handleButtonClass = () => {
-        const button = "btn btn-custom";
-        return (handleButtonState())? `${button} active` : `${button} disabled`;
+        return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
     }
 
     const handleButtonState = () => {
