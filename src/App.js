@@ -4,7 +4,8 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import Home from './components/home.jsx';
+import Home from './Pages/Home/Home.jsx';
+import User from './Pages/User/User.jsx'
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
       </header>
       <div>
         <Switch>
+          <Route path="/login" component={User} />
+          <Route path="/register" component={User} />
           <Route path="/" component={Home} />
         </Switch>
       </div>

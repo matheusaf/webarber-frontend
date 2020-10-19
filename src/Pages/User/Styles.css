@@ -43,3 +43,9 @@
   color: white;
   height: 40px;
 }
+
+p {
+  margin-top: -10px;
+  color: #2bce3b;
+  text-align: center;
+}
