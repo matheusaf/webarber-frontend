@@ -5,18 +5,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Login() {
-    const [login, setLogin] = useState({email: '', senha: ''});
+    const [login, setLogin] = useState({email: '', password: ''});
 
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
 
     const loginUser = async(user) => {
         try {
-            await fetch("https://localhost:8080/users", {
+            let response = await fetch("http://localhost:8080/login", {
                 method: "post",
                 headers: new Headers({'Content-Type': 'application/json'}),
                 body: JSON.stringify(user)
             });
-            // const json = await res.json();
+            response = await response.json();
+            console.log(response);
+            if (response.status !== 200) {
+                throw new Error(response.status);
+            }
+            
             // setAlert({show: true, success: true, message: `Animal Created`})
             setLogin({});
         } catch(err) {
@@ -35,22 +40,22 @@ export default function Login() {
     }
 
     const handleButtonState = () => {
-        return login.email !== "" && login.senha.length >=8;
+        return login.email !== "" && login.password.length >=8;
     }
 
     const handleWrongPasswordAlert = () => {
         return (
                 <div className="alert alert-danger" role="alert">
                     <strong>Senha incorreta.</strong>
-               </div>
+                </div>
         );
     }
 
     const handleWrongEmailAlert = () => {
         return (
-                <div className="alert alert-danger" role="alert">
-                    <strong>E-mail não cadastrado.</strong> 
-                </div>
+            <div className="alert alert-danger" role="alert">
+                <strong>E-mail não cadastrado.</strong> 
+            </div>
         );
     }
     
@@ -75,7 +80,7 @@ export default function Login() {
                                 <div className='label' htmlFor="senha">
                                     Senha
                                 </div>
-                                <input id="senha" className="form-control" name="senha" minLength="8" type="password" placeholder="Digite sua senha" onChange={updateForm}/>
+                                <input id="senha" className="form-control" name="password" minLength="8" type="password" placeholder="Digite sua senha" onChange={updateForm}/>
                             </div>
                             {handleWrongPasswordAlert()}
                             <div className="container">
