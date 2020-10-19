@@ -54,12 +54,12 @@ export default function SignIn() {
         createUser(signin);
     }
 
-     const handleButtonClass = () => {
+    const handleButtonClass = () => {
         return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
     }
 
 
-     const handleButtonState = () => {
+    const handleButtonState = () => {
         return signin.email !== "" && signin.senha.length >=8 && (signin.cpf.length>=11 && signin.cpf.length<=15);
     }
     
@@ -89,7 +89,7 @@ export default function SignIn() {
                                 <div className="label" htmlFor="cpf">
                                     CPF
                                 </div>
-                                <input id="cpf" className="form-control" name="cpf" minLength="11" maxLength="15" type="text" placeholder="123.456.789-10" pattern="(\d{3}\.){3}-(\d{2})" onChange={updateForm} required={true} />
+                                <input id="cpf" className="form-control" name="cpf" minLength="11" maxLength="15" type="text" placeholder="123.456.789-10" pattern="(^(\d{3}\.){2}(\d{3})-(\d{2})$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)" onChange={updateForm} required={true} />
                             </div>
                             <div className="form-group row">
                                 <div className="label" htmlFor="email">
@@ -112,6 +112,12 @@ export default function SignIn() {
                             <div className="form-group row">
                                 <div className="label" htmlFor="confirmacaoSenha">
                                     Confirme a senha
+                                </div>
+                                <input id="confirmacaoSenha" className="form-control" name="confirmacaoSenha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
+                            </div>
+                            <div className="form-group row">
+                                <div className="label" htmlFor="confirmacaoSenha">
+                                    Tipo da conta:
                                 </div>
                                 <input id="confirmacaoSenha" className="form-control" name="confirmacaoSenha" minLength="8" type="password" placeholder="Senha" onChange={updateForm}/>
                             </div>

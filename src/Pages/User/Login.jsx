@@ -16,14 +16,15 @@ export default function Login() {
                 headers: new Headers({'Content-Type': 'application/json'}),
                 body: JSON.stringify(user)
             });
-            response = await response.json();
-            console.log(response);
+
             if (response.status !== 200) {
                 throw new Error(response.status);
             }
+            response = await response.json();
+            console.log(response);
             
             // setAlert({show: true, success: true, message: `Animal Created`})
-            setLogin({});
+            setLogin({email: '', password: ''});
         } catch(err) {
             console.log(err);
         }
@@ -73,14 +74,14 @@ export default function Login() {
                                 <div className='label' htmlFor="email">
                                     E-mail
                                 </div>
-                                <input id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" onChange={updateForm}/>
+                                <input id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" value={login.email} onChange={updateForm}/>
                             </div>
                                 {handleWrongEmailAlert()}
                             <div className="form-group row">
                                 <div className='label' htmlFor="senha">
                                     Senha
                                 </div>
-                                <input id="senha" className="form-control" name="password" minLength="8" type="password" placeholder="Digite sua senha" onChange={updateForm}/>
+                                <input id="senha" className="form-control" name="password" minLength="8" type="password" placeholder="Digite sua senha" value={login.password} onChange={updateForm}/>
                             </div>
                             {handleWrongPasswordAlert()}
                             <div className="container">
