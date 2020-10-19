@@ -1,6 +1,7 @@
 .label {
   color: white;
-  text-align: right;
+  margin-left: auto;
+  margin-right: auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: medium;
   font-weight: bolder;
@@ -28,20 +29,20 @@
   border-color: darkred;
 }
 
-.btn {
+.btn-custom {
   border-radius: 10rem;
   margin-left: 36%;
   margin-right: auto;
 }
 
-.btn.active {
+.btn-custom.active {
   background-color: #2bce3b;
   font-weight: bold;
   color: black;
   height: 45px;
 }
 
-.btn.disabled {
+.btn-custom.disabled {
   background-color: grey;
   color: white;
   height: 40px;

@@ -1,0 +1,17 @@
+.form-control.address {
+  width: 260px;
+  margin-left: -6%;
+}
+
+.form-control.number {
+  margin-left: -40%;
+  width: 65px;
+}
+
+.col.address {
+  width: 260px;
+}
+
+.col.number {
+  width: 60px;
+}

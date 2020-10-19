@@ -2,12 +2,10 @@
   background-color: rgba(255, 255, 255, 0.686);
 }
 
-
 .btn-nav {
   font-weight: bold;
   border-radius: 10rem;
   width: auto;
-  height: 30px;
 }
 .btn-nav.login {
   background-color: #2bce3b;
@@ -45,8 +43,5 @@
 .logo {
   width: 45px;
   height: 45px;
-  margin-left: 45%;
-}
-input:focus {
-  outline: none;
+  margin-left: 50%;
 }
