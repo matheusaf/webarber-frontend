@@ -35,7 +35,7 @@ export default function Login() {
     }
 
     const handleButtonState = () => {
-        return login.email !== "" && (login.senha.length >=8 && login.senha.length <=12);
+        return login.email !== "" && login.senha.length >=8;
     }
 
     const handleWrongPasswordAlert = () => {
