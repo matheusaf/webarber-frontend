@@ -8,7 +8,7 @@ export default function Login() {
     const [login, setLogin] = useState({email: '', password: ''});
     const [alert, setAlert] = useState({show: false, message: ``});
     let history = useHistory();
-    const url = process.env.baseUrl || "http://localhost:8080";
+    const url = "https://webarber-back-dev.herokuapp.com";
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
 
     const loginUser = async(user) => {

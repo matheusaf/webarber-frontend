@@ -44,7 +44,7 @@ export default function CadastrarBarbearia() {
             horarioFechamento.setHours(...create.horarioFechamento.split(':'));
             create.horarioFechamento = horarioFechamento
 
-            const url = process.env.baseUrl || "http://localhost:8080"
+            const url = "https://webarber-back-dev.herokuapp.com"
             const response = await fetch(`${url}/barbearias`, {
                 method: "post",
                 headers: new Headers({ 'Content-Type': 'application/json' }),

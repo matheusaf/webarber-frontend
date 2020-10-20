@@ -12,7 +12,7 @@ export default function CadastrarBarbearia() {
     });
     
     const updateForm = (event) => setCreate({ ...create, [event.target.name]: event.target.value });
-    const url = process.env.baseUrl || "http://localhost:8080";
+    const url = "https://webarber-back-dev.herokuapp.com";
     let { id } = useParams();
 
     async function getBarbearia() {
