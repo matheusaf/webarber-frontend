@@ -8,12 +8,12 @@ export default function Login() {
     const [login, setLogin] = useState({email: '', password: ''});
     const [alert, setAlert] = useState({show: false, message: ``});
     let history = useHistory();
-
+    const url = process.env.baseUrl || "http://localhost:8080";
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
 
     const loginUser = async(user) => {
         try {
-            let response = await fetch('http://localhost:8080/login', {
+            let response = await fetch(`${url}/login`, {
                 method: "post",
                 headers: new Headers({'Content-Type': 'application/json'}),
                 body: JSON.stringify(user)
@@ -25,7 +25,7 @@ export default function Login() {
             }
             localStorage.setItem('userId', json.id);
             localStorage.setItem('tipoUsuario', json.idTipo);
-            history.push('http://localhost:8080/');            
+            history.push('/');            
         } catch(err) {
             setAlert({show: true, message: `${err.message}`})
         }

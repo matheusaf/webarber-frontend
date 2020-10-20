@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 
 export default function SignIn(props) {
     const [signin, setSignIn] = useState({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ:null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: '' });
-    
+    const url = process.env.baseUrl || "http://localhost:8080"
     const updateForm = (event) => setSignIn({ ...signin, [event.target.name]: event.target.value });
     
     const createUser = async (user) => {
         try {
-            let response = await fetch("http://localhost:8080/users", {
+            let response = await fetch(`${url}/users`, {
                 method: "post",
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(user)
@@ -23,7 +23,7 @@ export default function SignIn(props) {
             }
             else{
                 alert("Cadastro concluído com sucesso.");
-                props.history.push("\login")
+                props.history.push("/login")
             }
             setSignIn({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ: null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: ''});
         } catch (err) {

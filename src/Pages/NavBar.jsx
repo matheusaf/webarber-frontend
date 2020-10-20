@@ -82,11 +82,11 @@ export default function NavBar(props){
                         }
                         
                         {
-                            (isLoggedIn)?
-                            <li className="nav-item">
-                                <a className="nav-link" href="\agendamentos">Meus Agendamentos</a>
-                            </li>
-                            :
+                            // (isLoggedIn)?
+                            // <li className="nav-item">
+                            //     <a className="nav-link" href="\agendamentos">Meus Agendamentos</a>
+                            // </li>
+                            // :
                             null
                         }
                     </ul>
