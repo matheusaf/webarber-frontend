@@ -6,36 +6,34 @@ import { Link, useHistory } from 'react-router-dom';
 
 export default function Login() {
     const [login, setLogin] = useState({email: '', password: ''});
+    const [alert, setAlert] = useState({show: false, message: ``});
     let history = useHistory();
 
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
 
     const loginUser = async(user) => {
         try {
-            let response = await fetch("http://localhost:8080/login", {
+            let response = await fetch('http://localhost:8080/login', {
                 method: "post",
                 headers: new Headers({'Content-Type': 'application/json'}),
                 body: JSON.stringify(user)
             });
 
+            let json = await response.json();
             if (response.status !== 200) {
-                throw new Error(response.status);
+                throw new Error(json.message);
             }
-            response = await response.json();
-            window.tipoUsuario = response.idTipo;
-            window.id = response.id;
-            history.push('/');
-            
-            // setAlert({show: true, success: true, message: `Animal Created`})
+            localStorage.setItem('userId', json.id);
+            localStorage.setItem('tipoUsuario', json.idTipo);
+            history.push('http://localhost:8080/');            
             setLogin({email: '', password: ''});
         } catch(err) {
-            console.log(err);
+            setAlert({show: true, message: `${err.message}`})
         }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(login);
         loginUser(login);
     }
 
@@ -43,22 +41,15 @@ export default function Login() {
         return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
     }
 
+
     const handleButtonState = () => {
         return login.email !== "" && login.password.length >=8;
     }
 
-    const handleWrongPasswordAlert = () => {
-        return (
-                <div className="alert alert-danger" role="alert">
-                    <strong>Senha incorreta.</strong>
-                </div>
-        );
-    }
-
-    const handleWrongEmailAlert = () => {
+    const handleSignInError = () => {
         return (
             <div className="alert alert-danger" role="alert">
-                <strong>E-mail não cadastrado.</strong> 
+                <strong>{alert.message}</strong>
             </div>
         );
     }
@@ -79,14 +70,13 @@ export default function Login() {
                                 </div>
                                 <input id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" value={login.email} onChange={updateForm}/>
                             </div>
-                                {handleWrongEmailAlert()}
                             <div className="form-group row">
                                 <div className='label' htmlFor="senha">
                                     Senha
                                 </div>
                                 <input id="senha" className="form-control" name="password" minLength="8" type="password" placeholder="Digite sua senha" value={login.password} onChange={updateForm}/>
                             </div>
-                            {handleWrongPasswordAlert()}
+                            {alert.show && handleSignInError()}
                             <div className="container">
                                 <Link to="/signin">
                                     <div className="mylink">

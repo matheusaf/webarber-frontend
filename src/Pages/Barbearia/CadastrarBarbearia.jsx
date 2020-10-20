@@ -8,14 +8,14 @@ import { act } from 'react-dom/test-utils';
 export default function CadastrarBarbearia() {
     const [create, setCreate] = useState({nomeBarbearia:'', endereco: '', enderecoNumero: '', bairro: '', 
                                 cidade: '', estado:'', telefone:'', 
-                                activeDay: "Seg",
-                                Seg: {hrAbertura: '', hrFechamento:''},
-                                Ter: {hrAbertura: '', hrFechamento:''},
-                                Qua: {hrAbertura: '', hrFechamento:''},
-                                Qui: {hrAbertura: '', hrFechamento:''},
-                                Sex: {hrAbertura: '', hrFechamento:''},
-                                Sab: {hrAbertura: '', hrFechamento:''},
-                                Dom: {hrAbertura: '', hrFechamento:''}
+                                // activeDay: "Seg",
+                                // Seg: {hrAbertura: '', hrFechamento:''},
+                                // Ter: {hrAbertura: '', hrFechamento:''},
+                                // Qua: {hrAbertura: '', hrFechamento:''},
+                                // Qui: {hrAbertura: '', hrFechamento:''},
+                                // Sex: {hrAbertura: '', hrFechamento:''},
+                                // Sab: {hrAbertura: '', hrFechamento:''},
+                                // Dom: {hrAbertura: '', hrFechamento:''}
     });
     
     const updateForm = (event) => setCreate({ ...create, [event.target.name]: event.target.value });
@@ -26,24 +26,24 @@ export default function CadastrarBarbearia() {
     }
 
     const handleDaysForm = (event) =>{
-        if(create.activeDay ===  null) alert("Selecionar uma data");
+        if (create.activeDay ===  null)
+            alert("Selecionar uma data");
         else{
             setCreate({ ...create, [create.activeDay]:{...create[create.activeDay], [event.target.name]: event.target.value}});
         }
     }
 
-    // Hooks
-    const renderDays = () => {
-        const days = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
-        return (
-            <>
-            {days.map(day => 
-            <div className="col-xs day">
-                <button id={day} name={day} className={`btn btn-day ${create.activeDay == day ? 'active' : 'disabled'}`} onClick={handleDaysButton}>{day}</button>
-            </div>)}
-            </>)
+    // const renderDays = () => {
+    //     const days = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
+    //     return (
+    //         <>
+    //         {days.map(day => 
+    //         <div className="col-xs day">
+    //             <button id={day} name={day} className={`btn btn-day ${create.activeDay == day ? 'active' : 'disabled'}`} onClick={handleDaysButton}>{day}</button>
+    //         </div>)}
+    //         </>)
+    // }
 
-    }
     return (
             <>
             <Helmet>
@@ -97,10 +97,7 @@ export default function CadastrarBarbearia() {
                             </label>
                             <input id="telefone" name="telefone" className="form-control" type="phone" placeholder="+12 (34) 56789-1011" onChange={updateForm}></input>
                         </div>
-                        <div className="form-group row">
-                            {renderDays()}
-
-                        </div>
+                        
                         <div className="form-group row">
                             <div className="col">
                                 <label className="label" htmlFor="hrAbertura">
@@ -126,3 +123,7 @@ export default function CadastrarBarbearia() {
     );
 
 }
+
+// <div className="form-group row">
+//     {renderDays()}
+// </div>

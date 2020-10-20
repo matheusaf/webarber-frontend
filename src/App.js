@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-        BrowserRouter as Router,
+        BrowserRouter,
         Switch,
-        Route
+        Route,
+        Redirect
 } from "react-router-dom";
 import Login from './Pages/User/Login';
 import SignIn from './Pages/User/SignIn';
@@ -12,8 +13,27 @@ import CadastrarBarbearia from './Pages/Barbearia/CadastrarBarbearia';
 
 
 function App() {
+
+  const PrivateRoute = ({ component: Component, ...rest}) => {
+    return <Route render={props => 
+      (localStorage.getItem('id') !== '' && localStorage.getItem('tipoUsuario') !== '')?
+      (<Component {...props}/>)
+      :
+      <Redirect to="/login"/> 
+    }/>
+  }
+
+  const AdminRoute = ({ component: Component, ...rest}) => {
+    return <Route render={props => 
+      (localStorage.getItem('tipoUsuario') === '2')?
+      (<Component {...props}/>)
+      :
+      <Redirect to="/"/> 
+    }/>
+  }
+
   return (
-    <Router>
+    <BrowserRouter>
       <header>
       </header>
       <div>
@@ -21,13 +41,13 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/signin" component={SignIn} />
           <Route path="/barbearias" component={Barbearias} />
-          <Route path="/cadastrarBarbearia" component={CadastrarBarbearia} />
+          <AdminRoute path="/cadastrarBarbearia" component={CadastrarBarbearia} />
           <Route path="/" component={Home} />
         </Switch>
       </div>
       <footer>
       </footer>
-    </Router>
+    </BrowserRouter>
   );
 }
 

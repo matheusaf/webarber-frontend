@@ -1,27 +1,38 @@
 import './NavBar.css'
 import logo from '../images/logo.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 export default function NavBar(props){
     // Hooks
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-    const [isLoggedIn, setIsLoggedIn] = useState(props);
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userId')));
     const [type, setType] = useState(false);
-    let tipoUsuario, id;
+    let tipoUsuario = localStorage.getItem('tipoUsuario');
 
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
     const handleActiveItem = () =>{
-        const nav_item = "nav-item";
-        return nav_item;
+        return "nav-item";
     }
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('userId');
+        localStorage.removeItem('tipoUsuario');
+        setIsLoggedIn(false);
+        window.location.reload(true);
+    }
+
+    useEffect(() => {
+        localStorage.getItem('userId')
+    })
 
 
     const handleRightSidePanel = () =>{
         let rightSidePanel;
-        if (window.id) {
+        if (!isLoggedIn) {
             rightSidePanel = (<>
                             <Link to='/login'>
                                 <button className="btn btn-nav login">
@@ -35,18 +46,11 @@ export default function NavBar(props){
                             </Link>
                         </>);
         } else {
-            rightSidePanel = (<>
-                            <Link to='/login'>
-                                <button className="btn-nav login">
-                                    Entrar
-                                </button>
-                            </Link>
-                            <Link to='/signin'>
-                                <button className='btn-nav signin'>
-                                    Cadastrar
-                                </button>
-                            </Link>
-                        </>);
+            rightSidePanel = (
+                <button className="btn btn-nav login" onClick={handleLogout}>
+                    Logout
+                </button>
+            );
         }
         return rightSidePanel;
     }
@@ -63,14 +67,13 @@ export default function NavBar(props){
                 </Link>
                 {handleRightSidePanel()}
 
-
                 <div className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`} id="navbarText">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
                             <a className="nav-link" href="\">Home</a>
                         </li>
                         {
-                            (window.tipoUsuario === "2")?
+                            (tipoUsuario === "2")?
                             <li className="nav-item">
                                 <a className="nav-link" href="\barbearias">Minhas Barbearias</a>
                             </li>
@@ -79,7 +82,7 @@ export default function NavBar(props){
                         }
                         
                         {
-                            (window.id)?
+                            (isLoggedIn)?
                             <li className="nav-item">
                                 <a className="nav-link" href="\agendamentos">Meus Agendamentos</a>
                             </li>
