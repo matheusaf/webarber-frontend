@@ -2,12 +2,10 @@ import { Helmet } from 'react-helmet';
 import NavBar from '../NavBar';
 import React, { useState } from 'react';
 import './CadastrarBarbearia.css'
-import { fireEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 
 export default function CadastrarBarbearia() {
-    const [create, setCreate] = useState({nomeBarbearia:'', endereco: '', enderecoNumero: '', bairro: '', 
-                                cidade: '', estado:'', telefone:'', 
+    const [create, setCreate] = useState({nome:'', endereço: '', enderecoNumero: '', bairro: '', 
+                                cidade: '', estado:'', telefone:'', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id : Number(localStorage.getItem('userId'))
                                 // activeDay: "Seg",
                                 // Seg: {hrAbertura: '', hrFechamento:''},
                                 // Ter: {hrAbertura: '', hrFechamento:''},
@@ -20,16 +18,42 @@ export default function CadastrarBarbearia() {
     
     const updateForm = (event) => setCreate({ ...create, [event.target.name]: event.target.value });
 
-    const handleDaysButton = (event) =>{
-        event.preventDefault();
-        setCreate({...create, activeDay: event.target.name})
-    }
+    // const handleDaysButton = (event) =>{
+    //     event.preventDefault();
+    //     setCreate({...create, activeDay: event.target.name})
+    // }
 
-    const handleDaysForm = (event) =>{
-        if (create.activeDay ===  null)
-            alert("Selecionar uma data");
-        else{
-            setCreate({ ...create, [create.activeDay]:{...create[create.activeDay], [event.target.name]: event.target.value}});
+    // const handleDaysForm = (event) =>{
+    //     if (create.activeDay ===  null)
+    //         alert("Selecionar uma data");
+    //     else{
+    //         setCreate({ ...create, [create.activeDay]:{...create[create.activeDay], [event.target.name]: event.target.value}});
+    //     }
+    // }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // create.endereco = [create.rua, create.enderecoNumero, create.bairro, create.cidade, create.estado].join(',');
+        try {
+            let horarioAbertura = new Date();
+            horarioAbertura.setHours(...create.horarioAbertura.split(':'));
+            create.horarioAbertura = horarioAbertura;
+
+            let horarioFechamento = new Date();
+            horarioFechamento.setHours(...create.horarioFechamento.split(':'));
+            create.horarioFechamento = horarioFechamento
+
+            const response = await fetch("http://localhost:8080/barbearias", {
+                method: "post",
+                headers: new Headers({'Content-Type': 'application/json'}),
+                body: JSON.stringify(create)
+            })
+            let json = await response.json();
+            if (response.status !== 200) {
+                throw new Error(json.message);
+            }
+        } catch (err) {
+            console.log(err.message);
         }
     }
 
@@ -51,13 +75,13 @@ export default function CadastrarBarbearia() {
             </Helmet>
             <NavBar></NavBar>
             <div className="container">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <fieldset>
                         <div className="form-group row">
                             <label className="label" htmlFor="nomeBarbearia">
                                 Nome Barbearia
                             </label>
-                            <input id="nomeBarbearia" name="nomeBarbearia" className="form-control" type="text" placeholder="Nome Barbearia" onChange={updateForm}></input>
+                            <input id="nomeBarbearia" name="nome" className="form-control" type="text" placeholder="Nome Barbearia" onChange={updateForm}></input>
                         </div>
                         <div className="form-group row">
                             <div className="col address">
@@ -103,16 +127,16 @@ export default function CadastrarBarbearia() {
                                 <label className="label" htmlFor="hrAbertura">
                                     Hora Abertura
                                 </label>
-                                <input id="hrAbertura" name="hrAbertura" className="form-control" type="time" value={create[create.activeDay]["hrAbertura"]} onChange={handleDaysForm}></input>
+                                <input id="hrAbertura" name="horarioAbertura" className="form-control" type="time" value={create.horarioAbertura} onChange={updateForm}></input>
                             </div>
                             <div className="text">
                                 até
                             </div>
                             <div className="col">
-                                <label className="label" htmlFor="hrAbertura">
+                                <label className="label" htmlFor="horarioFechamento">
                                     Hora Fechamento
                                 </label>
-                                <input id="hrFechamento" name="hrFechamento" className="form-control" type="time" value={create[create.activeDay]["hrFechamento"]} onChange={handleDaysForm}></input>
+                                <input id="hrFechamento" name="horarioFechamento" className="form-control" type="time" value={create.horarioFechamento} onChange={updateForm}></input>
                             </div>
                         </div>
                         <button className="btn btn-custom disabled" onClick={null} style = {{ marginLeft:"25%" }}>Cadastrar Barbearia</button>

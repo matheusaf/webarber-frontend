@@ -26,7 +26,6 @@ export default function Login() {
             localStorage.setItem('userId', json.id);
             localStorage.setItem('tipoUsuario', json.idTipo);
             history.push('http://localhost:8080/');            
-            setLogin({email: '', password: ''});
         } catch(err) {
             setAlert({show: true, message: `${err.message}`})
         }
