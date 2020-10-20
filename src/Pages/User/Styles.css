@@ -76,6 +76,8 @@ p {
   color: rgb(38, 116, 233);
 }
 
-option:hover {
-  color: #2bce3b;
+.option {
+  background-color: #f7f7f74b;
+  color: black;
+  border-radius: 10rem;
 }

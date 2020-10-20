@@ -18,7 +18,7 @@
   margin-left: 25%;
   margin-top: 1%;
   margin-right: auto;
-  width: 50%;
+  width: auto;
   height: 500px;
   border-radius: 5rem;
   border-color: white;
@@ -32,11 +32,17 @@
   border-style: solid;
   margin-top: 1%;
   margin-left: 45.5%;
+  width: auto;
   color: #2bce3b;
   background-color: black;
   border-radius: 10rem;
   width: 8%;
   font-weight: bold;
+}
+
+.btn-disabled {
+  background-color: grey;
+  color: white;
 }
 
 .btn-search:hover {

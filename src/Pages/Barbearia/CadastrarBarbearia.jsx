@@ -39,7 +39,7 @@ export default function CadastrarBarbearia() {
             <>
             {days.map(day => 
             <div className="col-xs day">
-                <button id={day} name={day} className={`btn btn-day ${create.activeDay == day ? 'active' : 'disabled'}`} onClick={handleDaysButton}>{day}</button>
+                <button id={day} name={day} className={`btn btn-day ${create.activeDay === day ? 'active' : 'disabled'}`} onClick={handleDaysButton}>{day}</button>
             </div>)}
             </>)
 
