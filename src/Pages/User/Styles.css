@@ -75,3 +75,7 @@ p {
 .mylink:hover {
   color: rgb(38, 116, 233);
 }
+
+option:hover {
+  color: #2bce3b;
+}

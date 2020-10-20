@@ -2,10 +2,11 @@ import './Styles.css';
 import Header from './Header';
 import { Helmet } from 'react-helmet';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function Login() {
     const [login, setLogin] = useState({email: '', password: ''});
+    let history = useHistory();
 
     const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
 
@@ -21,7 +22,9 @@ export default function Login() {
                 throw new Error(response.status);
             }
             response = await response.json();
-            console.log(response);
+            window.tipoUsuario = response.idTipo;
+            window.id = response.id;
+            history.push('/');
             
             // setAlert({show: true, success: true, message: `Animal Created`})
             setLogin({email: '', password: ''});
