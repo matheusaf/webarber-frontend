@@ -11,6 +11,7 @@ import Home from './Pages/Home/Home';
 import Barbearias from './Pages/Barbearia/Barbearias';
 import CadastrarBarbearia from './Pages/Barbearia/CadastrarBarbearia';
 import Agendamentos from './Pages/Agendamentos/Agendamentos';
+import EditarBarbearia from './Pages/Barbearia/CadastrarBarbearia'
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/signin" component={SignIn} />
           <PrivateRoute path="/agendamentos" component={Agendamentos} />
           <AdminRoute path="/barbearias" component={Barbearias} />
+          <AdminRoute path="/barbearias/editar/:id" component={EditarBarbearia} />
           <AdminRoute path="/cadastrarBarbearia" component={CadastrarBarbearia} />
           <Route path="/" component={Home} />
         </Switch>
