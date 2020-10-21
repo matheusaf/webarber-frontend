@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 export default function Home() {
     // Hooks
     let [barbearias, setBarbearias] = useState([]);
+    let [filter, setFilter] = useState();
+    
     const url = "https://webarber-back-dev.herokuapp.com";
     const user_id = localStorage.getItem('userId');
 
@@ -30,7 +32,6 @@ export default function Home() {
 
     async function fetchBarbearias() {
         try {
-
             const res = await fetch(`${url}/barbearias/`,{ method: 'get'});
             setBarbearias(await res.json());
         } catch (err) {
@@ -42,7 +43,14 @@ export default function Home() {
     // ComponentDidUpdate
     useEffect(() => {
         fetchBarbearias();
-    });
+    	return () => console.log('removing effect');
+    }, []);
+/*
+    useEffect(() => {
+        fetchBarbearias();
+    	return () => console.log('removing effect');
+    }, []);
+*/
 
     const handleSearch = async (event) =>{
         event.preventDefault();
