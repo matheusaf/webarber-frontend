@@ -6,9 +6,9 @@ import InputMask from 'react-input-mask';
 import { Link } from 'react-router-dom';
 
 export default function SignUp(props) {
-    const [signup, setSignIn] = useState({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ:null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: '' });
+    const [signup, setSignUp] = useState({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ:null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: '' });
     const url = process.env.baseUrl || "http://localhost:8080"
-    const updateForm = (event) => setSignIn({ ...signup, [event.target.name]: event.target.value });
+    const updateForm = (event) => setSignUp({ ...signup, [event.target.name]: event.target.value });
     
     const createUser = async (user) => {
         try {
@@ -25,7 +25,7 @@ export default function SignUp(props) {
                 alert("Cadastro concluído com sucesso.");
                 props.history.push("/login")
             }
-            setSignIn({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ: null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: ''});
+            setSignUp({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ: null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: ''});
         } catch (err) {
             console.log(err);
         }
@@ -33,7 +33,7 @@ export default function SignUp(props) {
 
     const updateCnpjCpf = (event) => {
         let index = signup.tipoPessoa === "pj" ? "CPF": "CNPJ";
-        setSignIn({...signup, [event.target.name]: event.target.value, [index]: null});
+        setSignUp({...signup, [event.target.name]: event.target.value, [index]: null});
     }
 
 
