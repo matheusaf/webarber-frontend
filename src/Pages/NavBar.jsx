@@ -10,7 +10,6 @@ export default function NavBar(props){
     const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('userId')));
     const [type, setType] = useState(false);
     let tipoUsuario = localStorage.getItem('tipoUsuario');
-
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
     const handleActiveItem = () =>{
@@ -25,9 +24,10 @@ export default function NavBar(props){
         window.location.reload(true);
     }
 
-    useEffect(() => {
-        localStorage.getItem('userId')
-    })
+    // useEffect(() => {
+    //     debugger;
+    //     localStorage.getItem('idTipo')
+    // })
 
 
     const handleRightSidePanel = () =>{
@@ -39,17 +39,26 @@ export default function NavBar(props){
                                     Entrar
                                 </button>
                             </Link>
-                            <Link to='/signin'>
-                                <button className=' btn btn-nav signin'>
+                            <Link to='/signup'>
+                                <button className=' btn btn-nav signup'>
                                     Cadastrar
                                 </button>
                             </Link>
                         </>);
         } else {
             rightSidePanel = (
-                <button className="btn btn-nav login" onClick={handleLogout}>
-                    Logout
-                </button>
+                <> 
+                    <div className="form-row">
+                        <div className="col-m-8" style={{marginTop:"8%"}}>
+                            <p className="p-user">Olá, <spam className="spam-user"> {localStorage.getItem("username")} </spam></p>
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-nav login" onClick={handleLogout}>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </>
             );
         }
         return rightSidePanel;
@@ -73,7 +82,7 @@ export default function NavBar(props){
                             <a className="nav-link" href="\">Home</a>
                         </li>
                         {
-                            (tipoUsuario === "2")?
+                            (tipoUsuario == "2")?
                             <li className="nav-item">
                                 <a className="nav-link" href="\barbearias">Minhas Barbearias</a>
                             </li>
