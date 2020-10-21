@@ -24,10 +24,11 @@ export default function Login() {
                 throw new Error(json.message);
             }
             localStorage.setItem('userId', json.id);
+            localStorage.setItem('username', json.nome);
             localStorage.setItem('tipoUsuario', json.idTipo);
             history.push('/');            
         } catch(err) {
-            setAlert({show: true, message: `${err.message}`})
+            setAlert({show: true, message: `${err.message === "User not found"? "E-mail não encontrado.":"Senha incorreta."}`})
         }
     }
 
@@ -77,7 +78,7 @@ export default function Login() {
                             </div>
                             {alert.show && handleSignInError()}
                             <div className="container">
-                                <Link to="/signin">
+                                <Link to="/signup">
                                     <div className="mylink">
                                         Não é cadastrado?
                                     </div>

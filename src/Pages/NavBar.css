@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-.btn-nav.signin {
+.btn-nav.signup {
   background-color: black;
   border: #2bce3b;
   border-width: 1px;
@@ -29,7 +29,7 @@
   margin-left: 5%;
 }
 
-.btn-nav.signin:hover {
+.btn-nav.signup:hover {
   background-color: white;
   color: black;
   cursor: pointer;
@@ -44,4 +44,13 @@
   width: 45px;
   height: 45px;
   margin-left: 50%;
+}
+
+.p-user {
+  color: white;
+}
+
+.spam-user {
+  font-weight: bold;
+  color: #2bce3b;
 }
