@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
     // Hooks
-<<<<<<< HEAD
     let [barbearias, setBarbearias] = useState([]);
     const url = "https://webarber-back-dev.herokuapp.com";
     const user_id = localStorage.getItem('userId');
@@ -45,11 +44,6 @@ export default function Home() {
         fetchBarbearias();
     });
 
-=======
-    const renderBarbershop = () => {
-
-    }
->>>>>>> hotfix/pagefix
     const handleSearch = async (event) =>{
         event.preventDefault();
         console.log(event.target.value);
