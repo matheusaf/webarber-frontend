@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function Barbearias() {
     let [barbearias, setBarbearias] = useState([]);
-    const url = process.env.baseUrl || "http://localhost:8080";
+    const url = "https://webarber-back-dev.herokuapp.com";
     const user_id = localStorage.getItem('userId');
 
     // Hooks
