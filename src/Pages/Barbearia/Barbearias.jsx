@@ -9,29 +9,25 @@ export default function Barbearias() {
     const user_id = localStorage.getItem('userId');
 
     // Hooks
-    // const tableRow = (obj) => {
-    //     return <tr key={`row-${obj.id}`}>
-    //         <th scope="row" data-testid={`${obj.id}`} key={`${obj.id}`}>{obj.id}</th>
-    //         <td data-testid={obj.name} key={obj.name}>{obj.name}</td>
-    //         <td data-testid={obj.specie} key={obj.specie}>{obj.specie}</td>
-    //         <button data-testid={`${obj.id}-details-btn`} key={`${obj.id}-details-btn`}
-    //             tag={Link} to={{
-    //                 pathname:`/details/${obj.id}/`,
-    //                 state: obj
-    //             }}>Details</button>
-    //         <Button data-testid={`${obj.id}-edit-btn`} key={`${obj.id}-edit-btn`} 
-    //             tag={Link} to={{
-    //                 pathname: `/edit/${obj.id}/`,
-    //                 state: obj
-    //             }}>Edit</Button>
-    //         <Button data-testid={`${obj.id}-delete-btn`} key={`${obj.id}-delete-btn`} color='danger' 
-    //             onClick={() => deleteById(obj)}>Delete</Button>
-    //     </tr>
-    // }
+    const renderBarbearia = (obj) => {
+        return (
+                <tr key={`row-${obj.id}`}>
+                    <th scope="row" data-testid={`${obj.id}`} key={`${obj.id}`}> 
+                       <Link to="/barbearias">
+                            {obj.nome}
+                        </Link> 
+                     </th>
+                    <td data-testid={obj.horarioAbertura} key={obj.horarioAbertura}>{obj.horarioAbertura}</td>
+                    <td data-testid={obj.horarioFechamento} key={obj.horarioFechamento}>{obj.horarioFechamento}</td>
+                </tr>
+        )
+    }
+
 
     async function fetchBarbearias() {
         try {
-            const res = await fetch(`${url}/barbearias/${user_id}`,{ method: 'get'});
+
+            const res = await fetch(`${url}/barbearias/`,{ method: 'get'});
             setBarbearias(await res.json());
         } catch (err) {
             console.log(err);
@@ -55,7 +51,18 @@ export default function Barbearias() {
                 <button className="btn btn-custom active" style={{marginLeft:"45%"}}>
                     Adicionar Barbearia
                 </button>
-                
+                <table className="table table-hover table-dark" style={{marginTop:"2%"}}>
+                    <thead>
+                        <tr>
+                            <th key="nome">Nome</th>
+                            <th key="hora-abertura">Hora de abertura</th>
+                            <th key="hora-fechamento">Hora de fechamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {barbearias && barbearias.map(barberia => renderBarbearia(barberia))}
+                    </tbody>
+                </table>
             </Link>
             </>
     );
