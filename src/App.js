@@ -3,12 +3,14 @@ import {
         BrowserRouter,
         Switch,
         Route,
+        Router,
         Redirect
 } from "react-router-dom";
 import Login from './Pages/User/Login';
-import SignIn from './Pages/User/SignIn';
+import SignUp from './Pages/User/SignUp';
 import Home from './Pages/Home/Home';
 import Barbearias from './Pages/Barbearia/Barbearias';
+import Erro from './Pages/Erro/Erro';
 import CadastrarBarbearia from './Pages/Barbearia/CadastrarBarbearia';
 import Agendamentos from './Pages/Agendamentos/Agendamentos';
 import EditarBarbearia from './Pages/Barbearia/CadastrarBarbearia'
@@ -40,12 +42,13 @@ function App() {
       <div>
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
           <PrivateRoute path="/agendamentos" component={Agendamentos} />
           <AdminRoute path="/barbearias" component={Barbearias} />
           <AdminRoute path="/barbearias/editar/:id" component={EditarBarbearia} />
           <AdminRoute path="/cadastrarBarbearia" component={CadastrarBarbearia} />
           <Route path="/" component={Home} />
+          <Route path='*' exact={true} component={Erro} />
         </Switch>
       </div>
       <footer>

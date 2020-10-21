@@ -6,8 +6,12 @@ import { Helmet } from 'react-helmet';
 
 export default function Home() {
     // Hooks
+    const renderBarbershop = () => {
+
+    }
     const handleSearch = async (event) =>{
         event.preventDefault();
+        console.log(event.target.value);
         const url = `http://localhost:8080/barbearias/nome=${event.target.value}`;
         try {
             let response = await fetch(url, {
@@ -18,7 +22,6 @@ export default function Home() {
                 throw new Error(response.status);
             }
             response = await response.json();
-            console.log(response);
         } catch(err) {
             console.log(err);
         }
