@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export default function SignUp(props) {
     const [signup, setSignUp] = useState({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ:null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: '' });
-    const url = process.env.baseUrl || "http://localhost:8080"
+    const url = "https://webarber-back-dev.herokuapp.com";
     const updateForm = (event) => setSignUp({ ...signup, [event.target.name]: event.target.value });
     
     const createUser = async (user) => {

@@ -5,7 +5,7 @@ import './CadastrarBarbearia.css'
 
 export default function CadastrarBarbearia() {
     const [create, setCreate] = useState({
-        nome: '', endereço: '', enderecoNumero: '', bairro: '',
+        nome: '', endereco: '', enderecoNumero: '', bairro: '',
         cidade: '', estado: '', telefone: '', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id: Number(localStorage.getItem('userId'))
         // activeDay: "Seg",
         // Seg: {hrAbertura: '', hrFechamento:''},
@@ -16,6 +16,7 @@ export default function CadastrarBarbearia() {
         // Sab: {hrAbertura: '', hrFechamento:''},
         // Dom: {hrAbertura: '', hrFechamento:''}
     });
+    const [alert, setAlert] = useState({show: false, message: `Erro ao criar`});
 
     const updateForm = (event) => setCreate({ ...create, [event.target.name]: event.target.value });
 
@@ -44,19 +45,44 @@ export default function CadastrarBarbearia() {
             horarioFechamento.setHours(...create.horarioFechamento.split(':'));
             create.horarioFechamento = horarioFechamento
 
-            const url = process.env.baseUrl || "http://localhost:8080"
+            const url = "https://webarber-back-dev.herokuapp.com"
             const response = await fetch(`${url}/barbearias`, {
                 method: "post",
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(create)
             })
             let json = await response.json();
-            if (response.status !== 200) {
+            if (response.status !== 201) {
                 throw new Error(json.message);
             }
+            setCreate({
+                nome: '', endereco: '', enderecoNumero: '', bairro: '',
+                cidade: '', estado: '', telefone: '', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id: Number(localStorage.getItem('userId'))
+            });
         } catch (err) {
-            console.log(err.message);
+            setAlert({show: true, ...alert})
         }
+    }
+
+    const handleButtonClass = () => {
+        return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
+    }
+
+
+    const handleButtonState = () => {
+        for (let prop of Object.keys(create)) {
+            if (!create[prop] && create[prop].length < 2)
+                return false;
+        }
+        return true;
+    }
+
+    const handleCreateError = () => {
+        return (
+            <div className="alert alert-danger" role="alert">
+                <strong>{alert.message}</strong>
+            </div>
+        );
     }
 
     // const renderDays = () => {
@@ -82,46 +108,46 @@ export default function CadastrarBarbearia() {
                         <div className="form-group row">
                             <label className="label" htmlFor="nomeBarbearia">
                                 Nome Barbearia
-                    </label>
-                            <input id="nomeBarbearia" name="nome" className="form-control" type="text" placeholder="Nome Barbearia" onChange={updateForm} value={create.nome} > </input>
+                        </label>
+                            <input id="nomeBarbearia" name="nome" className="form-control" type="text" placeholder="Nome Barbearia" onChange={updateForm} value={create.nome}/>
                         </div>
                         <div className="form-group row">
                             <div className="col address">
                                 <label className="label" htmlFor="endereco">
                                     Endereço
                         </label>
-                                <input id="endereco" name="endereco" className="form-control address" type="text" placeholder="Endereço" onChange={updateForm} value={create.endereco}></input>
+                                <input id="endereco" name="endereco" className="form-control address" type="text" placeholder="Endereço" onChange={updateForm} value={create.endereco}/>
                             </div>
                             <div className="col number">
                                 <label className="label" htmlFor="enderecoNumero">
                                     Nº
                         </label>
-                                <input id="enderecoNumero" name="enderecoNumero" className="form-control number" type="number" placeholder="Nº" onChange={updateForm} value={create.enderecoNumero}></input>
+                                <input id="enderecoNumero" name="enderecoNumero" className="form-control number" type="number" placeholder="Nº" onChange={updateForm} value={create.enderecoNumero}/>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="label" htmlFor="bairro">
                                 Bairro
                     </label>
-                            <input id="bairro" name="bairro" className="form-control" type="text" placeholder="Bairro" onChange={updateForm} value={create.bairro}></input>
+                            <input id="bairro" name="bairro" className="form-control" type="text" placeholder="Bairro" onChange={updateForm} value={create.bairro}/>
                         </div>
                         <div className="form-group row">
                             <label className="label" htmlFor="cidade">
                                 Cidade
                     </label>
-                            <input id="cidade" name="cidade" className="form-control" type="text" placeholder="Cidade" onChange={updateForm} value={create.cidade}></input>
+                            <input id="cidade" name="cidade" className="form-control" type="text" placeholder="Cidade" onChange={updateForm} value={create.cidade}/>
                         </div>
                         <div className="form-group row">
                             <label className="label" htmlFor="estado">
                                 Estado
                     </label>
-                            <input id="estado" name="estado" className="form-control" type="text" placeholder="Estado" onChange={updateForm} value={create.estado}></input>
+                            <input id="estado" name="estado" className="form-control" type="text" placeholder="Estado" onChange={updateForm} value={create.estado}/>
                         </div>
                         <div className="form-group row">
                             <label className="label" htmlFor="telefone">
                                 Telefone
                     </label>
-                            <input id="telefone" name="telefone" className="form-control" type="phone" placeholder="+12 (34) 56789-1011" onChange={updateForm} value={create.telefone}></input>
+                            <input id="telefone" name="telefone" className="form-control" type="phone" placeholder="+12 (34) 56789-1011" onChange={updateForm} value={create.telefone}/>
                         </div>
 
                         <div className="form-group row">
@@ -129,19 +155,20 @@ export default function CadastrarBarbearia() {
                                 <label className="label" htmlFor="hrAbertura">
                                     Hora Abertura
                         </label>
-                                <input id="hrAbertura" name="horarioAbertura" className="form-control" type="time" value={create.horarioAbertura} onChange={updateForm}></input>
+                                <input id="hrAbertura" name="horarioAbertura" className="form-control" type="time" value={create.horarioAbertura} onChange={updateForm}/>
                             </div>
                             <div className="text">
                                 até
-                    </div>
+                        </div>
                             <div className="col">
                                 <label className="label" htmlFor="horarioFechamento">
                                     Hora Fechamento
                         </label>
-                                <input id="hrFechamento" name="horarioFechamento" className="form-control" type="time" value={create.horarioFechamento} onChange={updateForm}></input>
+                                <input id="hrFechamento" name="horarioFechamento" className="form-control" type="time" value={create.horarioFechamento} onChange={updateForm}/>
                             </div>
                         </div>
-                        <button className="btn btn-custom disabled" onClick={null} style={{ marginLeft: "25%" }}>Cadastrar Barbearia</button>
+                        <button disabled={!handleButtonState()} className={handleButtonClass()} style = {{ marginLeft:"25%" }}>Cadastrar Barbearia</button>
+                        {alert.show && handleCreateError()}
                     </fieldset>
                 </form>
             </div>
