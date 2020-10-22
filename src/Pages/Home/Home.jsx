@@ -41,7 +41,6 @@ async function fetchBarbearias() {
                 setBarbearias({...barbearias, data: [...result]});
             }
         } catch (err) {
-            // console.log(err);
         }
     }
 
@@ -55,8 +54,8 @@ async function fetchBarbearias() {
     useEffect(() => {
         fetchBarbearias();
     	return () => console.log('removing effect');
-    }, []);
-*/
+    }, []);*/
+
     const handleOnChange = (event) => {
         setBarbearias({...barbearias, query: event.target.value})
     }
