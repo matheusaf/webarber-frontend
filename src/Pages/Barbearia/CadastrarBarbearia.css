@@ -1,0 +1,47 @@
+.form-control.address {
+  width: 320px;
+  margin-left: -6%;
+}
+
+.form-control.number {
+  margin-left: -15%;
+  width: 80px;
+}
+
+.col.address {
+  width: 310px;
+}
+
+.col.number {
+  width: 80px;
+}
+.text {
+  text-align: center;
+  color: #2bce3b;
+  margin-top: 11%;
+}
+
+.btn-day {
+  border-radius: 100rem;
+  font-weight: bold;
+  width: auto;
+  background-color: #2bce3b;
+}
+
+.btn-day:hover {
+  background-color: black;
+  color: #2bce3b;
+  border: #2bce3b;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.btn-day.active {
+  border-radius: 100rem;
+  width: auto;
+  background-color: black;
+  color: #2bce3b;
+  border: #2bce3b;
+  border-style: solid;
+  border-width: 1px;
+}
