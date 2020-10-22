@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet';
 import NavBar from '../NavBar';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import CardBarbearia from './CardBarbearia';
 
 export default function Barbearias() {
     let [barbearias, setBarbearias] = useState([]);
@@ -9,26 +10,32 @@ export default function Barbearias() {
     const user_id = localStorage.getItem('userId');
 
     // Hooks
-    const renderBarbearia = (obj) => {
-        return (
-                <tr key={`row-${obj.id}`}>
-                    <th scope="row" data-testid={`${obj.id}`} key={`${obj.id}`}> 
-                       <Link to="/barbearias">
-                            {obj.nome}
-                        </Link> 
-                     </th>
-                    <td data-testid={obj.horarioAbertura} key={obj.horarioAbertura}>{obj.horarioAbertura}</td>
-                    <td data-testid={obj.horarioFechamento} key={obj.horarioFechamento}>{obj.horarioFechamento}</td>
-                </tr>
-        )
-    }
+    // const renderBarbearia = (obj) => {
+    //     return (
+    //             <tr key={`row-${obj.id}`}>
+    //                 <th scope="row" data-testid={`${obj.id}`} key={`${obj.id}`}> 
+    //                    <Link to="/barbearias">
+    //                         {obj.nome}
+    //                     </Link> 
+    //                  </th>
+    //                 <td data-testid={obj.horarioAbertura} key={obj.horarioAbertura}>{obj.horarioAbertura}</td>
+    //                 <td data-testid={obj.horarioFechamento} key={obj.horarioFechamento}>{obj.horarioFechamento}</td>
+    //             </tr>
+    //     )
+    // }
 
 
     async function fetchBarbearias() {
         try {
-
-            const res = await fetch(`${url}/barbearias/`,{ method: 'get'});
-            setBarbearias(await res.json());
+            const res = await fetch(`${url}/barbearias/moderador/${user_id}`,{ method: 'get'});
+            if(res.status === 200){
+                let data = await res.json();
+                if(data[0] === undefined){
+                    data = [data];
+                }
+                setBarbearias([...data]);
+                
+            }
         } catch (err) {
             console.log(err);
         }
@@ -51,7 +58,8 @@ export default function Barbearias() {
                 <button className="btn btn-custom active" style={{marginLeft:"45%"}}>
                     Adicionar Barbearia
                 </button>
-                <table className="table table-hover table-dark" style={{marginTop:"2%"}}>
+            </Link>
+                {/* <table className="table table-hover table-dark" style={{marginTop:"2%"}}>
                     <thead>
                         <tr>
                             <th key="nome">Nome</th>
@@ -62,8 +70,10 @@ export default function Barbearias() {
                     <tbody>
                         {barbearias && barbearias.map(barberia => renderBarbearia(barberia))}
                     </tbody>
-                </table>
-            </Link>
+                </table> */}
+                <>
+                    {barbearias && barbearias.map(barberia => <CardBarbearia obj={barberia}></CardBarbearia>)}
+                </>
             </>
     );
 

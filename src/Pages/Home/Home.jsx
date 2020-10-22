@@ -4,15 +4,15 @@ import NavBar from '../NavBar';
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import CardBarbearia from '../Barbearia/CardBarbearia'
 
 
 export default function Home() {
     // Hooks
-    let [barbearias, setBarbearias] = useState([]);
+    let [barbearias, setBarbearias] = useState({query:'', data:[]});
     let [filter, setFilter] = useState();
     
     const url = "https://webarber-back-dev.herokuapp.com";
-    const user_id = localStorage.getItem('userId');
 
     // Hooks
     const renderBarbearia = (obj) => {
@@ -30,45 +30,56 @@ export default function Home() {
     }
 
 
-    async function fetchBarbearias() {
+async function fetchBarbearias() {
         try {
-            const res = await fetch(`${url}/barbearias/`,{ method: 'get'});
-            setBarbearias(await res.json());
+            const res = await fetch(`${url}/barbearias/${barbearias.query}`,{ method: 'get'});
+            if(res.status === 200){
+                let result = await res.json();
+                if(result[0] === undefined){
+                    result = [result];
+                }
+                setBarbearias({...barbearias, data: [...result]});
+            }
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }
 
     // ComponentDidMount - fetch
     // ComponentDidUpdate
-    useEffect(() => {
-        fetchBarbearias();
-    	return () => console.log('removing effect');
-    }, []);
+    // useEffect(() => {
+    //     fetchBarbearias();
+    // 	return () => console.log('removing effect');
+    // }, []);
 /*
     useEffect(() => {
         fetchBarbearias();
     	return () => console.log('removing effect');
     }, []);
 */
-
-    const handleSearch = async (event) =>{
-        event.preventDefault();
-        console.log(event.target.value);
-        const url = `http://localhost:8080/barbearias/nome=${event.target.value}`;
-        try {
-            let response = await fetch(url, {
-                method: "get",
-                headers: new Headers({'Content-Type': 'application/json'}),
-            });
-            if (response.status !== 200) {
-                throw new Error(response.status);
-            }
-            response = await response.json();
-        } catch(err) {
-            console.log(err);
-        }
+    const handleOnChange = (event) => {
+        setBarbearias({...barbearias, query: event.target.value})
     }
+    const handleSearch = (event) =>{
+        setBarbearias({...barbearias, data: []})
+        event.preventDefault();
+        fetchBarbearias();
+        // console.log(event.target.value);
+        // const url = `http://localhost:8080/barbearias/nome=${event.target.value}`;
+        // try {
+        //     let response = await fetch(url, {
+        //         method: "get",
+        //         headers: new Headers({'Content-Type': 'application/json'}),
+        //     });
+        //     if (response.status !== 200) {
+        //         throw new Error(response.status);
+        //     }
+        //     response = await response.json();
+        // } catch(err) {
+        //     console.log(err);
+        // }
+    }
+
     return (
             <>
             <Helmet>
@@ -77,13 +88,13 @@ export default function Home() {
             <NavBar></NavBar>
             <form>
                 <fieldset>
-                    <input name="pesquisar" id="pesquisar" className="search-bar" type="search" placeholder="Pesquise uma barbearia"></input>
+                    <input name="pesquisar" id="pesquisar" className="search-bar" type="search" placeholder="Pesquise uma barbearia" onChange={handleOnChange}></input>
                 </fieldset>
                 <button className="btn btn-search" type="submit" onClick={handleSearch}>
                     Pesquisar
                 </button>
             </form>
-            <table className="table table-hover table-dark" style={{marginTop:"2%"}}>
+            {/* <table className="table table-hover table-dark" style={{marginTop:"2%"}}>
                     <thead>
                         <tr>
                             <th key="nome">Nome</th>
@@ -92,9 +103,11 @@ export default function Home() {
                         </tr>
                     </thead>
                     <tbody>
-                        {barbearias && barbearias.map(barberia => renderBarbearia(barberia))}
-                    </tbody>
-                </table>
+                        {barbearias && barbearias.map(barberia => renderBarbearia(barberia))} */}
+                        {barbearias.data ? console.log(barbearias.data):null}
+                        {barbearias.data && barbearias.data.map(barberia => <CardBarbearia obj={barberia}></CardBarbearia>)}
+                    {/* </tbody>
+                </table> */}
             {/* <img src={LukeCage} alt="cage" className="banner"></img> */}
             </>
     );
