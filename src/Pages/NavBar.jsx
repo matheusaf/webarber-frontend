@@ -50,7 +50,7 @@ export default function NavBar(props){
                 <> 
                     <div className="form-row">
                         <div className="col-m-8" style={{marginTop:"8%"}}>
-                            <p className="p-user">Olá, <spam className="spam-user"> {localStorage.getItem("username")} </spam></p>
+                            <p className="p-user">Olá, <span className="spam-user"> {localStorage.getItem("username")} </span></p>
                         </div>
                         <div className="col">
                             <button className="btn btn-nav login" onClick={handleLogout}>

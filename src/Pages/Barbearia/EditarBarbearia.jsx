@@ -35,7 +35,8 @@ export default function EditarBarbearia() {
 
     useEffect(() => {
         getBarbearia();
-    })
+    	return () => console.log('removing effect editar');
+    }, [])
 
 
     const handleSubmit = async (e) => {

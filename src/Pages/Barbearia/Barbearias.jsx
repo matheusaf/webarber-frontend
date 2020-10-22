@@ -38,7 +38,8 @@ export default function Barbearias() {
     // ComponentDidUpdate
     useEffect(() => {
         fetchBarbearias();
-    });
+    	return () => console.log('removing effect barber');
+    }, []);
     //só atualiza se o state mudar  ex: [data] --> (prevState !== state)? setData : continue
 
     return (
