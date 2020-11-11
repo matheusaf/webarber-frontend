@@ -1,0 +1,23 @@
+.Input {
+  width: 100%;
+}
+.InputElement {
+  border-radius: 1rem;
+  padding: 10px;
+  height: auto;
+  width: 100%;
+  font: inherit;
+  resize: none;
+}
+.InputElement:focus {
+  outline: #2bce3b;
+  outline-style: solid;
+  outline-width: thin;
+  border-radius: inherit;
+}
+
+.Label {
+  color: #fff;
+  display: block;
+  font-weight: 600;
+}

@@ -1,0 +1,7 @@
+.img.header {
+  width: 35%;
+  height: 35%;
+  display: flex;
+  margin: auto auto;
+  padding: 10;
+}

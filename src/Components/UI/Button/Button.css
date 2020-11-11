@@ -1,0 +1,19 @@
+.btn-webarber {
+  border-radius: 3rem;
+  justify-content: center;
+  display: flex;
+  margin: auto auto;
+  height: auto;
+  width: max-content;
+}
+
+.btn-webarber {
+  background-color: #2bce3b;
+  font-weight: bold;
+  color: black;
+}
+
+.btn-webarber {
+  background-color: grey;
+  color: white;
+}
