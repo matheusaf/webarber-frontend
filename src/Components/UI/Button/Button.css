@@ -7,13 +7,13 @@
   width: max-content;
 }
 
-.btn-webarber {
+.btn-webarber.active {
   background-color: #2bce3b;
   font-weight: bold;
   color: black;
 }
 
-.btn-webarber {
+.btn-webarber.disabled {
   background-color: grey;
   color: white;
 }

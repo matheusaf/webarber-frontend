@@ -1,4 +1,4 @@
-.label {
+/* .label {
   color: white;
   margin-left: auto;
   margin-right: auto;
@@ -46,7 +46,7 @@
   background-color: grey;
   color: white;
   height: 40px;
-}
+} */
 
 /* p {
   margin-top: -10px;
@@ -54,7 +54,7 @@
   text-align: center;
 } */
 
-.container {
+/* .container {
   justify-content: center;
   display: flex;
   max-width: 960px;
@@ -84,4 +84,4 @@
 
 .p-alert {
   color: red;
-}
+} */

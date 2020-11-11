@@ -5,7 +5,7 @@ import { useState } from 'react';
 const Button = ({buttonText, disabled, handleOnClick, style=null}) => {
 
     const handleButtonState = ()=>{
-        return `btn btn-webarber ${disabled ? "active": "disabled"}`
+        return `btn btn-webarber ${!disabled ? "active": "disabled"}`
     }
 
     return (

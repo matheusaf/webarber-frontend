@@ -1,5 +1,5 @@
 .container.login {
-  height: 42%;
+  height: 50%;
   width: 60%;
   padding: 10px;
 
@@ -13,6 +13,26 @@
 
   border-width: thin;
   border: #2bce3b;
+  border-style: solid;
+  border-radius: 1rem;
+}
+
+.a.signup {
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  padding: 10px;
+}
+
+.alert-danger {
+  display: flex;
+  margin: auto auto;
+  width: 45%;
+  justify-content: center;
+  margin-top: 1%;
+  border-radius: 1rem;
+
+  border: rgb(103, 3, 3);
   border-style: solid;
   border-radius: 1rem;
 }

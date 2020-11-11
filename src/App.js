@@ -9,8 +9,8 @@ import {
 import Home from './Components/Home/Home';
 import Login from './Components/Login/NewLogin';
 // import PaginaUsuario from './Pages/User/PaginaUsuario';
-// import SignUp from './Pages/User/SignUp';
-// import { UserContext } from './UserContext';
+import NewSignUp from './Components/SignUp/NewSignUp';
+import { UserContext } from './Components/User/UserContext';
 // import Barbearias from './Pages/Barbearia/Barbearias';
 // import Agendamentos from './Pages/Agendamentos/Agendamentos';
 // import PaginaBarbearia from './Pages/Barbearia/PaginaBarbearia';
@@ -57,28 +57,27 @@ function App() {
   }
 
   return (
-      <Login></Login>
-    // <BrowserRouter>
-    //   <header>
-    //   </header>
-    //   <div>
-    //     <Switch>
-    //       <Route exact path="/signup" component={SignUp} urlPath="/signup" />
-    //       <UserContext.Provider value={userValue}>
-    //         <Route exact path="/login" component={Login} urlPath="/login" />
-    //         <Route exact path="/" component={Home}/>
-    //         <Route exact path="/users/:id" component={PaginaUsuario} urlPath="/users/" />
-    //         <Route exact path="/agendamentos" component={Agendamentos} urlPath="/agendamentos" />
-    //         <Route exact path="/barbearias" component={Barbearias} urlPath="/barbearias" />
-    //         <Route exact path="/barbearias/:id" component={PaginaBarbearia} urlPath="/barbearias/" />
-    //         <Route exact path="/cadastrarBarbearia" component={CriarBarbearia} urlPath = "/cadastrarBarbearia" />
-    //         <Route exact path="/editarBarbearia/:id" component={EditarBarbearia} urlPath = "/editarBarbearia/" />
-    //       </UserContext.Provider>
-    //     </Switch>
-    //   </div>
-    //   <footer>
-    //   </footer>
-    // </BrowserRouter>
+      <BrowserRouter>
+       <header>
+       </header>
+       <div>
+         <Switch>
+           <Route exact path="/signup" component={NewSignUp} urlPath="/signup" />
+           <UserContext.Provider value={userValue}>
+             <Route exact path="/login" component={Login} urlPath="/login" />
+             <Route exact path="/" component={Home}/>
+             {/* <Route exact path="/users/:id" component={PaginaUsuario} urlPath="/users/" />
+             <Route exact path="/agendamentos" component={Agendamentos} urlPath="/agendamentos" />
+             <Route exact path="/barbearias" component={Barbearias} urlPath="/barbearias" />
+             <Route exact path="/barbearias/:id" component={PaginaBarbearia} urlPath="/barbearias/" />
+             <Route exact path="/cadastrarBarbearia" component={CriarBarbearia} urlPath = "/cadastrarBarbearia" />
+             <Route exact path="/editarBarbearia/:id" component={EditarBarbearia} urlPath = "/editarBarbearia/" /> */}
+           </UserContext.Provider>
+         </Switch>
+       </div>
+      <footer>
+      </footer>
+    </BrowserRouter>
   );
 }
 
