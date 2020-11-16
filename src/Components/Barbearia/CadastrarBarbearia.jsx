@@ -1,10 +1,10 @@
-import React, { useContext, useState }  from 'react';
-import { UserContext } from '../User/UserContext';
-import { Helmet } from 'react-helmet';
-import NavBar from '../../Components/UI/NavBar/NavBar';
-import Button from '../../Components/UI/Button/Button';
-import Loading from '../../Components/UI/Loading/Loading';
-import FormularioBarbearia from './Formulario/FormularioBarbearia';
+import React, { useContext, useState }  from "react";
+import { UserContext } from "../User/UserContext";
+import { Helmet } from "react-helmet";
+import NavBar from "../../Components/UI/NavBar/NavBar";
+import Button from "../../Components/UI/Button/Button";
+import Loading from "../../Components/UI/Loading/Loading";
+import FormularioBarbearia from "./Formulario/FormularioBarbearia";
 
 const url = process.env.REACT_APP_BASE_URL;
 
