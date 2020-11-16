@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
-import SignUp from './Components/SignUp/SignUp';
+import SignUp from './Components/Signup/Signup';
 import { UserContext } from './Components/User/UserContext';
 import CadastrarBarbearia from './Components/Barbearia/CadastrarBarbearia';
 import EditarBarbearia from './Components/Barbearia/EditarBarbearia';
