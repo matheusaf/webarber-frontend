@@ -26,11 +26,11 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             label: 'Endereço',
             value: ''
         },
-        enderecoNumero: {
+        numero: {
             elementType: 'input',
             elementConfig:{
-                id: 'enderecoNumero',
-                name: 'enderecoNumero',
+                id: 'numero',
+                name: 'numero',
                 type: 'text',
                 maxLength:3,
                 placeholder: 'Número'
@@ -49,28 +49,28 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             label: 'Bairro',
             value: ''
         },
-        // cidade: {
-        //     elementType: 'input',
-        //     elementConfig:{
-        //         id: 'cidade',
-        //         name: 'cidade',
-        //         type: 'text',
-        //         placeholder: 'Cidade'
-        //     },
-        //     label: 'Cidade',
-        //     value: ''
-        // },
-        // estado: {
-        //     elementType: 'input',
-        //     elementConfig:{
-        //         id: 'estado',
-        //         name: 'estado',
-        //         type: 'text',
-        //         placeholder: 'Estado'
-        //     },
-        //     label: 'Estado',
-        //     value: ''
-        // },
+        cidade: {
+            elementType: 'input',
+            elementConfig:{
+                id: 'cidade',
+                name: 'cidade',
+                type: 'text',
+                placeholder: 'Cidade'
+            },
+            label: 'Cidade',
+            value: ''
+        },
+        estado: {
+            elementType: 'input',
+            elementConfig:{
+                id: 'estado',
+                name: 'estado',
+                type: 'text',
+                placeholder: 'Estado'
+            },
+            label: 'Estado',
+            value: ''
+        },
         cep: {
             elementType: 'input',
             elementConfig:{
@@ -139,7 +139,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
     const serverDataDictionary = {
         nome: "nome",
         endereco: "endereco",
-        enderecoNumero :"complemento",
+        numero :"numero",
         bairro: "bloco",
         cep: "cep",
         telefone: "telefone",
@@ -152,8 +152,8 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         enderecoNumero :"street_number",
         bairro: "sublocality_level_1",
         cep: "postal_code",
-        // cidade: "administrative_area_level_2",
-        // estado: 'administrative_area_level_1',
+        cidade: "administrative_area_level_2",
+        estado: 'administrative_area_level_1',
     }
 
     const handleOnChange = (event) => {
