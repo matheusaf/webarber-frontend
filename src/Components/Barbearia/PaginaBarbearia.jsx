@@ -96,6 +96,12 @@ export default function PaginaBarbearia(){
         )
     }
 
+    const renderServiceButton = () => {
+        return(
+            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={()=>history.push(`/cadastrarServico`)}/>
+        )
+    }
+
     const renderPaginaBarbearia = () =>{
         return (
                 <div style={{width:"max-content%", display:"flex", margin:"auto"}}>
@@ -119,6 +125,7 @@ export default function PaginaBarbearia(){
                             </tbody>
                         </table>
                         {webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
+                        {webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
                     </div>
                     <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent>
