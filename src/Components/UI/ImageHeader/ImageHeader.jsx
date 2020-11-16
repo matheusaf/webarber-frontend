@@ -3,10 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import webarber from '../../../images/webarber.png';
 
-const ImageHeader = () => {
+const ImageHeader = ({style}) => {
     return (<div>
                 <Link to="/">
-                    <img className="img header" src={webarber} alt="webarber logo"></img>
+                    <img className="img header" src={webarber} alt="webarber logo" style={style}></img>
                 </Link>
             </div>
     )

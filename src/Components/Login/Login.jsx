@@ -1,86 +1,132 @@
-import './index.css';
-import Header from '../User/Header';
-import { Helmet } from 'react-helmet';
-import React, { useState, useContext } from 'react';
-import { Link, useHistory, Redirect } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
+import './Login.css';
+import Helmet from 'react-helmet';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Input from '../UI/Forms/Input/Input';
+import Button from '../UI/Button/Button';
+import AlertBox from '../UI/AlertBox/AlertBox';
+import Loading from '../UI/Loading/Loading';
+import ImageHeader from '../UI/ImageHeader/ImageHeader';
+import { Link } from 'react-router-dom';
 
-export default function Logins() {
-    const [login, setLogin] = useState({email: '', password: ''});
-    const [alert, setAlert] = useState({show: false, message: ``});
-    const { webarberUser ,setWebarberUser } = useContext(UserContext);
+const url = process.env.REACT_APP_BASE_URL;
 
+const Login = (props) => {
+    // const { setWebarberUser } = useContext(UserContext);
     let history = useHistory();
-
-    const updateForm = (event) => setLogin({...login, [event.target.name]: event.target.value});
-
-    const handleLogin = async () => {
-        try{
-            let {response, usuario} = await loginUser(login);
-            if (response.status !== 200 ) {
-                throw new Error(response.message);
+    const [alertMessage, setAlertMessage ] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [loginForm, setLoginForm] = useState(
+        {
+            email:{
+                elementType: 'input',
+                elementConfig:{
+                    id: 'email',
+                    name:'email',
+                    type: 'text',
+                    placeholder: 'E-mail'
+                },
+                label: 'E-mail',
+                value: ''
+            },
+            password:{
+                elementType: 'input',
+                elementConfig:{
+                    id: 'password',
+                    name:'password',
+                    type: 'password',
+                    placeholder: 'Senha',
+                    minLength:'8'
+                },
+                label: 'Senha',
+                value: ''
             }
-            let webarberUser = {id: usuario.id, nome: usuario.nome, idTipo: usuario.idTipo, sessionToken: usuario.sessionToken}
-            localStorage.setItem('webarberUser', JSON.stringify(webarberUser));
-            setWebarberUser(webarberUser);
-            history.push('/');            
-        } catch(err) {
-            setAlert({show: true, message: `${err.message === "User not found"? "E-mail não encontrado.":"Senha incorreta."}`})
+        })
+
+    const handleLogin = async() => {
+        setAlertMessage(null);
+        setLoading(true);
+        let user = {email: loginForm.email.value, password: loginForm.password.value};
+        try{
+            let response = await fetch(`${url}/login`, { method:'post',
+                                headers: new Headers(
+                                {'Content-Type': 'application/json'}),
+                                body: JSON.stringify(user)
+                            }
+            )
+            if(response.status === 200){
+                let {id, nome, idTipo, sessionToken} = await response.json();
+                let webarberUser = {id: id, nome: nome, idTipo: idTipo, sessionToken: sessionToken};
+                localStorage.setItem('webarberUser', JSON.stringify(webarberUser));
+                alert("Logged in")
+                history.push('/');
+                window.location.reload();
+            }
+            else{
+                let {message} = await response.json();
+                setAlertMessage(message);
+            }
         }
+        catch(err){
+            alert(err);
+        }
+        setLoading(false);
     }
 
-    const handleSubmit = async (event) => {
+    const handleOnChange = (event) => {
+        setLoginForm({...loginForm, [event.target.name]:{ 
+                ...loginForm[event.target.name], value: event.target.value}});
+    }
+  
+    const inputStyle = {
+        width:"50%", 
+        display:"flex", 
+        margin:"auto auto"
+    }
+
+    const handleOnClick = async (event) => {
         event.preventDefault();
         await handleLogin();
     }
 
-    const handleButtonClass = () => {
-        return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
+    const handleDisabled = () => {
+        return !(loginForm.email.value && loginForm.password.value && loginForm.password.value.length>=8);
     }
 
-
-    const handleButtonState = () => {
-        return login.email !== "" && login.password.length >=8;
-    }
-
-    const handleSignInError = () => {
-        return (
-            <div className="alert alert-danger" role="alert">
-                <strong>{alert.message}</strong>
-            </div>
-        );
-    }
-    
-    return (
-        <>
-            <Helmet>
-                <title>Login</title>
-            </Helmet>
-            <Header></Header>
-            <div className="container">
-                <div className="row">
-                    <form onSubmit={handleSubmit}>
-                        <fieldset>
-                            <div className="form-group row">
-                                <Input label="E-mail" id="email" name="email" className="form-control" type="e-mail" placeholder="Digite o seu e-mail" value={login.email} onChange={updateForm}/>
-                            </div>
-                            <div className="form-group row">
-                                <input id="senha" className="form-control" name="password" minLength="8" type="password" placeholder="Digite sua senha" value={login.password} onChange={updateForm}/>
-                            </div>
-                            {alert.show && handleSignInError()}
-                            <div className="container">
-                                <Link to="/signup">
-                                    <div className="mylink">
-                                        Não é cadastrado?
-                                    </div>
-                                </Link>
-                            </div>
-                            <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Login</button>
-                        </fieldset>
-                    </form>
+    const renderLogin = () =>{
+        return(
+            <div className="container login">
+                <ImageHeader/>
+                <div>
+                    {Object.keys(loginForm).map(field=> 
+                        <Input elementType={loginForm[field].elementType} label={loginForm[field].label} 
+                               value={loginForm[field].value} elementConfig={loginForm[field].elementConfig} 
+                               handleOnChange={handleOnChange} style={inputStyle}/>)}
+                </div>
+                <div className="a form">
+                    <Link to="/signup">
+                        Não é cadastrado?
+                    </Link>
+                </div>
+                <div>
+                    <Button id="btn login" disabled={handleDisabled()} buttonText="Login" handleOnClick={handleOnClick}/>
+                </div>
+                <div>
+                    {alertMessage && (<AlertBox message={alertMessage}/>)}
                 </div>
             </div>
+        )
+
+    }
+
+    return(
+        <>
+            <Helmet>
+                <title>Webarber - Login</title>
+            </Helmet>
+            {!loading ? renderLogin() : <Loading/>}
         </>
     )
 }
+
+export default Login;

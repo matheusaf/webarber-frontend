@@ -1,20 +1,19 @@
 import './NavBar.css'
 import logo from '../../../images/logo.png';
 import { Link } from 'react-router-dom';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState,  useContext } from 'react';
 import { UserContext } from '../../User/UserContext';
+import Button from '../../UI/Button/Button';
 
 export default function NavBar({pagina}){
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
     const { webarberUser } = useContext(UserContext);
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
-    const handleLogout = (e) => {
-        e.preventDefault();
+    const handleLogout = () => {
         localStorage.removeItem('webarberUser');
         window.location.reload(true);
     }
-
 
     const handleNavItems = (navBarText, nextPageLink, currentPage) => {
         return(
@@ -26,19 +25,21 @@ export default function NavBar({pagina}){
         )
     }
 
+    const buttonStyles = {
+        margin: "auto",
+        marginLeft: "2px",
+        marginRight: "2px"
+    }
+
     const handleRightSidePanel = () =>{
         if (!webarberUser) {
             return (
                 <>
                     <Link to='/login'>
-                        <button className="btn btn-nav login">
-                            Entrar
-                        </button>
+                        <Button buttonText="Entrar" style={buttonStyles}/>
                     </Link>
                     <Link to='/signup'>
-                        <button className=' btn btn-nav signup'>
-                            Cadastrar
-                        </button>
+                        <Button buttonColors={2} buttonText="Cadastrar" style={buttonStyles}/>
                     </Link>
                 </>
             );
@@ -56,15 +57,14 @@ export default function NavBar({pagina}){
                             </p>
                         </div>
                         <div className="col nav">
-                            <button className="btn btn-nav login" onClick={handleLogout}>
-                                Logout
-                            </button>
+                            <Button className="btn btn-nav login" handleOnClick={handleLogout} buttonText="Logout"/>
                         </div>
                     </div>
                 </>
             );
         }
     }
+
     
     return (
             <>

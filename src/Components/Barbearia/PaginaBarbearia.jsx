@@ -1,97 +1,103 @@
+import NavBar from '../UI/NavBar/NavBar';
+import MapComponent from '../UI/Map/MapComponent';
+import Loading from '../UI/Loading/Loading';
+import Button from '../UI/Button/Button';
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchBarbearia } from './Controllers/ControllerBarbearia';
-import NavBar from './../NavBar';
-import MapComponent from '../../MapComponent';
-import { UserContext } from '../../UserContext';
+import { useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
+import './PaginaBarbearia.css';
+import { UserContext } from '../User/UserContext';
+
+const url = process.env.REACT_APP_BASE_URL;
 
 export default function PaginaBarbearia(){
+    const history = useHistory();
     const { id } = useParams();
     const { webarberUser } = useContext(UserContext);
     const [dadosBarbearia, setDadosBarberia] = useState();
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {
-        fetchBarbearia(+id).then(data=>setDadosBarberia({ nome: data.nome, endereço: data.endereco, 
-                                                          numero: data.numero, complemento: data.complemento, 
-                                                          bloco: data.bloco, cep: data.cep, 
-                                                          telefone: data.telefone, ativo: data.ativo,
-                                                          horarioAbertura: new Date(data.horarioAbertura).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false}), 
-                                                          horarioFechamento: new Date(data.horarioFechamento).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false}), 
-                                                          userId: data.user_id,
-                                                          })).catch(err=>console.log(err));
-        setLoading(false);
-    }, []);
-    
-   const renderLoading = () => {
-        return (
-                <div style={{display:"flex", color:"red"}}>
-                    Loading
-                </div>
-        );
-    }
+    const [loading, setLoading] = useState(false);
 
-    const renderBarbeariaDataRows = (field, value) =>{
-        const fieldNameDictionary = {
+    const fieldNameDictionary = {
             nome: "Nome", endereço: "Endereço", numero: "Número", complemento:"Complemento", bloco:"Bloco",
             cep:"CEP", telefone:"Telefone", horarioAbertura:"Horário Abertura", horarioFechamento:"Horário Fechamento"
         }
-        return(field !=="userId" ?
-                <div className="row" style={{backgroundColor:"red", justifyContent:"center", display:"flex"}}>
-                    <div className="col" style={{backgroundColor:"red", justifyContent:"flex-end", display:"flex"}}>
+    
+    const fetchBarbearia = async() => {
+        setLoading(true);
+        try{
+            const barbearia = await axios.get(`${url}/barbearias/${id}`).then(d=>d.data);
+            barbearia.horarioAbertura =  new Date(barbearia.horarioAbertura).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false})
+            barbearia.horarioFechamento = new Date(barbearia.horarioFechamento).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false})
+            setDadosBarberia(barbearia);
+        }
+        catch(err){
+            console.log(err);
+        }
+        setLoading(false);
+    }
+    
+    useEffect(() => {
+        fetchBarbearia();
+    }, []);
+
+    const renderBarbeariaDataRows = (field, value) =>{
+        if(fieldNameDictionary[field]){
+            return(
+                <div className="row" style={{justifyContent:"center", display:"flex"}}>
+                    <div className="col barberField">
                         {fieldNameDictionary[field]}
                     </div>
-                    <div className="col" style={{backgroundColor:"red", justifyContent:"flex-start", display:"flex"}}>
+                    <div className="col barberData">
                         {value ? value : "Sem Informações"}
                     </div>
                 </div>
-                :
-                null
-        )
+            )
+        }
+    }
+
+    const buttonStyle = {
+        display: "flex",
+        justifyContent:"center",
+        margin: "10px auto"
     }
 
     const renderEditButton = () => {
-        console.log(webarberUser.id === dadosBarbearia.userId)
-        return( webarberUser.id === dadosBarbearia.userId ?
-            <div>
-                <button> Editar </button>
-            </div>
-                :
-                null
+        return(
+                <Button buttonColors={2} buttonText="Editar Barbearia" style={buttonStyle} handleOnClick={()=>history.push(`/editarBarbearia/${id}`)}/>
         )
     }
 
     const renderPaginaBarbearia = () =>{
         return (
-                <div style={{width:"max-content%", display:"flex", margin:"auto", backgroudColor:"pink"}}>
-                    <div className="card" style={{width:"120%"}}>
-                        <div className="card-title">
-                            <h1 style={{color:"#2bce3b"}}>
+                <div style={{width:"max-content%", display:"flex", margin:"auto"}}>
+                    <div className="barberPage">
+                        <div className="card-title barber">
+                            <h1 className="title barber">
                                 {dadosBarbearia.nome}
                             </h1>
                         </div>
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map(field=>renderBarbeariaDataRows(field, dadosBarbearia[field]))}
-                        {webarberUser && renderEditButton()}
+                        {webarberUser.id === +id && renderEditButton()}
                         </div>
                     </div>
-                    <MapComponent></MapComponent>
+                    <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={`${dadosBarbearia.endereco},  ${dadosBarbearia.numero}, ${dadosBarbearia.complemento}`}></MapComponent>
                 </div>
         );
     }
 
     const renderNotFound = () =>{
         return (
-            <div style={{display:"flex", color:"red", margin:"auto"}}>
+            <h1 className="notFound">
                 Barbearia não encontrada
-            </div>
+            </h1>
         );
     }
 
     return (
         <div>
             <NavBar></NavBar>
-            {loading && renderLoading()}
+            {loading && <Loading/>}
             {dadosBarbearia && dadosBarbearia.ativo ? renderPaginaBarbearia(): renderNotFound()}
             
         </div>

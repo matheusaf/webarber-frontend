@@ -1,10 +1,11 @@
 .card.barber {
   background-color: black;
-  border: red;
-  margin: 0px auto;
+  border-color: #2bce3b;
+  border-width: 3px;
+  margin: 10px auto;
   border-radius: 1rem;
   border-style: solid;
-  max-width: 60%;
+  max-width: 30%;
 }
 
 .col.label {

@@ -17,22 +17,9 @@
   border-radius: 1rem;
 }
 
-.a.signup {
+.a.form {
   display: flex;
   margin: auto auto;
   justify-content: center;
   padding: 10px;
-}
-
-.alert-danger {
-  display: flex;
-  margin: auto auto;
-  width: 45%;
-  justify-content: center;
-  margin-top: 1%;
-  border-radius: 1rem;
-
-  border: rgb(103, 3, 3);
-  border-style: solid;
-  border-radius: 1rem;
 }

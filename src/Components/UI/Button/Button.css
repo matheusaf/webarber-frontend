@@ -1,19 +1,43 @@
-.btn-webarber {
+.btn-webarber-1 {
   border-radius: 3rem;
   justify-content: center;
   display: flex;
   margin: auto auto;
   height: auto;
   width: max-content;
+  border-width: 3px;
+  border-style: solid;
 }
 
-.btn-webarber.active {
+.btn-webarber-1.active {
   background-color: #2bce3b;
   font-weight: bold;
   color: black;
+  border-color: #2bce3b;
 }
 
-.btn-webarber.disabled {
+.btn-webarber-1.disabled {
   background-color: grey;
+  color: white;
+}
+
+.btn-webarber-2 {
+  max-width: max-content;
+  border-radius: 10rem;
+  display: flex;
+  background-color: black;
+  justify-content: center;
+}
+
+.btn-webarber-2.active {
+  font-weight: bold;
+  border-width: 3px;
+  border-style: solid;
+  color: #2bce3b;
+  border-color: #2bce3b;
+}
+
+.btn-webarber-2.disabled {
+  background-color: rgb(56, 56, 56);
   color: white;
 }

@@ -7,30 +7,41 @@ import {
         useLocation
 } from "react-router-dom";
 import Home from './Components/Home/Home';
-import Login from './Components/Login/NewLogin';
-// import PaginaUsuario from './Pages/User/PaginaUsuario';
-import NewSignUp from './Components/SignUp/NewSignUp';
+import Login from './Components/Login/Login';
+import SignUp from './Components/SignUp/SignUp';
 import { UserContext } from './Components/User/UserContext';
-// import Barbearias from './Pages/Barbearia/Barbearias';
+import CadastrarBarbearia from './Components/Barbearia/CadastrarBarbearia';
+import EditarBarbearia from './Components/Barbearia/EditarBarbearia';
+import MinhasBarbearias from './Components/Barbearia/MinhasBarbearias';
+import PaginaBarbearia from './Components/Barbearia/PaginaBarbearia';
+import PaginaUsuario from './Components/User/PaginaUsuario';
+import Loading from './Components/UI/Loading/Loading';
+import CadastrarServico from './Components/Servicos/Formulario/FormularioServico';
 // import Agendamentos from './Pages/Agendamentos/Agendamentos';
-// import PaginaBarbearia from './Pages/Barbearia/PaginaBarbearia';
-// import CriarBarbearia from './Pages/Barbearia/CriarBarbearia';
-// import EditarBarbearia from './Pages/Barbearia/EditarBarbearia';
-// // import { validateUser } from './Pages/User/Controllers/UserController';
+import { validateUser } from './Components/User/Actions/Auth';
+
+
 require('dotenv').config();
 
 function App() {
   const[webarberUser, setWebarberUser] = useState(null);
+  const[triedLogin, setTriedLogin] = useState(false);
+  const[loading, setLoading] = useState(false)
   
-  // const verifyLocalStorage = async ()=> {
-  //   let cachedUser = await JSON.parse(localStorage.getItem("webarberUser"));
-  //   if(await validateUser(cachedUser)) setWebarberUser(cachedUser);
-  // }
+  const verifyLocalStorage = async ()=> {
+    setLoading(true);
+    let cachedUser = await JSON.parse(localStorage.getItem("webarberUser"));
+    if(await validateUser(cachedUser)) {
+      setWebarberUser(cachedUser);
+    }
+    setLoading(false);
+    setTriedLogin(true);
+  }
 
   const userValue = useMemo(() => ({webarberUser, setWebarberUser}), [webarberUser, setWebarberUser]);
 
   useEffect( () =>{
-    // verifyLocalStorage();
+    verifyLocalStorage();
   }, [])
 
 
@@ -43,17 +54,26 @@ function App() {
 
   const AdminRoute = ({ component: Component, ...rest}) => {
     let location = useLocation();
-    console.log(webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]));
-    return <Route render={props => 
-      (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> 
-    }/>
+     if(triedLogin && !webarberUser){
+        return (<Redirect to="/login"/>);
+     }
+     else{
+        if(webarberUser.idTipo === 2){
+          return <Route render={ props => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>
+        }
+        else{
+          return (<Redirect to="/"/>)
+        }
+     }
   }
 
    const LoggedInRoute = ({ component: Component, ...rest}) => {
       let location = useLocation();
-      return <Route render={props => 
-        (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> 
-    }/>
+      if(triedLogin && !webarberUser){
+        return (<Loading/>);
+      }
+        return <Route render={props => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> 
+      }/>
   }
 
   return (
@@ -62,16 +82,17 @@ function App() {
        </header>
        <div>
          <Switch>
-           <Route exact path="/signup" component={NewSignUp} urlPath="/signup" />
+           <Route exact path="/signup" component={SignUp}/>
            <UserContext.Provider value={userValue}>
-             <Route exact path="/login" component={Login} urlPath="/login" />
+             <Route exact path="/login" component={Login}/>
              <Route exact path="/" component={Home}/>
-             {/* <Route exact path="/users/:id" component={PaginaUsuario} urlPath="/users/" />
-             <Route exact path="/agendamentos" component={Agendamentos} urlPath="/agendamentos" />
-             <Route exact path="/barbearias" component={Barbearias} urlPath="/barbearias" />
+             <Route exact path="/cadastrarBarbearia" component={CadastrarBarbearia}/>
+             <Route exact path="/editarBarbearia/:id" component={EditarBarbearia}/> 
+             <Route exact path="/users/:id" component={PaginaUsuario}/>
+             <Route exact path="/cadastrarServico" component={CadastrarServico}/>
+             {/* <LoggedInRoute exact path="/agendamentos" component={Agendamentos} urlPath="/agendamentos" /> */}
+             <Route exact path="/barbearias" component={MinhasBarbearias} urlPath="/barbearias" />
              <Route exact path="/barbearias/:id" component={PaginaBarbearia} urlPath="/barbearias/" />
-             <Route exact path="/cadastrarBarbearia" component={CriarBarbearia} urlPath = "/cadastrarBarbearia" />
-             <Route exact path="/editarBarbearia/:id" component={EditarBarbearia} urlPath = "/editarBarbearia/" /> */}
            </UserContext.Provider>
          </Switch>
        </div>

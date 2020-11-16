@@ -10,6 +10,19 @@ export default function FormularioBarbearia({create, setCreate}) {
     const updateForm = (event) => setCreate({ ...create, [event.target.name]: event.target.value });
     const updateAddress = (value) => setCreate({...create, endereco: value})
 
+    //     const [create, setCreate] = useState({
+    //     nome: '', endereco: '', enderecoNumero: '', bairro: '', cep:'',
+    //     cidade: '', estado: '', telefone: '', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id: 1
+    //     // activeDay: "Seg",
+    //     // Seg: {hrAbertura: '', hrFechamento:''},
+    //     // Ter: {hrAbertura: '', hrFechamento:''},
+    //     // Qua: {hrAbertura: '', hrFechamento:''},
+    //     // Qui: {hrAbertura: '', hrFechamento:''},
+    //     // Sex: {hrAbertura: '', hrFechamento:''},
+    //     // Sab: {hrAbertura: '', hrFechamento:''},
+    //     // Dom: {hrAbertura: '', hrFechamento:''}
+    // });
+
     const searchOptions = {
         highlightFirstSuggestion: true
     }

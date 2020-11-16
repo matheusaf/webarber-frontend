@@ -1,16 +1,15 @@
 import './Button.css'
 import React from 'react';
-import { useState } from 'react';
 
-const Button = ({buttonText, disabled, handleOnClick, style=null}) => {
+const Button = ({buttonColors=1, id, buttonText, disabled, handleOnClick, type, form, content, style=null}) => {
 
     const handleButtonState = ()=>{
-        return `btn btn-webarber ${!disabled ? "active": "disabled"}`
+        return `btn btn-webarber-${buttonColors} ${!disabled ? "active": "disabled"}`
     }
 
     return (
         <div>
-            <button className={handleButtonState()} disabled={disabled} onClick={handleOnClick} style={style} >
+            <button id={id} disabled={disabled} className={handleButtonState()} type={type} form={form} content={content} onClick={handleOnClick} style={style} >
                 {buttonText}
             </button>
         </div>

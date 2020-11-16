@@ -1,18 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './CardBarbearia.css'
-import logo from "../../images/logo.png"
+import logo from '../../../images/logo.png'
 
-export default function CardBarbearia ({barbearia}){
+const CardBarbearia = ({barbearia}) => {
+
+    const imgStyle = {
+        width: "120px",
+        height: "120px",
+        display: "flex",
+        margin: "auto auto"
+    }
+    
     return (
         <div className="card barber">
-            <Link to= {`/barbearias/${barbearia.id}`}>
                 <div className="card-body" key={barbearia.id}>
-                    <div className="card-title">
-                            {barbearia.nome}
+                    <div className="card-title" style={{display:"flex", justifyContent:"center"}}>
+                            <Link to= {`/barbearias/${barbearia.id}`}>
+                                {barbearia.nome}
+                            </Link>                
                     </div>
                     <div>
-                        <img className="card-img-left"  src={logo} alt={`image of ${barbearia.nome}`}></img>
+                        <Link to= {`/barbearias/${barbearia.id}`}>
+                            <img className="card-img" src={logo} alt={`image of ${barbearia.nome}`} style={imgStyle}></img>
+                        </Link>
                     </div>
                     <div className="row">
                         <div className="col label">
@@ -21,11 +32,9 @@ export default function CardBarbearia ({barbearia}){
                             </p>
                         </div>
                         <div className="col data">
-                            {/* <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(barbearia.endereco)}`} target="_blank" rel="noopener noreferrer"> */}
-                                <p className="card-text data">
-                                    {barbearia.endereco}
-                                </p>
-                            {/* </a> */}
+                            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURI(barbearia.endereco)}`} target="_blank" rel="noopener noreferrer">
+                                {barbearia.endereco}
+                            </a>
                         </div>
                     </div>
                     <div className="row">
@@ -53,7 +62,8 @@ export default function CardBarbearia ({barbearia}){
                         </div>
                     </div>
                 </div>
-            </Link>
         </div>
     )
 }
+
+export default CardBarbearia;

@@ -1,74 +1,160 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
-import {fetchUserData } from './Controllers/UserController';
-import NavBar from '../NavBar';
+import { UserContext } from '../../Components/User/UserContext';
+import NavBar from '../../Components/UI/NavBar/NavBar';
+import Button from '../../Components/UI/Button/Button';
+import Input from '../../Components/UI/Forms/Input/Input';
+import Loading from '../../Components/UI/Loading/Loading';
 
-export default function PaginaUsuario(){
-    const { webarberUser } = useContext(UserContext);
-    const [userData, setUserData] = useState();
+const url = process.env.REACT_APP_BASE_URL;
+
+const PaginaUsuario = ()  => {
     const { id } = useParams();
+    const { webarberUser } = useContext(UserContext);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useState();
+    const [userDataForm, setUserDataForm] = useState({
+        nome:{
+            elementType: 'input',
+            elementConfig:{
+                id: "nome",
+                name: "nome",
+                type: 'text',
+                placeholder: 'Nome'
+            },
+            label:'Nome',
+            value:'',
+            validation:{
 
-    const fetchData = async() => {
-        let data = await fetchUserData(webarberUser.sessionToken, id);
-        setUserData(data);
+            },
+            valid: false,
+            touched: false
+        },
+        sobrenome:{
+            elementType: 'input',
+            elementConfig:{
+                id: "sobrenome",
+                name: "sobrenome",
+                type: 'text',
+                placeholder: 'Sobrenome'
+            },
+            label:'Sobrenome',
+            value:'',
+            validation:{
+
+            },
+            valid: false,
+            touched: false
+        },
+        email:{
+            elementType: 'input',
+            elementConfig:{
+                id: "email",
+                name: "email",
+                type: 'email',
+                placeholder: 'E-mail'
+            },
+            label:'E-mail',
+            value:'',
+            validation:{
+
+            },
+            valid: false,
+            touched: false
+        },
+        password:{
+            elementType: 'input',
+            elementConfig:{
+                id: "password",
+                name: "password",
+                type: 'password',
+                placeholder: 'Senha'
+            },
+            label:'Senha',
+            value:'',
+            validation:{
+
+            },
+            valid: false,
+            touched: false
+        },
+        touched: false
+    });
+
+    const fetchUserData = async () =>{
+        setLoading(true);
+        try{
+            let res = await fetch(`${url}/conta`, { method: "get",
+                                                    headers: new Headers({"Content-Type":"application/json",
+                                                                           "Authorization": `Bearer ${webarberUser.sessionToken}`})});
+            if(res.status === 200){
+                let data = await res.json();
+                setUserData({nome: data.nome, sobrenome: data.sobrenome, email: data.email, password: data.password_hash});
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
         setLoading(false);
     }
 
     useEffect(()=>{
-        fetchData();
+        fetchUserData();
     }, [])
 
     const handleFormChange = (event) => {
-        setUserData({...userData, [event.target.name]: [event.target.value]})
-    }
-
-    const handleEditButtonState = () => {
-        return `btn btn-custom ${(!editMode)? "active" : "disabled"}`;
+        setUserDataForm({...userDataForm, [event.target.name]: {
+            ...userDataForm[event.target.name], value: [event.target.value], touched: true
+        }, touched:true})
     }
 
     const handleEditButton = () =>{
         setEditMode(true);
     }
 
+    const handleSaveButton = () => {
+        setEditMode(false);
+    }
+
+    const buttonStyle = {
+        marginTop:"10px"
+    }
+
     const renderDadosUsuario = () => {
-        const buttonStyle = {width:"70px"}
         return (
             <div className="container">
                 <div className="card">
-                    <div className="card-title">
-                        <div>
-                            Seu perfil
-                        </div>
+                    <div className="card-title" style={{backgroundColor:"black", display:"flex", justifyContent:"center", color:"#2bce3b", fontWeight:"bold"}}>
+                            {webarberUser.nome}
                     </div>
-                    <div className="card-body">
+                    <div className="card-body" style={{backgroundColor:"black"}}>
                         <form>
-                            <div className="form-row">
-                                <input id="nome" name="nome" className="form-control" disabled={!editMode} value={userData.nome} placeholder="Digite seu nome" onChange={handleFormChange} style={buttonStyle}></input>
-                            </div>
-                            <div className="form-row">
-                                <input id="sobrenome" name="sobrenome" className="form-control" disabled={!editMode} value={userData.sobrenome} placeholder="Digite seu sobrenome" onChange={handleFormChange} style={buttonStyle}></input>
-                            </div>
-                            <div className="form-row">
-                                <input id="email" name="email" className="form-control" disabled={!editMode} value={userData.email} placeholder="Digite seu novo email" onChange={handleFormChange} style={buttonStyle}></input>
-                            </div>
-                            <div className="form-row">
-                                <input id="password" name="password" className="form-control" disabled={!editMode} value={userData.password_hash} type="password" placeholder="Digite sua nova senha" onChange={handleFormChange} style={buttonStyle}></input>
-                            </div>
-                            <div className="form-row">
-                                <input id={userData.CPF ? "CPF":"CNPJ"} name={userData.CPF ? "CPF":"CNPJ"} className="form-control" disabled={!editMode} value={userData.CPF? userData.CPF: userData.CNPJ } placeholder="Digite seu CPF" onChange={handleFormChange} style={buttonStyle}></input>
-                            </div>
+                           {Object.keys(userDataForm).map(field => 
+                                <Input disabled={!editMode} elementType={userDataForm[field].elementType} 
+                                        elementConfig={userDataForm[field].elementConfig} label={userDataForm[field].label} 
+                                        value={userDataForm[field].value} handleOnChange={handleFormChange}/>
+                                )}
+                            {/* {Object.keys(signUpForm).map(field=> 
+                            <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
+                                value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
+                                options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)} */}
                         </form>
-                        <button className={handleEditButtonState()} disabled={editMode} onClick={handleEditButton} style>Editar perfil</button>
+                        {!editMode ? <Button id="btn editar" buttonStyle={1} buttonText="Editar Perfil" handleOnClick={handleEditButton} style={buttonStyle}/> : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveButton   } style={buttonStyle}/>}
+                        {/* <button className={handleEditButtonState()} disabled={editMode} onClick={handleEditButton} >Editar perfil</button> */}
                     </div>
-                {/* {editMode && <button onClick={true}>salvar</button>} */}
                 </div>
             </div>
         )
     }
     
+    const autoFillUserData = () => {
+        const tempUserDataForm = {...userDataForm};
+        Object.keys(userData).map(field => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}))
+        console.log(tempUserDataForm)
+
+    }
+
     const renderPaginaInvalida = () => {
         return(
             <div>
@@ -76,11 +162,22 @@ export default function PaginaUsuario(){
             </div>
         )
     }
+
+    const renderUserPage = () => {
+        if(webarberUser.id === +id){
+            return renderDadosUsuario();
+        }
+        else{
+            return renderPaginaInvalida();
+        }
+    }
     
     return (<div>
         <NavBar></NavBar>
-        {(!loading && userData && userData.id === +id)?renderDadosUsuario(): renderPaginaInvalida()}
+        {!webarberUser && !userData ? <Loading/> : renderUserPage()}
     </div>
     )
 
 }
+
+export default PaginaUsuario;

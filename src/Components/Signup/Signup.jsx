@@ -1,146 +1,269 @@
-import './index.css';
-import createUser from './Signup'
-import Header from './Header';
+import './Signup.css'
+import Helmet from 'react-helmet';
+import Button from '../UI/Button/Button';
 import Input from '../UI/Forms/Input/Input';
-import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router-dom';
 import React, { useState } from 'react';
+import ImageHeader from '../UI/ImageHeader/ImageHeader';
 import { Link } from 'react-router-dom';
+import Loading from '../UI/Loading/Loading'
 
-export default function SignUp(props) {
-    const [signup, setSignUp] = useState({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ:null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: '' });
-    const updateForm = (event) => setSignUp({ ...signup, [event.target.name]: event.target.value });
+const url = process.env.REACT_APP_BASE_URL;
 
-    const updateCnpjCpf = (event) => {
-        let index = signup.tipoPessoa === "pj" ? "CPF": "CNPJ";
-        setSignUp({...signup, [event.target.name]: event.target.value, [index]: null});
+const SignUp = ({email, password}) => {
+    let history = useHistory();
+    const [loading, setLoading] = useState(false);
+    // const [alertMessage, setAlertMessage] = useState(null);
+    const maskNumDocumento = {CPF: {mask:'999.999.999-99', placeholder: '123.456.789.10'}, 
+                              CNPJ: {mask: '99.999.999/9999-9', placeholder: '12.345.789/000-0'}};
+    const[signUpForm, setSignUpForm] = useState ({
+        nome:{
+            elementType: 'input',
+            elementConfig:{
+                id:'nome',
+                name:'nome',
+                type:'text',
+                placeholder:"Nome"
+            },
+            label: 'Nome',
+            value: '',
+            validation: {
+
+            },
+            valid: false,
+            touched: false
+        },
+        sobrenome:{
+            elementType: 'input',
+            elementConfig:{
+                id:'sobrenome',
+                name:'sobrenome',
+                type:'text',
+                placeholder:"Sobrenome"
+            },
+            label: 'Sobrenome',
+            value: '',
+            validation: {
+
+            },
+            valid: false,
+            touched: false
+        },
+        tipoPessoa:{
+            elementType: 'select',
+            elementConfig:{
+                id:'tipoPessoa',
+                name:'tipoPessoa',
+                placeholder:"Tipo Pessoa",
+                options:[
+                    {optionValue: "CPF", optionText: "Pessoa Física"},
+                    {optionValue: "CNPJ", optionText: "Pessoa Jurídica"}
+                ],
+            },
+            label: 'Tipo Pessoa',
+            value: '',
+            validation: {
+
+            },
+            valid: false,
+            touched: false
+        },          
+        numDocumento:{
+            elementType: 'input',
+            elementConfig:{
+                id:'numDocumento',
+                name:'numDocumento',
+                type:'text',
+                placeholder: maskNumDocumento['CPF'].placeholder,
+                mask: maskNumDocumento['CPF'].mask
+            },
+            label: 'CPF',
+            value: '',
+            validation: {
+
+            },
+            valid: false,
+            touched: false
+        },
+        idTipo:{
+            elementType: 'select',
+            elementConfig:{
+                id:'idTipo',
+                name:'idTipo',
+                placeholder: 'Escolha o tipo de usuário',
+                options:[
+                    {optionValue: "1", optionText: "Usuário"},
+                    {optionValue: "2", optionText: "Moderador"}
+                ],
+            },
+            label: 'Tipo Usuário',
+            value: '',
+            validation: {},
+            valid: false,
+            touched: false
+        },  
+        email:{
+            elementType: 'input',
+            elementConfig:{
+                id:'email',
+                name:'email',
+                type:'text',
+                placeholder:"E-mail"
+            },
+            label: 'E-mail',
+            value: ''
+        },     
+        confirmacaoEmail:{
+            elementType: 'input',
+            elementConfig:{
+                id:'confirmacaoEmail',
+                name:'confirmacaoEmail',
+                type:'email',
+                placeholder:"Confirme o e-mail"
+            },
+            label: 'Confirme seu email',
+            value: '',
+            validation: {},
+            valid: false,
+            touched: false
+        },     
+        password:{
+            elementType: 'input',
+            elementConfig:{
+                id:'password',
+                name:'password',
+                type:'password',
+                placeholder: 'Senha'
+            },
+            label: 'Senha',
+            value: '',
+            validation: {},
+            valid: false,
+            touched: false
+        },     
+        confirmacaoPassword:{
+            elementType: 'input',
+            elementConfig:{
+                id:'confirmacaoPassword',
+                name:'confirmacaoPassword',
+                type:'password',
+                placeholder: 'Confirme a senha'
+            },
+            label: 'Confirme sua senha',
+            value: '',
+            validation: {},
+            valid: false,
+            touched: false
+        }
+    })
+    
+    const handleSignUp = async() =>{
+        setLoading(true);
+        try{
+            let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [key]: signUpForm[key].value}),{});
+            newUser = {...newUser, [newUser.tipoPessoa]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
+            console.log(newUser);
+            let response = await fetch(`${url}/cadastro`, { method: 'post', 
+                                                            headers: new Headers({ 'Content-Type': 'application/json'}),
+                                                            body:  JSON.stringify(newUser)
+                                                          }
+            );
+            if(response.status === 201){
+                alert('Cadastro realizado com sucesso.');
+                history.push('/login');
+            }
+            else{
+                let { message } = await response.json();
+                alert(message);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+        setLoading(false);
     }
 
-    const handleCpfCnpjInput= () =>{
-        let index = signup.tipoPessoa === "pj" ? 1: 0;
-        const labels = ["CPF", "CNPJ"];
-        const placeHolders = ["123.456.789-10", "12.345.678/0001-00"];
-        const masks = ["999.999.999-99", "99.999.999/9999-99"];
-        return ( 
-                <>
-                <div className="form-group row">
-                    <div className="label" htmlFor="cpf">
-                        {labels[index]}
-                    </div>
-                    <InputMask className="form-control" mask={masks[index]} value={signup[labels[index]]} name ={labels[index]} placeholder={placeHolders[index]} onChange={updateCnpjCpf} type="text"></InputMask>
-                </div>
-                {signup.tipoPessoa !== "" && signup[labels[index]] === null? <p className = "p-alert"> {`Preencher ${labels[index]}.`}</p>: ''}
-                </>
-        )
-    }
-
-    const handleSubmit = async (event) => {
+    const handleOnClick = async (event) => {
         event.preventDefault();
-        let res = await createUser(signup);
-        if(res.status === 201){
-            alert("Cadastro concluído com sucesso.");
-            props.history.push("/login");
-            setSignUp({ nome: '', sobrenome: '', tipoPessoa: '', CPF: null, CNPJ: null, email: '', confirmacaoEmail: '', password: '', confirmacaoSenha: '', idTipo: ''});
-        }
-        else{
-            alert(res.message);
-        }
+        await handleSignUp();
     }
 
-    const handleButtonClass = () => {
-        return `btn btn-custom ${(handleButtonState()) ? "active" : "disabled"}`;
-    }
+    // const validateFields = () =>{
+    //     let valid = false;
+    //     if(valid){
+    //         setAlertMessage()
+    //     }
+    //     else if(signUpForm.password.value === signUpForm.confirmacaoPassword.value){
+    //         setAlertMessage("Senhas não são iguais");
+    //     }
+    //     else if(signUpForm.email.value === signUpForm.confirmacaoEmail.value){
+    //         setAlertMessage("Senhas não são iguais");
+    //     }  
+    //     else if(signUpForm.tipoPessoa.value === "CPF" && signUpForm.numDocumento.replace('.','').replace('_', '').length<11){
+    //         setAlertMessage("Preencher com um CPF válido");
+    //     }
+    //     else if(signUpForm.tipoPessoa.value === "CNPJ" && signUpForm.numDocumento.replace('.','').replace('_', '').replace('/', '').length <12){
+    //         setAlertMessage("Preencher com um CNPJ válido");
+    //     }
+    //     setAlertMessage(null);
+    //     valid = true;
+    //     return valid;
+    // }
 
-    const validateCnpjCpf = () =>{
-        return  signup.tipoPessoa === "pj" ?  signup[signup.tipoPessoa] !== '' && new RegExp(/\d{2}.\d{3}.\d{3}[/]\d{4}-\d{2}/).test(signup.CNPJ) : signup[signup.tipoPessoa] !== '' && new RegExp(/\d{3}.\d{3}.\d{3}-\d{2}/).test(signup.CPF);
+    const handleOnChange = (event) => {
+            if(event.target.name === "tipoPessoa") {
+                setSignUpForm({...signUpForm, [event.target.name]:{ 
+                    ...signUpForm[event.target.name], value: event.target.value, 
+                    },
+                    numDocumento:{
+                        ...signUpForm.numDocumento, label: event.target.value,
+                        elementConfig:{
+                            ...signUpForm.numDocumento.elementConfig, mask: maskNumDocumento[event.target.value].mask,
+                            placeholder: maskNumDocumento[event.target.value].placeholder
+                        }
+
+                    }, 
+                });
+            }
+            else{
+                setSignUpForm({...signUpForm, [event.target.name]:{ 
+                    ...signUpForm[event.target.name], value: event.target.value}});
+            }
+        }
+
+    const inputStyle = {
+        width:"50%", 
+        display:"flex", 
+        margin:"auto auto"
     }
-    const handleButtonState = () => {
-        return (signup.nome !== '') && (signup.sobrenome !== '') && (signup.email !== "") && (signup.password === signup.confirmacaoSenha) && (signup.email === signup.confirmacaoEmail) && (signup.password.length >= 8) && (validateCnpjCpf()) && signup.idTipo !== '' && signup.tipoPessoa !== '';
+    
+    const renderSignUpForm = () => {
+        return(
+                <div>
+                    <ImageHeader/>
+                    {Object.keys(signUpForm).map(field=> 
+                            <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
+                                value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
+                                options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
+                    <div className="a form">
+                        <Link to="/login">
+                            Já é cadastrado?
+                        </Link>
+                    </div>
+                    <div>
+                        <Button id="btn signup" buttonText="Cadastrar" handleOnClick={handleOnClick}/>
+                    </div>
+                </div>
+        )
     }
 
     return (
         <>
             <Helmet>
-                <title>Cadastro</title>
+                <title>Webarber - Cadastro usuário</title>
             </Helmet>
-            <Header></Header>
-            <div className="container">
-                <div className="row">
-                    <form onSubmit={handleSubmit}>
-                        <fieldset>
-                            <div className="form-group row">
-                                <div className="label" htmlFor="nome">
-                                    Nome
-                                </div>
-                                <input id="nome" name="nome" className="form-control" type="text" placeholder="John" value={signup.nome} onChange={updateForm} required={true} />
-                            </div>
-                            <div className="form-group row">
-                                <div className="label" htmlFor="sobrenome">
-                                    Sobrenome
-                                </div>
-                                <input id="sobrenome" name="sobrenome" className="form-control" type="text" value={signup.sobrenome} placeholder="Eid Fernandes" onChange={updateForm} required={true} />
-                            </div>
-                            <div className="form-group row">
-                                <div className="label" htmlFor="tipoPessoa">
-                                    Tipo Pessoa
-                                </div>
-                                <select className="form-control" name="tipoPessoa" id="selectTipoPessoa" value={signup.tipoPessoa} onChange={updateForm}>
-                                    <option className="option" value="" defaultValue>Selecione</option>
-                                    <option className="option" value="pf">PF</option>
-                                    <option className="option" value="pj">PJ</option>
-                                </select>
-                            </div>
-                            {signup.tipoPessoa === "" ? <p className="p-alert">Selecionar tipo pessoa.</p>: ''}
-                            <div className="form-group row">
-                                <div className="label" htmlFor="confirmacaoSenha">
-                                    Tipo de usuário
-                                </div>
-                                <select className="form-control" name="idTipo" id="select" value={signup.idTipo} onChange={updateForm}>
-                                    <option className="option" value="" defaultValue>Selecione</option>
-                                    <option className="option" value="1">Usuário</option>
-                                    {signup.tipoPessoa === "pj" || signup.tipoPessoa === "" ? <option className="option" value="2">Moderador</option> : null}
-                                </select>
-                            </div>
-                            {/* {signup.idTipo === "" ? <p className="p-alert">Selecionar tipo de usuário.</p>: ''} */}
-                            {handleCpfCnpjInput()}
-                            <div className="form-group row">
-                                <div className="label" htmlFor="email">
-                                    E-mail
-                                </div>
-                                <input id="email" className="form-control" name="email" type="email" value={signup.email} placeholder="exemplo@email.com" onChange={updateForm} />
-                            </div>
-                            <div className="form-group row" >
-                                <div className="label" htmlFor="confirmacaoEmail">
-                                    Confirme o e-mail
-                                </div>
-                                <input id="confirmacaoEmail" className="form-control" name="confirmacaoEmail" value={signup.confirmacaoEmail} type="email" placeholder="exemplo@email.com" onChange={updateForm} />
-                            </div>
-                            {signup.email !== signup.confirmacaoEmail && signup.email !== "" ? <p className="p-alert">O e-mail precisa ser igual ao anterior.</p>: ""}
-                            <div className="form-group row">
-                                <div className="label" htmlFor="senha">
-                                    Senha
-                                </div>
-                                <input id="senha" className="form-control" name="password" minLength="8" type="password" value={signup.password} placeholder="Senha" onChange={updateForm} />
-                            </div>
-                            {signup.password.length < 8 && signup.password !== "" ? <p className="p-alert">A senha precisa ter no mínimo 8 caracteres</p>: ""}
-                            <div className="form-group row">
-                                <div className="label" htmlFor="confirmacaoSenha">
-                                    Confirme a senha
-                                </div>
-                                <input id="confirmacaoSenha" className="form-control" name="confirmacaoSenha" minLength="8" type="password" value={signup.confirmacaoSenha} placeholder="Confirme a senha" onChange={updateForm} />
-                            </div>
-                            {signup.password!== "" && signup.password !== signup.confirmacaoSenha? <p className="p-alert">As senha precisam ser iguais.</p>: ''}
-                            <div className="container">
-                                <Link to="/login">
-                                    <div className="mylink">
-                                        Já é cadastrado?
-                                    </div>
-                                </Link>
-                            </div>
-                            <button type="submit" disabled={!handleButtonState()} className={handleButtonClass()}>Cadastrar</button>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
+           {loading ? <Loading/> : renderSignUpForm()}
         </>
     )
-}
+    }
+export default SignUp;

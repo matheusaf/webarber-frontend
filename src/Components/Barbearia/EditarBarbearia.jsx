@@ -1,83 +1,95 @@
-import React, { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom'
-import FormularioBarbearia from './FormularioBarbearia'
-import { UserContext } from '../../UserContext'
-// import { fromAddress } from 'react-geocode';
+import React, { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../User/UserContext';
 import { Helmet } from 'react-helmet';
+import NavBar from '../UI/NavBar/NavBar';
+import Loading from '../UI/Loading/Loading';
+import Button from '../UI/Button/Button';
+import FormularioBarbearia from './Formulario/FormularioBarbearia';
 
-export default function EditarBarbearia(){
-    console.log(useParams());
+const url = process.env.REACT_APP_BASE_URL;
+
+const EditarBarbearia = () => {
     const { webarberUser } = useContext(UserContext);
+    const [dadosBarbearia, setDadosBarbearia] = useState();
+    const [loading, setLoading] = useState(true);
 
-    const [create, setCreate] = useState({
-        nome: '', endereco: '', enderecoNumero: '', bairro: '',
-        cidade: '', estado: '', telefone: '', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id :1,
-    });
-    const [alert, setAlert] = useState({show: false, message: `Erro ao criar`});
-
-
-        const handleSubmit = async (e) => {
-        e.preventDefault();
-        // create.endereco = [create.rua, create.enderecoNumero, create.bairro, create.cidade, create.estado].join(',');
-        try {
-            let horarioAbertura = new Date();
-            horarioAbertura.setHours(...create.horarioAbertura.split(':'));
-            create.horarioAbertura = horarioAbertura;
-
-            let horarioFechamento = new Date();
-            horarioFechamento.setHours(...create.horarioFechamento.split(':'));
-            create.horarioFechamento = horarioFechamento
-
-            const url = "http://localhost:8080"
-            const response = await fetch(`${url}/barbearias`, {
-                method: "post",
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(create)
-            })
+    const fetchDadosBarbearia = async () => {
+        setLoading(true);
+        let response = await fetch(`${url}/barbearia/`, {method: 'get',
+                                                        headers: new Headers({"Content-Type": "application/json",
+                                                                              "Authorization": `Bearer ${webarberUser.sessionToken}`})})
+        if(response.status === 200){
             let json = await response.json();
-            if (response.status !== 201) {
-                throw new Error(json.message);
-            }
-            setCreate({
-                nome: '', endereco: '', enderecoNumero: '', bairro: '',
-                cidade: '', estado: '', telefone: '', horarioAbertura: '10:10:10', horarioFechamento: '22:22:22', user_id: Number(localStorage.getItem('userId'))
-            });
-        } catch (err) {
-            setAlert({show: true, ...alert})
+            setDadosBarbearia(json);
+        }
+        else{
+            console.log(response)
+            alert('erro');
         }
     }
-       const handleButtonState = () => {
-        for (let prop of Object.keys(create)) {
-            if (!create[prop] && create[prop].length < 2)
-                return false;
-        }
-        return true;
-    }
+    
+    useEffect(()=>{
+        fetchDadosBarbearia();
+    }, [])
 
-       const handleButtonClass = () => {
-        return `btn btn-custom ${(handleButtonState())? "active" : "disabled"}`;
-    }
 
-        const handleCreateError = () => {
+    const  renderNotFound = () => {
         return (
-            <div className="alert alert-danger" role="alert">
-                <strong>{alert.message}</strong>
-            </div>
-        );
+            <>
+                <NavBar/>
+                <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {"Não foi possível encontrar a barbearia selecionada."}</h3>
+            </>
+        )
+    }
+
+    const handleEditBarbearia = async (formData) => {
+        setLoading(true);
+        try{
+            let editBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [prop]: formData[prop].value}), {}), user_id:1};
+            editBarbearia.horarioAbertura = new Date().setHours(editBarbearia.horarioAbertura.split(":"));
+            editBarbearia.horarioFechamento = new Date().setHours(editBarbearia.horarioFechamento.split(":"));
+            const response = await fetch(`${url}/barbearia`, {method: "patch",
+                                                           headers: new Headers({"Content-Type": "application/json",
+                                                                                  "Authorization": `Bearer ${webarberUser.sessionToken}`}),
+                                                           body: JSON.stringify(editBarbearia)});
+            console.log(response);
+            console.log(editBarbearia)
+            if(response.status === 200){
+                alert("Barbearia alterada com sucesso.");
+            }
+            else{
+                const { message } = await response.json();
+                alert(message);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+        setLoading(false);
+    }
+
+    
+    const renderForm = () =>{
+        return (
+            <div>
+                    <NavBar/>
+                    <FormularioBarbearia dadosBarbearia={dadosBarbearia} handleOnSubmitActiom={handleEditBarbearia}/>
+                    <Button id="btn editarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Salvar Alterações" style={{margin:"10px auto"}}/>
+                </div>
+        )
+    }
+
+    const renderEditBarbearia = () => {
+        return(!dadosBarbearia ? renderNotFound() : renderForm())
     }
 
     return (
             <>
-                <Helmet>
-                    <title>Editar barbearia</title>
-                </Helmet>
-                <div>
-                    <form onSubmit={handleSubmit}>
-                        <FormularioBarbearia create={create} setCreate={setCreate} ></FormularioBarbearia>
-                        <button disabled={!handleButtonState} className={handleButtonClass()} style = {{ margin: "auto", display:"flex", justifyContent:"center" }}>Salvar Alterações</button>
-                        {alert.show && handleCreateError()}
-                    </form> 
-                </div>
+            <Helmet>
+                <title>Editar Barbearia</title>
+            </Helmet>
+            {loading && !webarberUser ? <Loading/> : renderEditBarbearia()}
             </>
     )
 }
+export default EditarBarbearia;
