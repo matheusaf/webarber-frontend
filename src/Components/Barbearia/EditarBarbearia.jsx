@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../User/UserContext';
-import { Helmet } from 'react-helmet';
-import NavBar from '../UI/NavBar/NavBar';
-import Loading from '../UI/Loading/Loading';
-import Button from '../UI/Button/Button';
-import FormularioBarbearia from './Formulario/FormularioBarbearia';
+import React, { useState, useContext, useEffect } from "react";
+import { UserContext } from "../User/UserContext";
+import { Helmet } from "react-helmet";
+import NavBar from "../UI/NavBar/NavBar";
+import Loading from "../UI/Loading/Loading";
+import Button from "../UI/Button/Button";
+import FormularioBarbearia from "./Formulario/FormularioBarbearia";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -15,7 +15,7 @@ const EditarBarbearia = () => {
 
     const fetchDadosBarbearia = async () => {
         setLoading(true);
-        let response = await fetch(`${url}/barbearia/`, {method: 'get',
+        let response = await fetch(`${url}/barbearia/`, {method: "get",
                                                         headers: new Headers({"Content-Type": "application/json",
                                                                               "Authorization": `Bearer ${webarberUser.sessionToken}`})})
         if(response.status === 200){
@@ -23,14 +23,13 @@ const EditarBarbearia = () => {
             setDadosBarbearia(json);
         }
         else{
-            console.log(response)
-            alert('erro');
+            alert("erro");
         }
-    }
+    };
     
-    useEffect(()=>{
+    useEffect(() => {
         fetchDadosBarbearia();
-    }, [])
+    }, []);
 
 
     const  renderNotFound = () => {
@@ -40,7 +39,7 @@ const EditarBarbearia = () => {
                 <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {"Não foi possível encontrar a barbearia selecionada."}</h3>
             </>
         )
-    }
+    };
 
     const handleEditBarbearia = async (formData) => {
         setLoading(true);
@@ -56,8 +55,6 @@ const EditarBarbearia = () => {
                 }),
                 body: JSON.stringify(editBarbearia)
             });
-            console.log(response);
-            console.log(editBarbearia)
             if (response.status === 200) {
                 alert("Barbearia alterada com sucesso.");
             } else {
@@ -69,10 +66,10 @@ const EditarBarbearia = () => {
             console.log(err);
         }
         setLoading(false);
-    }
+    };
 
     
-    const renderForm = () =>{
+    const renderForm = () => {
         return (
             <div>
                 <NavBar/>
@@ -80,11 +77,11 @@ const EditarBarbearia = () => {
                 <Button id="btn editarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Salvar Alterações" style={{margin:"10px auto"}}/>
             </div>
         )
-    }
+    };
 
     const renderEditBarbearia = () => {
         return(!dadosBarbearia ? renderNotFound() : renderForm())
-    }
+    };
 
     return (
             <>
@@ -93,6 +90,6 @@ const EditarBarbearia = () => {
             </Helmet>
             {loading && !webarberUser ? <Loading/> : renderEditBarbearia()}
             </>
-    )
+    );
 }
 export default EditarBarbearia;
