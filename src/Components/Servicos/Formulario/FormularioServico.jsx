@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Input from '../../UI/Forms/Input/Input';
-import Button from '../../UI/Button/Button';
-import NavBar from '../../UI/NavBar/NavBar';
-import Loading from '../../UI/Loading/Loading';
-import { UserContext } from '../../User/UserContext';
+import React, { useState, useEffect, useContext } from "react";
+import Input from "../../UI/Forms/Input/Input";
+import Button from "../../UI/Button/Button";
+import NavBar from "../../UI/NavBar/NavBar";
+import Loading from "../../UI/Loading/Loading";
+import { UserContext } from "../../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -43,24 +43,24 @@ const CadastrarServico = () => {
 			label: "descricao",
 			value: ""
 		}
-	})
+	});
 
 	const handleOnClick = async () => {
 		try {
-			let barbearia_id = await fetch(`${url}/barbearia`, {
+			let barbeariaId = await fetch(`${url}/barbearia`, {
 				method: "get",
 				headers: new Headers({
 					"Content-Type": "application/json","Authorization": `Bearer ${webarberUser.sessionToken}`
 				}),
 			});
 			
-			if (barbearia_id.status === 201)
-				throw new Error(barbearia_id.body.message)
+			if (barbeariaId.status === 201)
+				throw new Error(barbeariaId.body.message)
 			
-			barbearia_id = await barbearia_id.json();
+			barbeariaId = await barbeariaId.json();
 			
 			let formData = Object.keys(servicoForm).reduce((obj, field) => ({...obj, [field]: servicoForm[field].value}), {})
-			formData.barbearia_id = barbearia_id.id;
+			formData.barbearia_id = barbeariaId.id;
 			console.log(formData);
 			
 			const response = await fetch(`${url}/servicos`, {
@@ -72,10 +72,10 @@ const CadastrarServico = () => {
 			});
 			
 			if (response.status !== 201) {
-				throw new Error(response.body.message || 'Não foi possível criar o serviço');
+				throw new Error(response.body.message || "Não foi possível criar o serviço");
 			}
 
-			alert('Serviço criado');
+			alert("Serviço criado");
 		} catch (err) {
 			alert(err.message);
 			console.log(err);

@@ -1,12 +1,12 @@
-import './Signup.css'
-import Helmet from 'react-helmet';
-import Button from '../UI/Button/Button';
-import Input from '../UI/Forms/Input/Input';
-import { useHistory } from 'react-router-dom';
-import React, { useState } from 'react';
-import ImageHeader from '../UI/ImageHeader/ImageHeader';
-import { Link } from 'react-router-dom';
-import Loading from '../UI/Loading/Loading'
+import "./Signup.css";
+import Helmet from "react-helmet";
+import Button from "../UI/Button/Button";
+import Input from "../UI/Forms/Input/Input";
+import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import ImageHeader from "../UI/ImageHeader/ImageHeader";
+import { Link } from "react-router-dom";
+import Loading from "../UI/Loading/Loading";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -14,19 +14,19 @@ const SignUp = ({email, password}) => {
     let history = useHistory();
     const [loading, setLoading] = useState(false);
     // const [alertMessage, setAlertMessage] = useState(null);
-    const maskNumDocumento = {CPF: {mask:'999.999.999-99', placeholder: '123.456.789.10'}, 
-                              CNPJ: {mask: '99.999.999/9999-9', placeholder: '12.345.789/000-0'}};
+    const maskNumDocumento = {CPF: {mask:"999.999.999-99", placeholder: "123.456.789.10"}, 
+                              CNPJ: {mask: "99.999.999/9999-9", placeholder: "12.345.789/000-0"}};
     const[signUpForm, setSignUpForm] = useState ({
         nome:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'nome',
-                name:'nome',
-                type:'text',
+                id:"nome",
+                name:"nome",
+                type:"text",
                 placeholder:"Nome"
             },
-            label: 'Nome',
-            value: '',
+            label: "Nome",
+            value: "",
             validation: {
 
             },
@@ -34,15 +34,15 @@ const SignUp = ({email, password}) => {
             touched: false
         },
         sobrenome:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'sobrenome',
-                name:'sobrenome',
-                type:'text',
+                id:"sobrenome",
+                name:"sobrenome",
+                type:"text",
                 placeholder:"Sobrenome"
             },
-            label: 'Sobrenome',
-            value: '',
+            label: "Sobrenome",
+            value: "",
             validation: {
 
             },
@@ -50,18 +50,18 @@ const SignUp = ({email, password}) => {
             touched: false
         },
         tipoPessoa:{
-            elementType: 'select',
+            elementType: "select",
             elementConfig:{
-                id:'tipoPessoa',
-                name:'tipoPessoa',
+                id:"tipoPessoa",
+                name:"tipoPessoa",
                 placeholder:"Tipo Pessoa",
                 options:[
                     {optionValue: "CPF", optionText: "Pessoa Física"},
                     {optionValue: "CNPJ", optionText: "Pessoa Jurídica"}
                 ],
             },
-            label: 'Tipo Pessoa',
-            value: '',
+            label: "Tipo Pessoa",
+            value: "",
             validation: {
 
             },
@@ -69,16 +69,16 @@ const SignUp = ({email, password}) => {
             touched: false
         },          
         numDocumento:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'numDocumento',
-                name:'numDocumento',
-                type:'text',
-                placeholder: maskNumDocumento['CPF'].placeholder,
-                mask: maskNumDocumento['CPF'].mask
+                id:"numDocumento",
+                name:"numDocumento",
+                type:"text",
+                placeholder: maskNumDocumento["CPF"].placeholder,
+                mask: maskNumDocumento["CPF"].mask
             },
-            label: 'CPF',
-            value: '',
+            label: "CPF",
+            value: "",
             validation: {
 
             },
@@ -86,71 +86,71 @@ const SignUp = ({email, password}) => {
             touched: false
         },
         idTipo:{
-            elementType: 'select',
+            elementType: "select",
             elementConfig:{
-                id:'idTipo',
-                name:'idTipo',
-                placeholder: 'Escolha o tipo de usuário',
+                id:"idTipo",
+                name:"idTipo",
+                placeholder: "Escolha o tipo de usuário",
                 options:[
                     {optionValue: "1", optionText: "Usuário"},
                     {optionValue: "2", optionText: "Moderador"}
                 ],
             },
-            label: 'Tipo Usuário',
-            value: '',
+            label: "Tipo Usuário",
+            value: "",
             validation: {},
             valid: false,
             touched: false
         },  
         email:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'email',
-                name:'email',
-                type:'text',
+                id:"email",
+                name:"email",
+                type:"text",
                 placeholder:"E-mail"
             },
-            label: 'E-mail',
-            value: ''
+            label: "E-mail",
+            value: ""
         },     
         confirmacaoEmail:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'confirmacaoEmail',
-                name:'confirmacaoEmail',
-                type:'email',
+                id:"confirmacaoEmail",
+                name:"confirmacaoEmail",
+                type:"email",
                 placeholder:"Confirme o e-mail"
             },
-            label: 'Confirme seu email',
-            value: '',
+            label: "Confirme seu email",
+            value: "",
             validation: {},
             valid: false,
             touched: false
         },     
         password:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'password',
-                name:'password',
-                type:'password',
-                placeholder: 'Senha'
+                id:"password",
+                name:"password",
+                type:"password",
+                placeholder: "Senha"
             },
-            label: 'Senha',
-            value: '',
+            label: "Senha",
+            value: "",
             validation: {},
             valid: false,
             touched: false
         },     
         confirmacaoPassword:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id:'confirmacaoPassword',
-                name:'confirmacaoPassword',
-                type:'password',
-                placeholder: 'Confirme a senha'
+                id:"confirmacaoPassword",
+                name:"confirmacaoPassword",
+                type:"password",
+                placeholder: "Confirme a senha"
             },
-            label: 'Confirme sua senha',
-            value: '',
+            label: "Confirme sua senha",
+            value: "",
             validation: {},
             valid: false,
             touched: false
@@ -163,14 +163,14 @@ const SignUp = ({email, password}) => {
             let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [key]: signUpForm[key].value}),{});
             newUser = {...newUser, [newUser.tipoPessoa]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
             console.log(newUser);
-            let response = await fetch(`${url}/cadastro`, { method: 'post', 
-                                                            headers: new Headers({ 'Content-Type': 'application/json'}),
+            let response = await fetch(`${url}/cadastro`, { method: "post", 
+                                                            headers: new Headers({ "Content-Type": "application/json"}),
                                                             body:  JSON.stringify(newUser)
                                                           }
             );
             if(response.status === 201){
-                alert('Cadastro realizado com sucesso.');
-                history.push('/login');
+                alert("Cadastro realizado com sucesso.");
+                history.push("/login");
             }
             else{
                 let { message } = await response.json();
@@ -199,10 +199,10 @@ const SignUp = ({email, password}) => {
     //     else if(signUpForm.email.value === signUpForm.confirmacaoEmail.value){
     //         setAlertMessage("Senhas não são iguais");
     //     }  
-    //     else if(signUpForm.tipoPessoa.value === "CPF" && signUpForm.numDocumento.replace('.','').replace('_', '').length<11){
+    //     else if(signUpForm.tipoPessoa.value === "CPF" && signUpForm.numDocumento.replace(".","").replace("_", "").length<11){
     //         setAlertMessage("Preencher com um CPF válido");
     //     }
-    //     else if(signUpForm.tipoPessoa.value === "CNPJ" && signUpForm.numDocumento.replace('.','').replace('_', '').replace('/', '').length <12){
+    //     else if(signUpForm.tipoPessoa.value === "CNPJ" && signUpForm.numDocumento.replace(".","").replace("_", "").replace("/", "").length <12){
     //         setAlertMessage("Preencher com um CNPJ válido");
     //     }
     //     setAlertMessage(null);

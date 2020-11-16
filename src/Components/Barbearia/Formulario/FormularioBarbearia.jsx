@@ -1,121 +1,121 @@
-import React, { useEffect, useState } from 'react';
-import SignUp from '../../Signup/Signup';
-import Input from '../../UI/Forms/Input/Input'
+import React, { useEffect, useState } from "react";
+import SignUp from "../../Signup/Signup";
+import Input from "../../UI/Forms/Input/Input"
 
 const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
     const [barbeariaForm, setBarbeariaForm] = useState({
         nome: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'nome',
-                name: 'nome',
-                type: 'text',
-                placeholder: 'Nome da Barbearia'
+                id: "nome",
+                name: "nome",
+                type: "text",
+                placeholder: "Nome da Barbearia"
             },
-            label: 'Nome da Barbearia' ,
-            value: ''
+            label: "Nome da Barbearia" ,
+            value: ""
         },
         endereco: {
-            elementType: 'address',
+            elementType: "address",
             elementConfig:{
-                id: 'endereco',
-                name: 'endereco',
-                type: 'address',
-                placeholder: 'Endereço'
+                id: "endereco",
+                name: "endereco",
+                type: "address",
+                placeholder: "Endereço"
             },
-            label: 'Endereço',
-            value: ''
+            label: "Endereço",
+            value: ""
         },
         numero: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'numero',
-                name: 'numero',
-                type: 'text',
+                id: "numero",
+                name: "numero",
+                type: "text",
                 maxLength:3,
-                placeholder: 'Número'
+                placeholder: "Número"
             },
-            label: 'Número',
-            value: ''
+            label: "Número",
+            value: ""
         },
         bairro: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'bairro',
-                name: 'bairro',
-                type: 'text',
-                placeholder: 'Bairro'
+                id: "bairro",
+                name: "bairro",
+                type: "text",
+                placeholder: "Bairro"
             },
-            label: 'Bairro',
-            value: ''
+            label: "Bairro",
+            value: ""
         },
         cidade: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'cidade',
-                name: 'cidade',
-                type: 'text',
-                placeholder: 'Cidade'
+                id: "cidade",
+                name: "cidade",
+                type: "text",
+                placeholder: "Cidade"
             },
-            label: 'Cidade',
-            value: ''
+            label: "Cidade",
+            value: ""
         },
         estado: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'estado',
-                name: 'estado',
-                type: 'text',
-                placeholder: 'Estado'
+                id: "estado",
+                name: "estado",
+                type: "text",
+                placeholder: "Estado"
             },
-            label: 'Estado',
-            value: ''
+            label: "Estado",
+            value: ""
         },
         cep: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'cep',
-                name: 'cep',
-                type: 'text',
-                placeholder: 'CEP',
-                mask: '99999-999'
+                id: "cep",
+                name: "cep",
+                type: "text",
+                placeholder: "CEP",
+                mask: "99999-999"
             },
-            label: 'CEP',
-            value: ''
+            label: "CEP",
+            value: ""
         },
         telefone: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'telefone',
-                name: 'telefone',
-                type: 'text',
-                placeholder: 'Telefone',
-                mask: '(99) 99999-9999'
+                id: "telefone",
+                name: "telefone",
+                type: "text",
+                placeholder: "Telefone",
+                mask: "(99) 99999-9999"
             },
-            label: 'Telefone',
-            value: ''
+            label: "Telefone",
+            value: ""
         },
         horarioAbertura: {
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
-                id: 'horarioAbertura',
-                name: 'horarioAbertura',
-                type: 'time',
-                placeholder: '00:00'
+                id: "horarioAbertura",
+                name: "horarioAbertura",
+                type: "time",
+                placeholder: "00:00"
             },
-            label: 'Horário Abertura',
-            value: ''
+            label: "Horário Abertura",
+            value: ""
         },
         horarioFechamento: {
-            elementType:'input',
+            elementType:"input",
             elementConfig:{
-                id:'horarioFechamento',
-                name: 'horarioFechamento',
-                type: 'time',
-                placeholder: '00:00'
+                id:"horarioFechamento",
+                name: "horarioFechamento",
+                type: "time",
+                placeholder: "00:00"
             },
-            label: 'Horário Fechamento',
-            value: ''
+            label: "Horário Fechamento",
+            value: ""
         }
     })
     
@@ -153,13 +153,13 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         bairro: "sublocality_level_1",
         cep: "postal_code",
         cidade: "administrative_area_level_2",
-        estado: 'administrative_area_level_1',
+        estado: "administrative_area_level_1",
     }
 
     const handleOnChange = (event) => {
         setBarbeariaForm({...barbeariaForm, [event.target.name]: {
                     ...barbeariaForm[event.target.name], value: event.target.value}});
-        if(event.target.name === 'endereco'){
+        if(event.target.name === "endereco"){
             setAutoFillState(false)
         }
     }

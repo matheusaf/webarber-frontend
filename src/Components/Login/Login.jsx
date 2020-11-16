@@ -1,13 +1,13 @@
-import './Login.css';
-import Helmet from 'react-helmet';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Input from '../UI/Forms/Input/Input';
-import Button from '../UI/Button/Button';
-import AlertBox from '../UI/AlertBox/AlertBox';
-import Loading from '../UI/Loading/Loading';
-import ImageHeader from '../UI/ImageHeader/ImageHeader';
-import { Link } from 'react-router-dom';
+import "./Login.css";
+import Helmet from "react-helmet";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import Input from "../UI/Forms/Input/Input";
+import Button from "../UI/Button/Button";
+import AlertBox from "../UI/AlertBox/AlertBox";
+import Loading from "../UI/Loading/Loading";
+import ImageHeader from "../UI/ImageHeader/ImageHeader";
+import { Link } from "react-router-dom";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -19,47 +19,46 @@ const Login = (props) => {
     const [loginForm, setLoginForm] = useState(
         {
             email:{
-                elementType: 'input',
+                elementType: "input",
                 elementConfig:{
-                    id: 'email',
-                    name:'email',
-                    type: 'text',
-                    placeholder: 'E-mail'
+                    id: "email",
+                    name:"email",
+                    type: "text",
+                    placeholder: "E-mail"
                 },
-                label: 'E-mail',
-                value: ''
+                label: "E-mail",
+                value: ""
             },
             password:{
-                elementType: 'input',
+                elementType: "input",
                 elementConfig:{
-                    id: 'password',
-                    name:'password',
-                    type: 'password',
-                    placeholder: 'Senha',
-                    minLength:'8'
+                    id: "password",
+                    name:"password",
+                    type: "password",
+                    placeholder: "Senha",
+                    minLength:"8"
                 },
-                label: 'Senha',
-                value: ''
+                label: "Senha",
+                value: ""
             }
-        })
+        });
 
     const handleLogin = async() => {
         setAlertMessage(null);
         setLoading(true);
         let user = {email: loginForm.email.value, password: loginForm.password.value};
         try{
-            let response = await fetch(`${url}/login`, { method:'post',
+            let response = await fetch(`${url}/login`, { method:"post",
                                 headers: new Headers(
-                                {'Content-Type': 'application/json'}),
+                                {"Content-Type": "application/json"}),
                                 body: JSON.stringify(user)
                             }
-            )
+            );
             if(response.status === 200){
                 let {id, nome, idTipo, sessionToken} = await response.json();
                 let webarberUser = {id: id, nome: nome, idTipo: idTipo, sessionToken: sessionToken};
-                localStorage.setItem('webarberUser', JSON.stringify(webarberUser));
-                alert("Logged in")
-                history.push('/');
+                localStorage.setItem("webarberUser", JSON.stringify(webarberUser));
+                history.push("/");
                 window.location.reload();
             }
             else{
@@ -71,34 +70,34 @@ const Login = (props) => {
             alert(err);
         }
         setLoading(false);
-    }
+    };
 
     const handleOnChange = (event) => {
         setLoginForm({...loginForm, [event.target.name]:{ 
                 ...loginForm[event.target.name], value: event.target.value}});
-    }
+    };
   
     const inputStyle = {
         width:"50%", 
         display:"flex", 
         margin:"auto auto"
-    }
+    };
 
     const handleOnClick = async (event) => {
         event.preventDefault();
         await handleLogin();
-    }
+    };
 
     const handleDisabled = () => {
         return !(loginForm.email.value && loginForm.password.value && loginForm.password.value.length>=8);
-    }
+    };
 
-    const renderLogin = () =>{
+    const renderLogin = () => {
         return(
             <div className="container login">
                 <ImageHeader/>
                 <div>
-                    {Object.keys(loginForm).map(field=> 
+                    {Object.keys(loginForm).map(field => 
                         <Input elementType={loginForm[field].elementType} label={loginForm[field].label} 
                                value={loginForm[field].value} elementConfig={loginForm[field].elementConfig} 
                                handleOnChange={handleOnChange} style={inputStyle}/>)}

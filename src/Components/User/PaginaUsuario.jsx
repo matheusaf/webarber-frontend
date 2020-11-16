@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { UserContext } from '../../Components/User/UserContext';
-import NavBar from '../../Components/UI/NavBar/NavBar';
-import Button from '../../Components/UI/Button/Button';
-import Input from '../../Components/UI/Forms/Input/Input';
-import Loading from '../../Components/UI/Loading/Loading';
+import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { UserContext } from "../../Components/User/UserContext";
+import NavBar from "../../Components/UI/NavBar/NavBar";
+import Button from "../../Components/UI/Button/Button";
+import Input from "../../Components/UI/Forms/Input/Input";
+import Loading from "../../Components/UI/Loading/Loading";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -16,15 +16,15 @@ const PaginaUsuario = ()  => {
     const [userData, setUserData] = useState();
     const [userDataForm, setUserDataForm] = useState({
         nome:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
                 id: "nome",
                 name: "nome",
-                type: 'text',
-                placeholder: 'Nome'
+                type: "text",
+                placeholder: "Nome"
             },
-            label:'Nome',
-            value:'',
+            label:"Nome",
+            value:"",
             validation:{
 
             },
@@ -32,15 +32,15 @@ const PaginaUsuario = ()  => {
             touched: false
         },
         sobrenome:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
                 id: "sobrenome",
                 name: "sobrenome",
-                type: 'text',
-                placeholder: 'Sobrenome'
+                type: "text",
+                placeholder: "Sobrenome"
             },
-            label:'Sobrenome',
-            value:'',
+            label:"Sobrenome",
+            value:"",
             validation:{
 
             },
@@ -48,15 +48,15 @@ const PaginaUsuario = ()  => {
             touched: false
         },
         email:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
                 id: "email",
                 name: "email",
-                type: 'email',
-                placeholder: 'E-mail'
+                type: "email",
+                placeholder: "E-mail"
             },
-            label:'E-mail',
-            value:'',
+            label:"E-mail",
+            value:"",
             validation:{
 
             },
@@ -64,15 +64,15 @@ const PaginaUsuario = ()  => {
             touched: false
         },
         password:{
-            elementType: 'input',
+            elementType: "input",
             elementConfig:{
                 id: "password",
                 name: "password",
-                type: 'password',
-                placeholder: 'Senha'
+                type: "password",
+                placeholder: "Senha"
             },
-            label:'Senha',
-            value:'',
+            label:"Senha",
+            value:"",
             validation:{
 
             },
@@ -82,7 +82,7 @@ const PaginaUsuario = ()  => {
         touched: false
     });
 
-    const fetchUserData = async () =>{
+    const fetchUserData = async () => {
         setLoading(true);
         try{
             let res = await fetch(`${url}/conta`, { method: "get",
@@ -97,29 +97,29 @@ const PaginaUsuario = ()  => {
             console.log(err);
         }
         setLoading(false);
-    }
+    };
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchUserData();
-    }, [])
+    }, []);
 
     const handleFormChange = (event) => {
         setUserDataForm({...userDataForm, [event.target.name]: {
             ...userDataForm[event.target.name], value: [event.target.value], touched: true
         }, touched:true})
-    }
+    };
 
-    const handleEditButton = () =>{
+    const handleEditButton = () => {
         setEditMode(true);
-    }
+    };
 
     const handleSaveButton = () => {
         setEditMode(false);
-    }
+    };
 
     const buttonStyle = {
         marginTop:"10px"
-    }
+    };
 
     const renderDadosUsuario = () => {
         return (
@@ -130,7 +130,7 @@ const PaginaUsuario = ()  => {
                     </div>
                     <div className="card-body" style={{backgroundColor:"black"}}>
                         <form>
-                           {Object.keys(userDataForm).map(field => 
+                           {Object.keys(userDataForm).map((field) => 
                                 <Input disabled={!editMode} elementType={userDataForm[field].elementType} 
                                         elementConfig={userDataForm[field].elementConfig} label={userDataForm[field].label} 
                                         value={userDataForm[field].value} handleOnChange={handleFormChange}/>
@@ -146,14 +146,12 @@ const PaginaUsuario = ()  => {
                 </div>
             </div>
         )
-    }
+    };
     
     const autoFillUserData = () => {
         const tempUserDataForm = {...userDataForm};
-        Object.keys(userData).map(field => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}))
-        console.log(tempUserDataForm)
-
-    }
+        Object.keys(userData).map(field => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}));
+    };
 
     const renderPaginaInvalida = () => {
         return(
@@ -161,7 +159,7 @@ const PaginaUsuario = ()  => {
                 <h2 style={{color:"red", display:"flex", justifyContent:"center"}}>{loading?"Loading":"Você não tem acesso à essa página."}</h2>
             </div>
         )
-    }
+    };
 
     const renderUserPage = () => {
         if(webarberUser.id === +id){
@@ -170,7 +168,7 @@ const PaginaUsuario = ()  => {
         else{
             return renderPaginaInvalida();
         }
-    }
+    };
     
     return (<div>
         <NavBar></NavBar>
