@@ -61,7 +61,6 @@ const googleMapsAPILibraries = ["places"];
                 const updateAddress = (value) => {
                     handleOnChange({target :{name: elementConfig.name, value:value}});
                 }
-
                 return(
                     <div>
                         <LoadScript googleMapsApiKey={googleMapsAPIKey} libraries={googleMapsAPILibraries}>
@@ -81,7 +80,10 @@ const googleMapsAPILibraries = ["places"];
                         </LoadScript>
                     </div>
                 )
-
+            case 'textarea':
+                return (
+                    <textarea {...elementConfig} />
+                )
             default:
                 break;
         }

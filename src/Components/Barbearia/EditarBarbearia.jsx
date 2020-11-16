@@ -48,16 +48,19 @@ const EditarBarbearia = () => {
             let editBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [prop]: formData[prop].value}), {}), user_id:1};
             editBarbearia.horarioAbertura = new Date().setHours(editBarbearia.horarioAbertura.split(":"));
             editBarbearia.horarioFechamento = new Date().setHours(editBarbearia.horarioFechamento.split(":"));
-            const response = await fetch(`${url}/barbearia`, {method: "patch",
-                                                           headers: new Headers({"Content-Type": "application/json",
-                                                                                  "Authorization": `Bearer ${webarberUser.sessionToken}`}),
-                                                           body: JSON.stringify(editBarbearia)});
+            const response = await fetch(`${url}/barbearias/`, {
+                method: "PATCH",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${webarberUser.sessionToken}`
+                }),
+                body: JSON.stringify(editBarbearia)
+            });
             console.log(response);
             console.log(editBarbearia)
-            if(response.status === 200){
+            if (response.status === 200) {
                 alert("Barbearia alterada com sucesso.");
-            }
-            else{
+            } else {
                 const { message } = await response.json();
                 alert(message);
             }
@@ -72,10 +75,10 @@ const EditarBarbearia = () => {
     const renderForm = () =>{
         return (
             <div>
-                    <NavBar/>
-                    <FormularioBarbearia dadosBarbearia={dadosBarbearia} handleOnSubmitActiom={handleEditBarbearia}/>
-                    <Button id="btn editarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Salvar Alterações" style={{margin:"10px auto"}}/>
-                </div>
+                <NavBar/>
+                <FormularioBarbearia dadosBarbearia={dadosBarbearia} handleOnSubmitActiom={handleEditBarbearia}/>
+                <Button id="btn editarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Salvar Alterações" style={{margin:"10px auto"}}/>
+            </div>
         )
     }
 

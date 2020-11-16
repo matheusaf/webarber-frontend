@@ -241,7 +241,7 @@ const SignUp = ({email, password}) => {
         return(
                 <div>
                     <ImageHeader/>
-                    {Object.keys(signUpForm).map(field=> 
+                    {Object.keys(signUpForm).map(field => 
                             <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
                                 value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
                                 options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)}

@@ -15,6 +15,7 @@ export default function PaginaBarbearia(){
     const { id } = useParams();
     const { webarberUser } = useContext(UserContext);
     const [dadosBarbearia, setDadosBarberia] = useState();
+    const [servicos, setServicos] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const fieldNameDictionary = {
@@ -36,8 +37,28 @@ export default function PaginaBarbearia(){
         setLoading(false);
     }
     
+    const fetchServicos = async () => {
+        try {
+            let barbearia_id = await fetch(`${url}/barbearia`, {
+				method: "get",
+				headers: new Headers({
+					"Content-Type": "application/json","Authorization": `Bearer ${webarberUser.sessionToken}`
+				}),
+            });
+            barbearia_id = await barbearia_id.json();
+            barbearia_id = barbearia_id.id;
+
+            const servicos = await axios.get(`${url}/servicos/barbearia/${barbearia_id}`).then(d=>d.data);
+            setServicos(servicos);
+        } catch(err){
+            console.log(err);
+        }
+        setLoading(false);
+    }
+
     useEffect(() => {
         fetchBarbearia();
+        fetchServicos(); 
     }, []);
 
     const renderBarbeariaDataRows = (field, value) =>{
@@ -61,6 +82,14 @@ export default function PaginaBarbearia(){
         margin: "10px auto"
     }
 
+       const tableRow = (obj) => {
+        return <tr key={`row-${obj.id}`}>
+            <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
+            {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
+            <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
+        </tr>
+    }
+
     const renderEditButton = () => {
         return(
                 <Button buttonColors={2} buttonText="Editar Barbearia" style={buttonStyle} handleOnClick={()=>history.push(`/editarBarbearia/${id}`)}/>
@@ -78,10 +107,21 @@ export default function PaginaBarbearia(){
                         </div>
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map(field=>renderBarbeariaDataRows(field, dadosBarbearia[field]))}
-                        {webarberUser.id === +id && renderEditButton()}
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th key="titulo" data-testid="titulo">Titulo</th>
+                                    <th key="valor" data-testid="Valor">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {servicos && servicos.map(obj => tableRow(obj))}
+                            </tbody>
+                        </table>
+                        {webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
                         </div>
                     </div>
-                    <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={`${dadosBarbearia.endereco},  ${dadosBarbearia.numero}, ${dadosBarbearia.complemento}`}></MapComponent>
+                    <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent>
                 </div>
         );
     }
