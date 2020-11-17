@@ -1,0 +1,31 @@
+.card.barber {
+  background-color: black;
+  border-color: #2bce3b;
+  border-width: 3px;
+  margin: 10px auto;
+  border-radius: 1rem;
+  border-style: solid;
+  max-width: 30%;
+}
+
+.col.label {
+  max-width: max-content;
+  display: flex;
+  margin: 0px auto;
+}
+
+.col.data {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0px auto;
+}
+
+.card-text.label {
+  color: white;
+  font-weight: normal;
+}
+
+.card-text.data {
+  font-weight: bold;
+  color: green;
+}

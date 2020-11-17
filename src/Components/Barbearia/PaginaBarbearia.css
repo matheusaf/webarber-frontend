@@ -1,0 +1,37 @@
+.barberPage {
+  width: 100%;
+  background-color: black;
+}
+
+.col.barberField {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: bold;
+  color: #2bce3b;
+}
+
+.col.barberData {
+  display: flex;
+  justify-content: flex-start;
+  color: white;
+}
+
+.container.barber {
+  display: flex;
+  margin: auto;
+}
+
+.title.barber {
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  color: #2bce3b;
+  font-weight: bold;
+}
+
+.notFound {
+  margin: 10px auto;
+  justify-content: center;
+  color: red;
+  display: flex;
+}

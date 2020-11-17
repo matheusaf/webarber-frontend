@@ -1,0 +1,52 @@
+.Input {
+  width: 100%;
+}
+.InputElement {
+  border-radius: 1rem;
+  padding: 10px;
+  height: auto;
+  width: 100%;
+  font: inherit;
+  resize: none;
+}
+.InputElement:focus {
+  outline: #2bce3b;
+  outline-style: solid;
+  outline-width: thin;
+  border-radius: inherit;
+}
+
+.Label {
+  color: #fff;
+  display: block;
+  font-weight: 600;
+}
+
+.Loading {
+  color: #2bce3b;
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+}
+
+.AddressSelection {
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.891);
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  margin: auto auto;
+  border: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.AddressSelection.active {
+  color: #2bce3b;
+  font-weight: bold;
+}
+
+.AddressSelection:hover {
+  color: blue;
+  font-weight: bold;
+}
