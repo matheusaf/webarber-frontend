@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './CardBarbearia.css'
-import logo from '../../../images/logo.png'
+import React from "react";
+import { Link } from "react-router-dom";
+import "./CardBarbearia.css";
+import logo from "../../../images/logo.png";
 
 const CardBarbearia = ({barbearia}) => {
 
@@ -10,7 +10,7 @@ const CardBarbearia = ({barbearia}) => {
         height: "120px",
         display: "flex",
         margin: "auto auto"
-    }
+    };
     
     return (
         <div className="card barber">
@@ -22,7 +22,7 @@ const CardBarbearia = ({barbearia}) => {
                     </div>
                     <div>
                         <Link to= {`/barbearias/${barbearia.id}`}>
-                            <img className="card-img" src={logo} alt={`image of ${barbearia.nome}`} style={imgStyle}></img>
+                            <img className="card-img" src={logo} alt="" style={imgStyle}></img>
                         </Link>
                     </div>
                     <div className="row">
@@ -63,7 +63,7 @@ const CardBarbearia = ({barbearia}) => {
                     </div>
                 </div>
         </div>
-    )
-}
+    );
+};
 
 export default CardBarbearia;

@@ -1,7 +1,7 @@
-import NavBar from '../NavBar'
-import { Helmet } from 'react-helmet'
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import NavBar from "../NavBar";
+import { Helmet } from "react-helmet";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Agendamento(){
     return (
@@ -16,5 +16,5 @@ export default function Agendamento(){
                 </Link>
         </h1>
         </>
-    )
-}
+    );
+};

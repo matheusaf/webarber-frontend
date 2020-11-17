@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect} from 'react';
+import React, { useMemo, useState, useEffect} from "react";
 import {
         BrowserRouter,
         Switch,
@@ -6,29 +6,29 @@ import {
         Redirect,
         useLocation
 } from "react-router-dom";
-import Home from './Components/Home/Home';
-import Login from './Components/Login/Login';
-import SignUp from './Components/Signup/Signup';
-import { UserContext } from './Components/User/UserContext';
-import CadastrarBarbearia from './Components/Barbearia/CadastrarBarbearia';
-import EditarBarbearia from './Components/Barbearia/EditarBarbearia';
-import MinhasBarbearias from './Components/Barbearia/MinhasBarbearias';
-import PaginaBarbearia from './Components/Barbearia/PaginaBarbearia';
-import PaginaUsuario from './Components/User/PaginaUsuario';
-import Loading from './Components/UI/Loading/Loading';
-import CadastrarServico from './Components/Servicos/Formulario/FormularioServico';
-// import Agendamentos from './Pages/Agendamentos/Agendamentos';
-import { validateUser } from './Components/User/Actions/Auth';
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import SignUp from "./Components/Signup/Signup";
+import { UserContext } from "./Components/User/UserContext";
+import CadastrarBarbearia from "./Components/Barbearia/CadastrarBarbearia";
+import EditarBarbearia from "./Components/Barbearia/EditarBarbearia";
+import MinhasBarbearias from "./Components/Barbearia/MinhasBarbearias";
+import PaginaBarbearia from "./Components/Barbearia/PaginaBarbearia";
+import PaginaUsuario from "./Components/User/PaginaUsuario";
+import Loading from "./Components/UI/Loading/Loading";
+import CadastrarServico from "./Components/Servicos/Formulario/FormularioServico";
+// import Agendamentos from "./Pages/Agendamentos/Agendamentos";
+import { validateUser } from "./Components/User/Actions/Auth";
 
 
-require('dotenv').config();
+require("dotenv").config();
 
 function App() {
   const[webarberUser, setWebarberUser] = useState(null);
   const[triedLogin, setTriedLogin] = useState(false);
-  const[loading, setLoading] = useState(false)
+  const[loading, setLoading] = useState(false);
   
-  const verifyLocalStorage = async ()=> {
+  const verifyLocalStorage = async () => {
     setLoading(true);
     let cachedUser = await JSON.parse(localStorage.getItem("webarberUser"));
     if(await validateUser(cachedUser)) {
@@ -36,21 +36,21 @@ function App() {
     }
     setLoading(false);
     setTriedLogin(true);
-  }
+  };
 
   const userValue = useMemo(() => ({webarberUser, setWebarberUser}), [webarberUser, setWebarberUser]);
 
   useEffect( () =>{
     verifyLocalStorage();
-  }, [])
+  }, []);
 
 
   const PrivateRoute = ({ component: Component, ...rest},  ) => {
     let location = useLocation();
-    return <Route render={props => 
-      (webarberUser && location.pathname.includes(rest['urlPath'])) ? (<Component {...props}/>) : <Redirect exact to="/"/>
+    return <Route render={(props) => 
+      (webarberUser && location.pathname.includes(rest["urlPath"])) ? (<Component {...props}/>) : <Redirect exact to="/"/>
     }/>
-  }
+  };
 
   const AdminRoute = ({ component: Component, ...rest}) => {
     let location = useLocation();
@@ -59,22 +59,22 @@ function App() {
      }
      else{
         if(webarberUser.idTipo === 2){
-          return <Route render={ props => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>
+          return <Route render={(props) => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>
         }
         else{
           return (<Redirect to="/"/>)
         }
      }
-  }
+  };
 
    const LoggedInRoute = ({ component: Component, ...rest}) => {
       let location = useLocation();
       if(triedLogin && !webarberUser){
         return (<Loading/>);
       }
-        return <Route render={props => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> 
+        return <Route render={(props) => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> 
       }/>
-  }
+  };
 
   return (
       <BrowserRouter>

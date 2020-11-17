@@ -155,14 +155,13 @@ const SignUp = ({email, password}) => {
             valid: false,
             touched: false
         }
-    })
+    });
     
-    const handleSignUp = async() =>{
+    const handleSignUp = async() => {
         setLoading(true);
         try{
             let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [key]: signUpForm[key].value}),{});
             newUser = {...newUser, [newUser.tipoPessoa]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
-            console.log(newUser);
             let response = await fetch(`${url}/cadastro`, { method: "post", 
                                                             headers: new Headers({ "Content-Type": "application/json"}),
                                                             body:  JSON.stringify(newUser)
@@ -181,12 +180,12 @@ const SignUp = ({email, password}) => {
             console.log(err);
         }
         setLoading(false);
-    }
+    };
 
     const handleOnClick = async (event) => {
         event.preventDefault();
         await handleSignUp();
-    }
+    };
 
     // const validateFields = () =>{
     //     let valid = false;
@@ -229,19 +228,19 @@ const SignUp = ({email, password}) => {
                 setSignUpForm({...signUpForm, [event.target.name]:{ 
                     ...signUpForm[event.target.name], value: event.target.value}});
             }
-        }
+    };
 
     const inputStyle = {
         width:"50%", 
         display:"flex", 
         margin:"auto auto"
-    }
+    };
     
     const renderSignUpForm = () => {
         return(
                 <div>
                     <ImageHeader/>
-                    {Object.keys(signUpForm).map(field => 
+                    {Object.keys(signUpForm).map((field) => 
                             <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
                                 value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
                                 options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
@@ -255,7 +254,7 @@ const SignUp = ({email, password}) => {
                     </div>
                 </div>
         )
-    }
+    };
 
     return (
         <>
@@ -264,6 +263,7 @@ const SignUp = ({email, password}) => {
             </Helmet>
            {loading ? <Loading/> : renderSignUpForm()}
         </>
-    )
-    }
+     )
+    }; 
+    
 export default SignUp;

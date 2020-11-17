@@ -1,12 +1,12 @@
-import NavBar from '../UI/NavBar/NavBar';
-import MapComponent from '../UI/Map/MapComponent';
-import Loading from '../UI/Loading/Loading';
-import Button from '../UI/Button/Button';
-import React, { useEffect, useState, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
-import './PaginaBarbearia.css';
-import { UserContext } from '../User/UserContext';
+import NavBar from "../UI/NavBar/NavBar";
+import MapComponent from "../UI/Map/MapComponent";
+import Loading from "../UI/Loading/Loading";
+import Button from "../UI/Button/Button";
+import React, { useEffect, useState, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import axios from "axios";
+import "./PaginaBarbearia.css";
+import { UserContext } from "../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -21,21 +21,21 @@ export default function PaginaBarbearia(){
     const fieldNameDictionary = {
             nome: "Nome", endereço: "Endereço", numero: "Número", complemento:"Complemento", bloco:"Bloco",
             cep:"CEP", telefone:"Telefone", horarioAbertura:"Horário Abertura", horarioFechamento:"Horário Fechamento"
-        }
+        };
     
     const fetchBarbearia = async() => {
         setLoading(true);
         try{
-            const barbearia = await axios.get(`${url}/barbearias/${id}`).then(d=>d.data);
-            barbearia.horarioAbertura =  new Date(barbearia.horarioAbertura).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false})
-            barbearia.horarioFechamento = new Date(barbearia.horarioFechamento).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false})
+            const barbearia = await axios.get(`${url}/barbearias/${id}`).then((d) => d.data);
+            barbearia.horarioAbertura =  new Date(barbearia.horarioAbertura).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
+            barbearia.horarioFechamento = new Date(barbearia.horarioFechamento).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
             setDadosBarberia(barbearia);
         }
         catch(err){
             console.log(err);
         }
         setLoading(false);
-    }
+    };
     
     const fetchServicos = async () => {
         try {
@@ -48,20 +48,20 @@ export default function PaginaBarbearia(){
             barbearia_id = await barbearia_id.json();
             barbearia_id = barbearia_id.id;
 
-            const servicos = await axios.get(`${url}/servicos/barbearia/${barbearia_id}`).then(d=>d.data);
+            const servicos = await axios.get(`${url}/servicos/barbearia/${barbearia_id}`).then((d) => d.data);
             setServicos(servicos);
         } catch(err){
             console.log(err);
         }
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
         fetchBarbearia();
         fetchServicos(); 
     }, []);
 
-    const renderBarbeariaDataRows = (field, value) =>{
+    const renderBarbeariaDataRows = (field, value) => {
         if(fieldNameDictionary[field]){
             return(
                 <div className="row" style={{justifyContent:"center", display:"flex"}}>
@@ -74,13 +74,13 @@ export default function PaginaBarbearia(){
                 </div>
             )
         }
-    }
+    };
 
     const buttonStyle = {
         display: "flex",
         justifyContent:"center",
         margin: "10px auto"
-    }
+    };
 
        const tableRow = (obj) => {
         return <tr key={`row-${obj.id}`}>
@@ -88,21 +88,21 @@ export default function PaginaBarbearia(){
             {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
             <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
         </tr>
-    }
+    };
 
     const renderEditButton = () => {
         return(
-                <Button buttonColors={2} buttonText="Editar Barbearia" style={buttonStyle} handleOnClick={()=>history.push(`/editarBarbearia/${id}`)}/>
+                <Button buttonColors={2} buttonText="Editar Barbearia" style={buttonStyle} handleOnClick={() => history.push(`/editarBarbearia/${id}`)}/>
         )
-    }
+    };
 
     const renderServiceButton = () => {
         return(
-            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={()=>history.push(`/cadastrarServico`)}/>
+            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push(`/cadastrarServico`)}/>
         )
-    }
+    };
 
-    const renderPaginaBarbearia = () =>{
+    const renderPaginaBarbearia = () => {
         return (
                 <div style={{width:"max-content%", display:"flex", margin:"auto"}}>
                     <div className="barberPage">
@@ -112,7 +112,7 @@ export default function PaginaBarbearia(){
                             </h1>
                         </div>
                         <div className="card-body">
-                        {dadosBarbearia && Object.keys(dadosBarbearia).map(field=>renderBarbeariaDataRows(field, dadosBarbearia[field]))}
+                        {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[field]))}
                         <table class="table table-dark">
                             <thead>
                                 <tr>
@@ -121,7 +121,7 @@ export default function PaginaBarbearia(){
                                 </tr>
                             </thead>
                             <tbody>
-                                {servicos && servicos.map(obj => tableRow(obj))}
+                                {servicos && servicos.map((obj) => tableRow(obj))}
                             </tbody>
                         </table>
                         {webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
@@ -131,7 +131,7 @@ export default function PaginaBarbearia(){
                     <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent>
                 </div>
         );
-    }
+    };
 
     const renderNotFound = () =>{
         return (
@@ -139,7 +139,7 @@ export default function PaginaBarbearia(){
                 Barbearia não encontrada
             </h1>
         );
-    }
+    };
 
     return (
         <div>

@@ -54,14 +54,14 @@ const CadastrarServico = () => {
 				}),
 			});
 			
-			if (barbeariaId.status === 201)
-				throw new Error(barbeariaId.body.message)
+			if (barbeariaId.status === 201){
+				throw new Error(barbeariaId.body.message);
+			}
 			
 			barbeariaId = await barbeariaId.json();
 			
 			let formData = Object.keys(servicoForm).reduce((obj, field) => ({...obj, [field]: servicoForm[field].value}), {})
 			formData.barbearia_id = barbeariaId.id;
-			console.log(formData);
 			
 			const response = await fetch(`${url}/servicos`, {
 				method: "post",
@@ -80,23 +80,24 @@ const CadastrarServico = () => {
 			alert(err.message);
 			console.log(err);
 		}
-	}
+	};
 
 	const handleOnChange = (event) => {
 		setServicoForm({...servicoForm, [event.target.name]: {
 			...servicoForm[event.target.name], value: event.target.value
 		}})
-	}
+	};
+
 	return (
 		<>
 			<NavBar/>
-			{Object.keys(servicoForm).map(field => 
+			{Object.keys(servicoForm).map((field) => 
 				<Input elementType={servicoForm[field].elementType} elementConfig={servicoForm[field].elementConfig}
 						label={servicoForm[field].label} value={servicoForm[field].value}
 						handleOnChange={handleOnChange}/>)}
 			<Button buttonColors={1} buttonText="Adicionar Serviço" handleOnClick={handleOnClick} style={{margin: "auto auto", display:"flex", justifyContent:"center" }}/>
 		</>
 	)
-}
+};
 
 export default CadastrarServico;

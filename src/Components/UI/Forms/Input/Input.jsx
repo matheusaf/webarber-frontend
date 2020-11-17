@@ -1,5 +1,5 @@
 import React from "react";
-import "./Input.css"
+import "./Input.css";
 import InputMask from "react-input-mask";
 import { LoadScript} from "@react-google-maps/api";
 import PlacesAutocomplete, { geocodeByAddress } from "react-places-autocomplete";
@@ -25,7 +25,7 @@ const googleMapsAPILibraries = ["places"];
 
     const handleAddressOnClick = (event) => {
         handleAddressOnSelect(event.target.value);
-    }
+    };
 
 
     const renderLoading = (loadingMessage) => {
@@ -46,7 +46,7 @@ const googleMapsAPILibraries = ["places"];
             case "input":
                 return (
                     <InputMask className="InputElement" {...elementConfig} value={value} onChange={handleOnChange} style={style}/>
-                )
+                );
 
             case "select":
                 return (<div>
@@ -59,7 +59,7 @@ const googleMapsAPILibraries = ["places"];
             case "address":
                 const updateAddress = (value) => {
                     handleOnChange({target :{name: elementConfig.name, value:value}});
-                }
+                };
                 return(
                     <div>
                         <LoadScript googleMapsApiKey={googleMapsAPIKey} libraries={googleMapsAPILibraries}>
@@ -78,22 +78,22 @@ const googleMapsAPILibraries = ["places"];
                             </PlacesAutocomplete>
                         </LoadScript>
                     </div>
-                )
+                );
             case "textarea":
                 return (
                     <textarea {...elementConfig} />
-                )
+                );
             default:
                 break;
         }
-    }
+    };
 
     return (
         <div className="Input">
             {label && <label className="Label" htmlFor={elementConfig.name} style={style}>{label}</label>}
             {renderInput()}
         </div>
-    )
-}
+    );
+};
 
 export default Input;

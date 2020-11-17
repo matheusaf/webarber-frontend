@@ -1,11 +1,11 @@
-import { Helmet } from 'react-helmet';
-import NavBar from '../UI/NavBar/NavBar';
-import Loading from '../UI/Loading/Loading';
-import Button from '../UI/Button/Button';
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import CardBarbearia from './CardBarbearia/CardBarberia';
-import { UserContext } from '../User/UserContext';
+import { Helmet } from "react-helmet";
+import NavBar from "../UI/NavBar/NavBar";
+import Loading from "../UI/Loading/Loading";
+import Button from "../UI/Button/Button";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
+import CardBarbearia from "./CardBarbearia/CardBarberia";
+import { UserContext } from "../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -30,7 +30,7 @@ const MinhasBarbearias = () => {
         }
         setLoading(false);
 
-    }
+    };
 
     useEffect(() => {
         fetchBarbearia();

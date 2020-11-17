@@ -1,11 +1,11 @@
-import './Button.css'
-import React from 'react';
+import "./Button.css";
+import React from "react";
 
 const Button = ({buttonColors=1, id, buttonText, disabled, handleOnClick, type, form, content, style=null}) => {
 
-    const handleButtonState = ()=>{
+    const handleButtonState = () =>{
         return `btn btn-webarber-${buttonColors} ${!disabled ? "active": "disabled"}`
-    }
+    };
 
     return (
         <div>
@@ -13,7 +13,7 @@ const Button = ({buttonColors=1, id, buttonText, disabled, handleOnClick, type, 
                 {buttonText}
             </button>
         </div>
-    )
-}
+    );
+};
 
 export default Button;

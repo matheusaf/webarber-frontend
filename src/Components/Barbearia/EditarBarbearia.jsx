@@ -17,7 +17,7 @@ const EditarBarbearia = () => {
         setLoading(true);
         let response = await fetch(`${url}/barbearia/`, {method: "get",
                                                         headers: new Headers({"Content-Type": "application/json",
-                                                                              "Authorization": `Bearer ${webarberUser.sessionToken}`})})
+                                                                              "Authorization": `Bearer ${webarberUser.sessionToken}`})});
         if(response.status === 200){
             let json = await response.json();
             setDadosBarbearia(json);
@@ -38,7 +38,7 @@ const EditarBarbearia = () => {
                 <NavBar/>
                 <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {"Não foi possível encontrar a barbearia selecionada."}</h3>
             </>
-        )
+        );
     };
 
     const handleEditBarbearia = async (formData) => {
@@ -80,7 +80,7 @@ const EditarBarbearia = () => {
     };
 
     const renderEditBarbearia = () => {
-        return(!dadosBarbearia ? renderNotFound() : renderForm())
+        return(!dadosBarbearia ? renderNotFound() : renderForm());
     };
 
     return (
@@ -91,5 +91,5 @@ const EditarBarbearia = () => {
             {loading && !webarberUser ? <Loading/> : renderEditBarbearia()}
             </>
     );
-}
+};
 export default EditarBarbearia;

@@ -97,7 +97,7 @@ const Login = (props) => {
             <div className="container login">
                 <ImageHeader/>
                 <div>
-                    {Object.keys(loginForm).map(field => 
+                    {Object.keys(loginForm).map((field) => 
                         <Input elementType={loginForm[field].elementType} label={loginForm[field].label} 
                                value={loginForm[field].value} elementConfig={loginForm[field].elementConfig} 
                                handleOnChange={handleOnChange} style={inputStyle}/>)}
@@ -114,9 +114,9 @@ const Login = (props) => {
                     {alertMessage && (<AlertBox message={alertMessage}/>)}
                 </div>
             </div>
-        )
+        );
 
-    }
+    };
 
     return(
         <>
@@ -125,7 +125,7 @@ const Login = (props) => {
             </Helmet>
             {!loading ? renderLogin() : <Loading/>}
         </>
-    )
-}
+    );
+};
 
 export default Login;

@@ -1,9 +1,9 @@
-import './NavBar.css'
-import logo from '../../../images/logo.png';
-import { Link } from 'react-router-dom';
-import React, { useState,  useContext } from 'react';
-import { UserContext } from '../../User/UserContext';
-import Button from '../../UI/Button/Button';
+import "./NavBar.css"
+import logo from "../../../images/logo.png";
+import { Link } from "react-router-dom";
+import React, { useState,  useContext } from "react";
+import { UserContext } from "../../User/UserContext";
+import Button from "../../UI/Button/Button";
 
 export default function NavBar({pagina}){
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -11,34 +11,34 @@ export default function NavBar({pagina}){
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
     const handleLogout = () => {
-        localStorage.removeItem('webarberUser');
+        localStorage.removeItem("webarberUser");
         window.location.reload(true);
-    }
+    };
 
     const handleNavItems = (navBarText, nextPageLink, currentPage) => {
         return(
-            <li className={`nav-item ${navBarText === currentPage ? 'active' : ''}`}>
+            <li className={`nav-item ${navBarText === currentPage ? "active" : ""}`}>
                 <Link to={nextPageLink} className="nav-link">
                     {navBarText}
                 </Link>
             </li>
         )
-    }
+    };
 
     const buttonStyles = {
         margin: "auto",
         marginLeft: "2px",
         marginRight: "2px"
-    }
+    };
 
-    const handleRightSidePanel = () =>{
+    const handleRightSidePanel = () => {
         if (!webarberUser) {
             return (
                 <>
-                    <Link to='/login'>
+                    <Link to="/login">
                         <Button buttonText="Entrar" style={buttonStyles}/>
                     </Link>
-                    <Link to='/signup'>
+                    <Link to="/signup">
                         <Button buttonColors={2} buttonText="Cadastrar" style={buttonStyles}/>
                     </Link>
                 </>

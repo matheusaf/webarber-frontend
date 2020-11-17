@@ -150,7 +150,7 @@ const PaginaUsuario = ()  => {
     
     const autoFillUserData = () => {
         const tempUserDataForm = {...userDataForm};
-        Object.keys(userData).map(field => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}));
+        Object.keys(userData).map((field) => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}));
     };
 
     const renderPaginaInvalida = () => {
@@ -174,8 +174,8 @@ const PaginaUsuario = ()  => {
         <NavBar></NavBar>
         {!webarberUser && !userData ? <Loading/> : renderUserPage()}
     </div>
-    )
+    );
 
-}
+};
 
 export default PaginaUsuario;
