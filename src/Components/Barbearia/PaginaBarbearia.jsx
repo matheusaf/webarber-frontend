@@ -72,7 +72,7 @@ export default function PaginaBarbearia(){
                         {value ? value : "Sem Informações"}
                     </div>
                 </div>
-            )
+            );
         }
     };
 
@@ -133,7 +133,7 @@ export default function PaginaBarbearia(){
         );
     };
 
-    const renderNotFound = () =>{
+    const renderNotFound = () => {
         return (
             <h1 className="notFound">
                 Barbearia não encontrada

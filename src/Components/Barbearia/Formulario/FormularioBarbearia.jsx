@@ -133,7 +133,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         horarioFechamento: "horarioFechamento"
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         if(dadosBarbearia){
             let tempBarbeariaForm = {...barbeariaForm};
             Object.keys(serverDataDictionary).map((field) => {
@@ -143,7 +143,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             );
             tempBarbeariaForm.horarioAbertura.value = new Date(tempBarbeariaForm.horarioAbertura.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
             tempBarbeariaForm.horarioFechamento.value = new Date(tempBarbeariaForm.horarioFechamento.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
-            setBarbeariaForm({...tempBarbeariaForm})
+            setBarbeariaForm({...tempBarbeariaForm});
         }
     }, [dadosBarbearia]);
 
@@ -160,7 +160,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         setBarbeariaForm({...barbeariaForm, [event.target.name]: {
                     ...barbeariaForm[event.target.name], value: event.target.value}});
         if(event.target.name === "endereco"){
-            setAutoFillState(false)
+            setAutoFillState(false);
         }
     };
     
@@ -178,7 +178,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             setBarbeariaForm({...tempBarbeariaForm});
             setAutoFillState(true);
         }
-    }
+    };
     
     const handleOnSubmit = async (event) => {
         event.preventDefault();
@@ -195,13 +195,13 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             <div>
                 <form id="barbearia-form" onSubmit={handleOnSubmit}>
                     {!autoFillState && autoCompleteAddressFields()}
-                    {Object.keys(barbeariaForm).map((field)=> 
+                    {Object.keys(barbeariaForm).map((field) => 
                         <Input elementType={barbeariaForm[field].elementType} label={barbeariaForm[field].label}
                         value={barbeariaForm[field].value} elementConfig={barbeariaForm[field].elementConfig} 
                         handleOnChange={handleOnChange} setAddressValue={setAddressValue} style={inputStyle}/>)}
                 </form>
             </div>
     );
-}
+};
 
 export default FormularioBarbearia;
