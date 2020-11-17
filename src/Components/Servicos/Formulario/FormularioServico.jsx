@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Input from "../../UI/Forms/Input/Input";
 import Button from "../../UI/Button/Button";
 import NavBar from "../../UI/NavBar/NavBar";
-// import Loading from "../../UI/Loading/Loading";
+import Loading from "../../UI/Loading/Loading";
 import { UserContext } from "../../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
