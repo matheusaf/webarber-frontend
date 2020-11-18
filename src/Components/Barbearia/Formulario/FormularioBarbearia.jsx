@@ -137,8 +137,8 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         if(dadosBarbearia){
             let tempBarbeariaForm = {...barbeariaForm};
             Object.keys(serverDataDictionary).map((field) => {
-                tempBarbeariaForm = {...tempBarbeariaForm, [field]:{
-                ...tempBarbeariaForm[field], value: dadosBarbearia[serverDataDictionary[field]]}}
+                tempBarbeariaForm = {...tempBarbeariaForm, [`${field}`]:{
+                ...tempBarbeariaForm[`${field}`], value: dadosBarbearia[serverDataDictionary[`${field}`]]}}
                 }
             );
             tempBarbeariaForm.horarioAbertura.value = new Date(tempBarbeariaForm.horarioAbertura.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
@@ -157,8 +157,8 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
     };
 
     const handleOnChange = (event) => {
-        setBarbeariaForm({...barbeariaForm, [event.target.name]: {
-                    ...barbeariaForm[event.target.name], value: event.target.value}});
+        setBarbeariaForm({...barbeariaForm, [`${event.target.name}`]: {
+                    ...barbeariaForm[`${event.target.name}`], value: event.target.value}});
         if(event.target.name === "endereco"){
             setAutoFillState(false);
         }
@@ -168,13 +168,12 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
         if(addressValues){
             let tempBarbeariaForm = {...barbeariaForm};
             for(let fieldsEndereco of Object.keys(addressDataDictionary)){
-                let data = addressValues.filter((address_component) => address_component.types.find(type => type === addressDataDictionary[fieldsEndereco]))[0];
-                tempBarbeariaForm = {...tempBarbeariaForm, [fieldsEndereco]: {
-                                                            ...tempBarbeariaForm[fieldsEndereco], 
-                                                            value: data ? data.short_name: ""
-                                                            }
-                }
-            }
+                let data = addressValues.filter((addressComponent) => addressComponent.types.find((type) => type === addressDataDictionary[`${fieldsEndereco}`]))[0];
+                tempBarbeariaForm = {...tempBarbeariaForm, [`${fieldsEndereco}`]: {
+                                                            ...tempBarbeariaForm[`${fieldsEndereco}`], 
+                                                            value: data ? data.short_name: "" }
+                };
+            };
             setBarbeariaForm({...tempBarbeariaForm});
             setAutoFillState(true);
         }
@@ -196,8 +195,8 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
                 <form id="barbearia-form" onSubmit={handleOnSubmit}>
                     {!autoFillState && autoCompleteAddressFields()}
                     {Object.keys(barbeariaForm).map((field) => 
-                        <Input elementType={barbeariaForm[field].elementType} label={barbeariaForm[field].label}
-                        value={barbeariaForm[field].value} elementConfig={barbeariaForm[field].elementConfig} 
+                        <Input elementType={barbeariaForm[`${field}`].elementType} label={barbeariaForm[`${field}`].label}
+                        value={barbeariaForm[`${field}`].value} elementConfig={barbeariaForm[`${field}`].elementConfig} 
                         handleOnChange={handleOnChange} setAddressValue={setAddressValue} style={inputStyle}/>)}
                 </form>
             </div>

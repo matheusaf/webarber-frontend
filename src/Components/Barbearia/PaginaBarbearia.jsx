@@ -101,7 +101,7 @@ export default function PaginaBarbearia(){
     const renderServiceButton = () => {
         return(
             <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
-        )
+        );
     };
 
     const renderPaginaBarbearia = () => {
