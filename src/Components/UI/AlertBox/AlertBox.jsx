@@ -1,4 +1,4 @@
-import "./AlertBox.css"
+import "./AlertBox.css";
 import React from "react";
 
 const AlertBox = ({message}) => {

@@ -44,7 +44,7 @@ const EditarBarbearia = () => {
     const handleEditBarbearia = async (formData) => {
         setLoading(true);
         try{
-            let editBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [prop]: formData[prop].value}), {}), user_id:1};
+            let editBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [`${prop}`]: formData[`${prop}`].value}), {}), user_id:1};
             editBarbearia.horarioAbertura = new Date().setHours(editBarbearia.horarioAbertura.split(":"));
             editBarbearia.horarioFechamento = new Date().setHours(editBarbearia.horarioFechamento.split(":"));
             const response = await fetch(`${url}/barbearias/`, {
@@ -63,7 +63,7 @@ const EditarBarbearia = () => {
             }
         }
         catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
     };
@@ -76,7 +76,7 @@ const EditarBarbearia = () => {
                 <FormularioBarbearia dadosBarbearia={dadosBarbearia} handleOnSubmitActiom={handleEditBarbearia}/>
                 <Button id="btn editarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Salvar Alterações" style={{margin:"10px auto"}}/>
             </div>
-        )
+        );
     };
 
     const renderEditBarbearia = () => {

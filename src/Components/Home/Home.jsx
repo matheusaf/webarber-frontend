@@ -49,12 +49,12 @@ const Home = () => {
     const fetchBarbearias = async () => {
         setLoading(true);
         try{
-            let results = await axios.get(`${url}/barbearias?nome=${queryValue.value}`).then((d)=> d.data);
+            let results = await axios.get(`${url}/barbearias?nome=${queryValue.value}`).then((d) => d.data);
             setSearchFinished(true);
             return results;
         }
         catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
     };

@@ -26,7 +26,7 @@ const MinhasBarbearias = () => {
             }
         }
         catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
 
@@ -38,9 +38,9 @@ const MinhasBarbearias = () => {
 
     const renderNotFound = () => {
         return (
-            <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {`Você não possui barbearia(s) cadastrada(s).`}</h3>
-        )
-    }
+            <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {"Você não possui barbearia(s) cadastrada(s)."}</h3>
+        );
+    };
 
     const renderMinhaBarbearia = () => {
         return (
@@ -54,8 +54,8 @@ const MinhasBarbearias = () => {
                         {!barbearia && renderNotFound()};
                     </div>
                 </div>
-        )
-    }
+        );
+    };
 
     return (
             <>

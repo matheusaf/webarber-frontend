@@ -1,4 +1,4 @@
-import "./NavBar.css"
+import "./NavBar.css";
 import logo from "../../../images/logo.png";
 import { Link } from "react-router-dom";
 import React, { useState,  useContext } from "react";
@@ -22,7 +22,7 @@ export default function NavBar({pagina}){
                     {navBarText}
                 </Link>
             </li>
-        )
+        );
     };
 
     const buttonStyles = {
@@ -63,7 +63,7 @@ export default function NavBar({pagina}){
                 </>
             );
         }
-    }
+    };
 
     
     return (

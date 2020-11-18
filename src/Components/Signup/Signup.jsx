@@ -160,8 +160,8 @@ const SignUp = ({email, password}) => {
     const handleSignUp = async() => {
         setLoading(true);
         try{
-            let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [key]: signUpForm[key].value}),{});
-            newUser = {...newUser, [newUser.tipoPessoa]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
+            let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [`${key}`]: signUpForm[`${key}`].value}),{});
+            newUser = {...newUser, [`${newUser.tipoPessoa}`]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
             let response = await fetch(`${url}/cadastro`, { method: "post", 
                                                             headers: new Headers({ "Content-Type": "application/json"}),
                                                             body:  JSON.stringify(newUser)
@@ -177,7 +177,7 @@ const SignUp = ({email, password}) => {
             }
         }
         catch(err){
-            console.log(err);
+            console.error(err);
         }
         setLoading(false);
     };
@@ -211,22 +211,22 @@ const SignUp = ({email, password}) => {
 
     const handleOnChange = (event) => {
             if(event.target.name === "tipoPessoa") {
-                setSignUpForm({...signUpForm, [event.target.name]:{ 
-                    ...signUpForm[event.target.name], value: event.target.value, 
+                setSignUpForm({...signUpForm, [`${event.target.name}`]:{ 
+                    ...signUpForm[`${event.target.name}`], value: event.target.value, 
                     },
                     numDocumento:{
                         ...signUpForm.numDocumento, label: event.target.value,
                         elementConfig:{
-                            ...signUpForm.numDocumento.elementConfig, mask: maskNumDocumento[event.target.value].mask,
-                            placeholder: maskNumDocumento[event.target.value].placeholder
+                            ...signUpForm.numDocumento.elementConfig, mask: maskNumDocumento[`${event.target.value}`].mask,
+                            placeholder: maskNumDocumento[`${event.target.value}`].placeholder
                         }
 
                     }, 
                 });
             }
             else{
-                setSignUpForm({...signUpForm, [event.target.name]:{ 
-                    ...signUpForm[event.target.name], value: event.target.value}});
+                setSignUpForm({...signUpForm, [`${event.target.name}`]:{ 
+                    ...signUpForm[`${event.target.name}`], value: event.target.value}});
             }
     };
 
@@ -241,9 +241,9 @@ const SignUp = ({email, password}) => {
                 <div>
                     <ImageHeader/>
                     {Object.keys(signUpForm).map((field) => 
-                            <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
-                                value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
-                                options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
+                            <Input elementType={signUpForm[`${field}`].elementType} label={signUpForm[`${field}`].label} 
+                                value={signUpForm[`${field}`].value} elementConfig={signUpForm[`${field}`].elementConfig} 
+                                options={signUpForm[`${field}`].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
                     <div className="a form">
                         <Link to="/login">
                             Já é cadastrado?
@@ -263,7 +263,7 @@ const SignUp = ({email, password}) => {
             </Helmet>
            {loading ? <Loading/> : renderSignUpForm()}
         </>
-     )
+     );
     }; 
     
 export default SignUp;

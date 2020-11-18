@@ -94,7 +94,7 @@ const PaginaUsuario = ()  => {
             }
         }
         catch(err){
-            alert(err);
+            console.error(err);
         }
         setLoading(false);
     };

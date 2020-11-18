@@ -71,7 +71,7 @@ const googleMapsAPILibraries = ["places"];
                                         {suggestions.map((suggestion) => {
                                             return (<div className={handleAddressSelectionState(suggestion.active)}  onClick={handleAddressOnClick} {...getSuggestionItemProps(suggestion)} style={{width: style.width}}>
                                                         {suggestion.description}
-                                                    </div>)
+                                                    </div>);
                                         })}
                                     </div>
                                 }

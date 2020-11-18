@@ -40,7 +40,7 @@ function App() {
 
   const userValue = useMemo(() => ({webarberUser, setWebarberUser}), [webarberUser, setWebarberUser]);
 
-  useEffect( () =>{
+  useEffect( () => {
     verifyLocalStorage();
   }, []);
 
@@ -49,7 +49,7 @@ function App() {
     let location = useLocation();
     return <Route render={(props) => 
       (webarberUser && location.pathname.includes(rest["urlPath"])) ? (<Component {...props}/>) : <Redirect exact to="/"/>
-    }/>
+    }/>;
   };
 
   const AdminRoute = ({ component: Component, ...rest}) => {
@@ -59,10 +59,10 @@ function App() {
      }
      else{
         if(webarberUser.idTipo === 2){
-          return <Route render={(props) => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>
+          return <Route render={(props) => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>;
         }
         else{
-          return (<Redirect to="/"/>)
+          return (<Redirect to="/"/>);
         }
      }
   };

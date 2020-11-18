@@ -20,7 +20,7 @@ const MapComponent = ({nomeBarbearia, endereco}) => {
         }
       }
       catch(err){
-        console.log(err)
+        console.error(err);
       }
     };
 
