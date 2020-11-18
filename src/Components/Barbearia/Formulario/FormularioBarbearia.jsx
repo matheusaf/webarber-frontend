@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SignUp from "../../Signup/Signup";
 import Input from "../../UI/Forms/Input/Input";
 
 const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {

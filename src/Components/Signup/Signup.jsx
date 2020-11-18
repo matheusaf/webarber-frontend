@@ -177,7 +177,7 @@ const SignUp = ({email, password}) => {
             }
         }
         catch(err){
-            console.error(err);
+            alert(err);
         }
         setLoading(false);
     };
