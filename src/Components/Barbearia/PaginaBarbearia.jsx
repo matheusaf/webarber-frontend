@@ -32,26 +32,26 @@ export default function PaginaBarbearia(){
             setDadosBarberia(barbearia);
         }
         catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
     };
     
     const fetchServicos = async () => {
         try {
-            let barbearia_id = await fetch(`${url}/barbearia`, {
+            let barbeariaId = await fetch(`${url}/barbearia`, {
 				method: "get",
 				headers: new Headers({
 					"Content-Type": "application/json","Authorization": `Bearer ${webarberUser.sessionToken}`
 				}),
             });
-            barbearia_id = await barbearia_id.json();
-            barbearia_id = barbearia_id.id;
+            barbeariaId = await barbeariaId.json();
+            barbeariaId = barbeariaId.id;
 
-            const servicos = await axios.get(`${url}/servicos/barbearia/${barbearia_id}`).then((d) => d.data);
+            const servicos = await axios.get(`${url}/servicos/barbearia/${barbeariaId}`).then((d) => d.data);
             setServicos(servicos);
         } catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
     };
@@ -62,11 +62,11 @@ export default function PaginaBarbearia(){
     }, []);
 
     const renderBarbeariaDataRows = (field, value) => {
-        if(fieldNameDictionary[field]){
+        if(fieldNameDictionary[`${field}`]){
             return(
                 <div className="row" style={{justifyContent:"center", display:"flex"}}>
                     <div className="col barberField">
-                        {fieldNameDictionary[field]}
+                        {fieldNameDictionary[`${field}`]}
                     </div>
                     <div className="col barberData">
                         {value ? value : "Sem Informações"}
@@ -83,22 +83,24 @@ export default function PaginaBarbearia(){
     };
 
        const tableRow = (obj) => {
-        return <tr key={`row-${obj.id}`}>
-            <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
-            {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
-            <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
-        </tr>
+        return (
+                <tr key={`row-${obj.id}`}>
+                    <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
+                    {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
+                    <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
+                </tr>
+        );
     };
 
     const renderEditButton = () => {
         return(
                 <Button buttonColors={2} buttonText="Editar Barbearia" style={buttonStyle} handleOnClick={() => history.push(`/editarBarbearia/${id}`)}/>
-        )
+        );
     };
 
     const renderServiceButton = () => {
         return(
-            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push(`/cadastrarServico`)}/>
+            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
         )
     };
 
@@ -112,7 +114,7 @@ export default function PaginaBarbearia(){
                             </h1>
                         </div>
                         <div className="card-body">
-                        {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[field]))}
+                        {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[`${field}`]))}
                         <table class="table table-dark">
                             <thead>
                                 <tr>
