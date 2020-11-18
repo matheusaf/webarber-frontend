@@ -1,7 +1,7 @@
-import React from 'react';
-import { css } from '@emotion/core'
+import React from "react";
+import { css } from "@emotion/core";
 import BarLoader from "react-spinners/BarLoader";
-import "./Loading.css"
+import "./Loading.css";
 
 const Loading = () => {
     const override = css`
@@ -19,7 +19,7 @@ const Loading = () => {
             <div className>
                 <BarLoader css={override} width={200} height={5} color={ "#2bce3b" }/>
             </div>
-    )
+    );
 }
 
 

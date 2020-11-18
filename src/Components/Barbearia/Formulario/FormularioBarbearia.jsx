@@ -173,7 +173,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
                                                             ...tempBarbeariaForm[`${fieldsEndereco}`], 
                                                             value: data ? data.short_name: "" }
                 };
-            };
+            }
             setBarbeariaForm({...tempBarbeariaForm});
             setAutoFillState(true);
         }

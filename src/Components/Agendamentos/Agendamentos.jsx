@@ -1,6 +1,6 @@
 import NavBar from "../NavBar";
 import { Helmet } from "react-helmet";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Agendamento(){

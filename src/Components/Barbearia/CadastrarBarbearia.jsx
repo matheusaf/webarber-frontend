@@ -14,10 +14,9 @@ const CadastrarBarbearia = () => {
 
     const handleCreateBarbearia = async (formData) => {
         setLoading(true);
-        let createBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [prop]: formData[prop].value}), {}), user_id: webarberUser.user_id};
-        console.log(createBarbearia);
+        let createBarbearia = {...Object.keys(formData).reduce((obj, prop) => ({...obj, [`${prop}`]: formData[`${prop}`].value}), {}), user_id: webarberUser.user_id};
 
-        createBarbearia.horarioAbertura = new Date().setHours(...createBarbearia.horarioAbertura.split(":"))
+        createBarbearia.horarioAbertura = new Date().setHours(...createBarbearia.horarioAbertura.split(":"));
         createBarbearia.horarioFechamento = new Date().setHours(...createBarbearia.horarioFechamento.split (":"));
 
         const response = await fetch(`${url}/barbearias`, {
@@ -35,7 +34,7 @@ const CadastrarBarbearia = () => {
             alert(message);
         }
         setLoading(false);
-    }
+    };
     
     const renderForm = () => {
             return (
@@ -44,8 +43,8 @@ const CadastrarBarbearia = () => {
                     <FormularioBarbearia handleOnSubmitActiom={handleCreateBarbearia}/>
                     <Button disabled={false} id="btn cadastrarBarbearia" form="barbearia-form" type="submit" content="submit" buttonText="Cadastrar Barbearia" style ={{margin:"10px auto"}}/>
                 </div>
-            )   
-    }
+            ); 
+    };
     
     return (
             <>

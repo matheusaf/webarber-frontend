@@ -94,7 +94,7 @@ const PaginaUsuario = ()  => {
             }
         }
         catch(err){
-            console.log(err);
+            alert(err);
         }
         setLoading(false);
     };
@@ -104,9 +104,9 @@ const PaginaUsuario = ()  => {
     }, []);
 
     const handleFormChange = (event) => {
-        setUserDataForm({...userDataForm, [event.target.name]: {
-            ...userDataForm[event.target.name], value: [event.target.value], touched: true
-        }, touched:true})
+        setUserDataForm({...userDataForm, [`${event.target.name}`]: {
+            ...userDataForm[`${event.target.name}`], value: [`${event.target.value}`], touched: true
+        }, touched:true});
     };
 
     const handleEditButton = () => {
@@ -131,26 +131,27 @@ const PaginaUsuario = ()  => {
                     <div className="card-body" style={{backgroundColor:"black"}}>
                         <form>
                            {Object.keys(userDataForm).map((field) => 
-                                <Input disabled={!editMode} elementType={userDataForm[field].elementType} 
-                                        elementConfig={userDataForm[field].elementConfig} label={userDataForm[field].label} 
-                                        value={userDataForm[field].value} handleOnChange={handleFormChange}/>
+                                <Input disabled={!editMode} elementType={userDataForm[`${field}`].elementType} 
+                                        elementConfig={userDataForm[`${field}`].elementConfig} label={userDataForm[`${field}`].label} 
+                                        value={userDataForm[`${field}`].value} handleOnChange={handleFormChange}/>
                                 )}
                             {/* {Object.keys(signUpForm).map(field=> 
                             <Input elementType={signUpForm[field].elementType} label={signUpForm[field].label} 
                                 value={signUpForm[field].value} elementConfig={signUpForm[field].elementConfig} 
                                 options={signUpForm[field].options} handleOnChange={handleOnChange} style={inputStyle}/>)} */}
                         </form>
-                        {!editMode ? <Button id="btn editar" buttonStyle={1} buttonText="Editar Perfil" handleOnClick={handleEditButton} style={buttonStyle}/> : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveButton   } style={buttonStyle}/>}
+                        {!editMode ? <Button id="btn editar" buttonStyle={1} buttonText="Editar Perfil" handleOnClick={handleEditButton} style={buttonStyle}/> 
+                                    : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveButton} style={buttonStyle}/>}
                         {/* <button className={handleEditButtonState()} disabled={editMode} onClick={handleEditButton} >Editar perfil</button> */}
                     </div>
                 </div>
             </div>
-        )
+        );
     };
     
     const autoFillUserData = () => {
         const tempUserDataForm = {...userDataForm};
-        Object.keys(userData).map((field) => setUserDataForm({...tempUserDataForm, [field]: {...tempUserDataForm[field], value: userData[field]}}));
+        Object.keys(userData).map((field) => setUserDataForm({...tempUserDataForm, [`${field}`]: {...tempUserDataForm[`${field}`], value: userData[`${field}`]}}));
     };
 
     const renderPaginaInvalida = () => {
