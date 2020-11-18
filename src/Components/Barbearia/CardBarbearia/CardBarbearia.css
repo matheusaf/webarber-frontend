@@ -17,7 +17,7 @@
 .col.data {
   display: flex;
   justify-content: flex-end;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .card-text.label {

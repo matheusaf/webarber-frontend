@@ -1,6 +1,7 @@
 .Input {
   width: 100%;
 }
+
 .InputElement {
   border-radius: 1rem;
   padding: 10px;
@@ -9,6 +10,7 @@
   font: inherit;
   resize: none;
 }
+
 .InputElement:focus {
   outline: #2bce3b;
   outline-style: solid;

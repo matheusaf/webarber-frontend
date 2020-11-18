@@ -2,14 +2,14 @@
   display: flex;
   justify-content: center;
   border-radius: 10rem;
-  margin: 0px auto;
+  margin: 0 auto;
   text-align: center;
   width: 65%;
 }
 
 .search-bar:selection {
   background-color: green;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .btn-search {

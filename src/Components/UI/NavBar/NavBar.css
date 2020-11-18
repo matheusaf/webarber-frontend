@@ -3,6 +3,7 @@
   border-radius: 10rem;
   width: auto;
 }
+
 .btn-nav.login {
   background-color: #2bce3b;
   border: #2bce3b;
@@ -34,7 +35,7 @@
 .navbar-brand {
   display: flex;
   justify-content: flex-end;
-  margin: 0px auto;
+  margin: 0 auto;
   width: 7%;
 }
 
