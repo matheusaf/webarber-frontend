@@ -1,42 +1,22 @@
 .container.login {
-  height: 
-          50%;
-  width: 
-          60%;
-  padding: 
-          10px;
-
-  position: 
-          absolute;
-  top:
-      0;
-  left: 
-      0;
-  right: 
-      0;
-  bottom: 
-      0;
-
-  margin: 
-      auto;
-
-  border-width: 
-              thin;
-  border:
-      #2bce3b;
-  border-style: 
-              solid;
-  border-radius: 
-              1rem;
+  height: 50%;
+  width: 60%;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border-width: thin;
+  border: #2bce3b;
+  border-style: solid;
+  border-radius: 1rem;
 }
 
 .a.form {
-  display: 
-        flex;
-  margin: 
-        auto auto;
-  justify-content: 
-                center;
-  padding: 
-        10px;
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  padding: 10px;
 }
