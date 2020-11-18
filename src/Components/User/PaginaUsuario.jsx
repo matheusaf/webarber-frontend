@@ -159,7 +159,7 @@ const PaginaUsuario = ()  => {
             <div>
                 <h2 style={{color:"red", display:"flex", justifyContent:"center"}}>{loading?"Loading":"Você não tem acesso à essa página."}</h2>
             </div>
-        )
+        );
     };
 
     const renderUserPage = () => {

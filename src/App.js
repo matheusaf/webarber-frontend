@@ -72,8 +72,7 @@ function App() {
       if(triedLogin && !webarberUser){
         return (<Loading/>);
       }
-        return <Route render={(props) => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> 
-      }/>
+        return (<Route render={(props) => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> }/>);
   };
 
   return (

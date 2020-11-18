@@ -65,7 +65,6 @@ const MinhasBarbearias = () => {
             {!loading ? renderMinhaBarbearia() : <Loading/>}
             </>
     );
-
-}
+};
 
 export default MinhasBarbearias;

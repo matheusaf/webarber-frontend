@@ -161,7 +161,7 @@ const SignUp = ({email, password}) => {
         setLoading(true);
         try{
             let newUser = Object.keys(signUpForm).reduce((user, key) => ({...user, [`${key}`]: signUpForm[`${key}`].value}),{});
-            newUser = {...newUser, [`${newUser.tipoPessoa}`]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null}
+            newUser = {...newUser, [`${newUser.tipoPessoa}`]: newUser.numDocumento,[newUser.tipoPessoa==="CPF"?"CNPJ":"CPF"] : null};
             let response = await fetch(`${url}/cadastro`, { method: "post", 
                                                             headers: new Headers({ "Content-Type": "application/json"}),
                                                             body:  JSON.stringify(newUser)
@@ -253,7 +253,7 @@ const SignUp = ({email, password}) => {
                         <Button id="btn signup" buttonText="Cadastrar" handleOnClick={handleOnClick}/>
                     </div>
                 </div>
-        )
+        );
     };
 
     return (

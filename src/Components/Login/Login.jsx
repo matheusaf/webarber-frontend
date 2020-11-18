@@ -73,8 +73,8 @@ const Login = (props) => {
     };
 
     const handleOnChange = (event) => {
-        setLoginForm({...loginForm, [event.target.name]:{ 
-                ...loginForm[event.target.name], value: event.target.value}});
+        setLoginForm({...loginForm, [`${event.target.name}`]:{ 
+                ...loginForm[`${event.target.name}`], value: event.target.value}});
     };
   
     const inputStyle = {
@@ -98,8 +98,8 @@ const Login = (props) => {
                 <ImageHeader/>
                 <div>
                     {Object.keys(loginForm).map((field) => 
-                        <Input elementType={loginForm[field].elementType} label={loginForm[field].label} 
-                               value={loginForm[field].value} elementConfig={loginForm[field].elementConfig} 
+                        <Input elementType={loginForm[`${field}`].elementType} label={loginForm[`${field}`].label} 
+                               value={loginForm[`${field}`].value} elementConfig={loginForm[`${field}`].elementConfig} 
                                handleOnChange={handleOnChange} style={inputStyle}/>)}
                 </div>
                 <div className="a form">

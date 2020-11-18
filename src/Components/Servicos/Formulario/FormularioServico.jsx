@@ -60,7 +60,7 @@ const CadastrarServico = () => {
 			
 			barbeariaId = await barbeariaId.json();
 			
-			let formData = Object.keys(servicoForm).reduce((obj, field) => ({...obj, [`${field}`]: servicoForm[field].value}), {});
+			let formData = Object.keys(servicoForm).reduce((obj, field) => ({...obj, [`${field}`]: servicoForm[`${field}`].value}), {});
 			formData.barbeariaId = barbeariaId.id;
 			
 			const response = await fetch(`${url}/servicos`, {

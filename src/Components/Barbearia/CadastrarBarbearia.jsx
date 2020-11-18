@@ -53,6 +53,7 @@ const CadastrarBarbearia = () => {
             </Helmet>
             {!loading ? renderForm(): <Loading/>}
             </>
-    )
+    );
 }
+
 export default CadastrarBarbearia;

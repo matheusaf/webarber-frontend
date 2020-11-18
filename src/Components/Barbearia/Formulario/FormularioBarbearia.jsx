@@ -137,7 +137,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
             let tempBarbeariaForm = {...barbeariaForm};
             Object.keys(serverDataDictionary).map((field) => {
                 tempBarbeariaForm = {...tempBarbeariaForm, [`${field}`]:{
-                ...tempBarbeariaForm[`${field}`], value: dadosBarbearia[serverDataDictionary[`${field}`]]}}
+                ...tempBarbeariaForm[`${field}`], value: dadosBarbearia[serverDataDictionary[`${field}`]]}};
                 }
             );
             tempBarbeariaForm.horarioAbertura.value = new Date(tempBarbeariaForm.horarioAbertura.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});

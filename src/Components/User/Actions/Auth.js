@@ -7,7 +7,7 @@ const validateUser = async(cachedUser) => {
         return response.message !== "Token inválido";
     }
     catch(err){
-        console.error(err);
+        alert(err);
     }
     return false;
 };
