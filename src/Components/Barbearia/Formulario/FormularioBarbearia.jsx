@@ -31,7 +31,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
                 id: "numero",
                 name: "numero",
                 type: "text",
-                maxLength:3,
+                maxLength:5,
                 placeholder: "Número"
             },
             label: "Número",

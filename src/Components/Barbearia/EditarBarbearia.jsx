@@ -18,7 +18,7 @@ const EditarBarbearia = () => {
 
     const fetchDadosBarbearia = async () => {
         setLoading(true);
-        let response = await fetch(`${url}/barbearia/`, {method: "get",
+        let response = await fetch(`${url}/barbearias/`, {method: "get",
                                                         headers: new Headers({"Content-Type": "application/json",
                                                                               "Authorization": `Bearer ${webarberUser.sessionToken}`})});
         if(response.status === 200){

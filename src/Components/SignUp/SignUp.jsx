@@ -239,11 +239,13 @@ const SignUp = ({email, password}) => {
     const renderSignUpForm = () => {
         return(
                 <div>
-                    <ImageHeader/>
-                    {Object.keys(signUpForm).map((field) => 
-                            <Input elementType={signUpForm[`${field}`].elementType} label={signUpForm[`${field}`].label} 
+                    <div className="container">
+                        <ImageHeader/>
+                        {Object.keys(signUpForm).map((field) => 
+                                <Input elementType={signUpForm[`${field}`].elementType} label={signUpForm[`${field}`].label} 
                                 value={signUpForm[`${field}`].value} elementConfig={signUpForm[`${field}`].elementConfig} 
                                 options={signUpForm[`${field}`].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
+                    </div>
                     <div className="a form">
                         <Link to="/login">
                             Já é cadastrado?

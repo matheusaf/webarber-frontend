@@ -119,7 +119,7 @@ const PaginaUsuario = ()  => {
         setEditMode(true);
     };
 
-    const handleSaveButton = async () => {
+    const handleSaveChanges = async () => {
         setEditMode(false);
         try{
             let updatedUser = Object.keys(userDataForm).reduce((obj, prop) => ({...obj, [`${prop}`]: userDataForm[`${prop}`].value }),{});
@@ -176,7 +176,7 @@ const PaginaUsuario = ()  => {
                                 )}
                         </form>
                         {!editMode ? <Button id="btn editar" buttonStyle={1} buttonText="Editar Perfil" handleOnClick={handleEditButton} style={buttonStyle}/> 
-                                    : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveButton} style={buttonStyle}/>}
+                                    : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveChanges} style={buttonStyle}/>}
                     </div>
                 </div>
             </div>

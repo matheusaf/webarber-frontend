@@ -21,7 +21,7 @@ const CardBarbearia = ({barbearia}) => {
                             </Link>                
                     </div>
                     <div>
-                        <Link to= {`/barbearias/${barbearia.id}`}>
+                        <Link to= {`/barbearia/${barbearia.id}`}>
                             <img className="card-img" src={logo} alt="" style={imgStyle}></img>
                         </Link>
                     </div>

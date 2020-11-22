@@ -22,7 +22,7 @@ const CadastrarBarbearia = () => {
         createBarbearia.horarioFechamento = new Date().setHours(...createBarbearia.horarioFechamento.split (":"));
         createBarbearia.diaFuncionamento = ["segunda", "terca", "quarta", "quinta", "sexta", "sabado", "domingo"];
 
-        const response = await fetch(`${url}/barbearia`, {
+        const response = await fetch(`${url}/barbearias`, {
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json","Authorization": `Bearer ${webarberUser.sessionToken}`

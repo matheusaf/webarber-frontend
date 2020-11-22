@@ -48,8 +48,8 @@ export default function PaginaBarbearia(){
     };
 
     useEffect(() => {
-        fetchBarbearia();
         fetchServicos(); 
+        fetchBarbearia();
     }, []);
 
     const renderBarbeariaDataRows = (field, value) => {
@@ -73,12 +73,12 @@ export default function PaginaBarbearia(){
         margin: "20px auto"
     };
 
-       const tableRow = (obj) => {
+    const tableRow = (obj) => {
         return (
                 <tr key={`row-${obj.id}`}>
                     <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
                     {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
-                    <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
+                    <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{`R$ ${obj.preco.toFixed(2)}`}</td>
                 </tr>
         );
     };
@@ -97,7 +97,7 @@ export default function PaginaBarbearia(){
 
     const renderAgendamentoButton = () => {
         return(
-            <Button buttonColors={2} buttonText="Fazer Agendamento" style={buttonStyle}/>
+            <Button buttonColors={2} buttonText="Realizar Agendamento" style={buttonStyle} handleOnClick={() => history.push("/cadastrarAgendamento/1")}/>
         );
     };
 
@@ -117,7 +117,15 @@ export default function PaginaBarbearia(){
                             {servicos && servicos.map((obj) => tableRow(obj))}
                         </tbody>
                     </table>
-        )
+            );
+    };
+
+    const renderSemServicos = () => {
+        return(
+                <h5 className="notFound">
+                    Sem serviços cadastrados
+                </h5>
+        );
     };
 
     const renderPaginaBarbearia = () => {
@@ -131,9 +139,9 @@ export default function PaginaBarbearia(){
                         </div>
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[`${field}`]))}
-                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && servicos.length && renderAgendamentoButton()}
-                        {servicos.length && renderTabelaServicos()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
+                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && renderAgendamentoButton()}
+                        {servicos.length === 0 ? renderSemServicos() : renderTabelaServicos()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
                     </div>
