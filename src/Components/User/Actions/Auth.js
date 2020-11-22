@@ -14,6 +14,17 @@ const validateUser = async(cachedUser) => {
     return false;
 };
 
+const setCacheUser = (user) => {
+    if(user){
+        const cachedUser = localStorage.getItem("webarberUser");
+        if(cachedUser){
+            localStorage.removeItem("webarberUser");
+        }
+        let {id, nome, idTipo, sessionToken, CPF, CNPJ} = user;
+        let webarberUser = {id: id, nome: nome, idTipo: idTipo, sessionToken: sessionToken, CPF: CPF, CNPJ: CNPJ };
+        localStorage.setItem("webarberUser", JSON.stringify(webarberUser));
+    } 
+}
 // const fetchUserData = async(token, userId) =>{
 //     try{
 //         let res = await fetch(`${url}/conta/`, {method: "get", headers:new Headers({"Content-Type":"application-json", "Authorization": `Bearer ${token}`})});
@@ -28,5 +39,6 @@ const validateUser = async(cachedUser) => {
 
 export {
     validateUser,
+    setCacheUser
     // fetchUserData
 };
