@@ -1,11 +1,11 @@
 import React from "react";
 
-const Table = ({data}) => {
+const Table = ({headers, data}) => {
 
 	const renderTableRow = (obj) => {
 		return(
 			<tr key={`row-${obj.id}`}>
-				{Object.keys(obj).map((prop) =)}
+				{Object.keys(obj).map((prop) = (<td key={} ></td>))}
                     <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
                     <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
             </tr>
@@ -16,8 +16,7 @@ const Table = ({data}) => {
 		<table class="table table-dark">
 			<thead>
 				<tr>
-					<th key="titulo" data-testid="titulo">Titulo</th>
-					<th key="valor" data-testid="Valor">Valor</th>
+					{Object.keys(headers).map((prop) => (<th key={headers[`${prop}`].key} data-testid={}>{headers[`${prop}`].label}</th>) )}
 				</tr>
 			</thead>
 			<tbody>

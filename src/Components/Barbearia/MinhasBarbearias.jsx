@@ -44,12 +44,18 @@ const MinhasBarbearias = () => {
         );
     };
 
+    const renderButton = () => {
+        return (
+            <Button buttonColors={1} buttonText="+ Adicionar Barbearias" style={{display:"flex", margin:"auto", height:"auto"}}/>
+        );
+    }
+
     const renderMinhaBarbearia = () => {
         return (
                 <div>
                     <NavBar></NavBar>
                     <Link to="/cadastrarBarbearia">
-                        <Button buttonColors={1} buttonText="+ Adicionar Barbearias" style={{display:"flex", margin:"auto", height:"auto"}}/>
+                    {!barbearia && renderButton()}
                     </Link>
                     <div>
                         {barbearia && <CardBarbearia barbearia={barbearia}> </CardBarbearia>}

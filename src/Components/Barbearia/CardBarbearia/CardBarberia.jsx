@@ -16,7 +16,7 @@ const CardBarbearia = ({barbearia}) => {
         <div className="card barber">
                 <div className="card-body" key={barbearia.id}>
                     <div className="card-title" style={{display:"flex", justifyContent:"center"}}>
-                            <Link to= {`/barbearias/${barbearia.id}`}>
+                            <Link to= {`/barbearia/${barbearia.id}`}>
                                 {barbearia.nome}
                             </Link>                
                     </div>

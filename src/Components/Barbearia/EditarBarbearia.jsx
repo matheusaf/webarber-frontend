@@ -5,10 +5,13 @@ import NavBar from "../UI/NavBar/NavBar";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
 import FormularioBarbearia from "./Formulario/FormularioBarbearia";
+import { useHistory, useParams } from "react-router-dom";
 
 const url = process.env.REACT_APP_BASE_URL;
 
 const EditarBarbearia = () => {
+    const { id } = useParams();
+    const history = useHistory();
     const { webarberUser } = useContext(UserContext);
     const [dadosBarbearia, setDadosBarbearia] = useState();
     const [loading, setLoading] = useState(true);
@@ -28,8 +31,10 @@ const EditarBarbearia = () => {
     };
     
     useEffect(() => {
-        fetchDadosBarbearia();
-    }, []);
+        if(webarberUser){
+            fetchDadosBarbearia();
+        }
+    }, [webarberUser]);
 
 
     const  renderNotFound = () => {
@@ -57,6 +62,7 @@ const EditarBarbearia = () => {
             });
             if (response.status === 200) {
                 alert("Barbearia alterada com sucesso.");
+                history.push(`/barbearia/${id}`);
             } else {
                 const { message } = await response.json();
                 alert(message);

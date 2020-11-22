@@ -1,9 +1,10 @@
-import NavBar from "../NavBar";
+import NavBar from "../UI/NavBar/NavBar";
 import { Helmet } from "react-helmet";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Agendamento(){
+
+const Agendamentos = () => {
     return (
         <>
         <Helmet>
@@ -18,3 +19,5 @@ export default function Agendamento(){
         </>
     );
 }
+
+export default Agendamentos;

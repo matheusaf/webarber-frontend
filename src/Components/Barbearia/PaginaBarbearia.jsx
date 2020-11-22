@@ -32,7 +32,7 @@ export default function PaginaBarbearia(){
             setDadosBarberia(barbearia);
         }
         catch(err){
-            // alert(err);
+            alert(err);
         }
         setLoading(false);
     };
@@ -70,7 +70,7 @@ export default function PaginaBarbearia(){
     const buttonStyle = {
         display: "flex",
         justifyContent:"center",
-        margin: "10px auto"
+        margin: "20px auto"
     };
 
        const tableRow = (obj) => {
@@ -91,8 +91,33 @@ export default function PaginaBarbearia(){
 
     const renderServiceButton = () => {
         return(
-            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
+            <Button buttonColors={2} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
         );
+    };
+
+    const renderAgendamentoButton = () => {
+        return(
+            <Button buttonColors={2} buttonText="Fazer Agendamento" style={buttonStyle}/>
+        );
+    };
+
+    const renderTabelaServicos = () => {
+        return(
+                <table class="table table-dark" style={{marginTop: "2%"}}>
+                        <thead>
+                            <tr>
+                                <th colSpan="2" style={{display:"flex", justifyContent:"center", margin:"auto auto", fontWeight:"bold"}}>Tabela de Preços</th>
+                            </tr>
+                            <tr>
+                                <th key="titulo">Titulo</th>
+                                <th key="valor">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {servicos && servicos.map((obj) => tableRow(obj))}
+                        </tbody>
+                    </table>
+        )
     };
 
     const renderPaginaBarbearia = () => {
@@ -106,17 +131,8 @@ export default function PaginaBarbearia(){
                         </div>
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[`${field}`]))}
-                        <table class="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th key="titulo" data-testid="titulo">Titulo</th>
-                                    <th key="valor" data-testid="Valor">Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {servicos && servicos.map((obj) => tableRow(obj))}
-                            </tbody>
-                        </table>
+                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && servicos.length && renderAgendamentoButton()}
+                        {servicos.length && renderTabelaServicos()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
