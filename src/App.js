@@ -1,25 +1,103 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo, useState, useEffect} from "react";
+import {
+        BrowserRouter,
+        Switch,
+        Route,
+        Redirect,
+        useLocation
+} from "react-router-dom";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import SignUp from "./Components/Signup/Signup";
+import { UserContext } from "./Components/User/UserContext";
+import CadastrarBarbearia from "./Components/Barbearia/CadastrarBarbearia";
+import EditarBarbearia from "./Components/Barbearia/EditarBarbearia";
+import MinhasBarbearias from "./Components/Barbearia/MinhasBarbearias";
+import PaginaBarbearia from "./Components/Barbearia/PaginaBarbearia";
+import PaginaUsuario from "./Components/User/PaginaUsuario";
+import Loading from "./Components/UI/Loading/Loading";
+import CadastrarServico from "./Components/Servicos/Formulario/FormularioServico";
+// import Agendamentos from "./Pages/Agendamentos/Agendamentos";
+import { validateUser } from "./Components/User/Actions/Auth";
+
+
+require("dotenv").config();
 
 function App() {
+  const[webarberUser, setWebarberUser] = useState(null);
+  const[triedLogin, setTriedLogin] = useState(false);
+  const[loading, setLoading] = useState(false);
+  
+  const verifyLocalStorage = async () => {
+    setLoading(true);
+    let cachedUser = await JSON.parse(localStorage.getItem("webarberUser"));
+    if(await validateUser(cachedUser)) {
+      setWebarberUser(cachedUser);
+    }
+    setLoading(false);
+    setTriedLogin(true);
+  };
+
+  const userValue = useMemo(() => ({webarberUser, setWebarberUser}), [webarberUser, setWebarberUser]);
+
+  useEffect( () => {
+    verifyLocalStorage();
+  }, []);
+
+
+  const PrivateRoute = ({ component: Component, ...rest},  ) => {
+    let location = useLocation();
+    return <Route render={(props) => 
+      (webarberUser && location.pathname.includes(rest["urlPath"])) ? (<Component {...props}/>) : <Redirect exact to="/"/>
+    }/>;
+  };
+
+  const AdminRoute = ({ component: Component, ...rest}) => {
+    let location = useLocation();
+     if(triedLogin && !webarberUser){
+        return (<Redirect to="/login"/>);
+     }
+     else{
+        if(webarberUser.idTipo === 2){
+          return <Route render={(props) => (webarberUser && webarberUser.idTipo === 2  && location.pathname.includes(rest["urlPath"]) ) ? (<Component {...props}/>) : <Redirect to="/"/> }/>;
+        }
+        else{
+          return (<Redirect to="/"/>);
+        }
+     }
+  };
+
+   const LoggedInRoute = ({ component: Component, ...rest}) => {
+      let location = useLocation();
+      if(triedLogin && !webarberUser){
+        return (<Loading/>);
+      }
+        return (<Route render={(props) => (!webarberUser && location.pathname === rest["urlPath"]) ? (<Component {...props}/>) : <Redirect to="/"/> }/>);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+       <header>
+       </header>
+       <div>
+         <Switch>
+           <Route exact path="/signup" component={SignUp}/>
+           <UserContext.Provider value={userValue}>
+             <Route exact path="/login" component={Login}/>
+             <Route exact path="/" component={Home}/>
+             <Route exact path="/cadastrarBarbearia" component={CadastrarBarbearia}/>
+             <Route exact path="/editarBarbearia/:id" component={EditarBarbearia}/> 
+             <Route exact path="/users/:id" component={PaginaUsuario}/>
+             <Route exact path="/cadastrarServico" component={CadastrarServico}/>
+             {/* <LoggedInRoute exact path="/agendamentos" component={Agendamentos} urlPath="/agendamentos" /> */}
+             <Route exact path="/barbearias" component={MinhasBarbearias} urlPath="/barbearias" />
+             <Route exact path="/barbearias/:id" component={PaginaBarbearia} urlPath="/barbearias/" />
+           </UserContext.Provider>
+         </Switch>
+       </div>
+      <footer>
+      </footer>
+    </BrowserRouter>
   );
 }
 
