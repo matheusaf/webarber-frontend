@@ -2,9 +2,11 @@ const url = process.env.REACT_APP_BASE_URL;
 
 const validateUser = async(cachedUser) => {
     try{
-        let response = await fetch(`${url}/conta`, {method: "get",  headers: new Headers({"Content-Type": "application/json", "Authorization": `Bearer ${cachedUser.sessionToken}`, body: null})})
-                    .then((data) => data.json());
-        return response.message !== "Token inválido";
+        if(cachedUser){
+            let response = await fetch(`${url}/conta`, {method: "get",  headers: new Headers({"Content-Type": "application/json", "Authorization": `Bearer ${cachedUser.sessionToken}`, body: null})})
+                        .then((data) => data.json());
+            return response.message !== "Token inválido";
+        }
     }
     catch(err){
         alert(err);

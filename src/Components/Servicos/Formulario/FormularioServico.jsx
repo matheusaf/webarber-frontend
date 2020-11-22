@@ -40,7 +40,7 @@ const CadastrarServico = () => {
 				type: "text",
 				placeholder: "Descrição"
 			},
-			label: "descricao",
+			label: "Descrição",
 			value: ""
 		}
 	});

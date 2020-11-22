@@ -81,7 +81,7 @@ const googleMapsAPILibraries = ["places"];
                 );
             case "textarea":
                 return (
-                    <textarea {...elementConfig} />
+                    <textarea className="form-control" {...elementConfig} value={value} style={style} onChange={handleOnChange} />
                 );
             default:
                 break;

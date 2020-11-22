@@ -17,7 +17,6 @@ import PaginaBarbearia from "./Components/Barbearia/PaginaBarbearia";
 import PaginaUsuario from "./Components/User/PaginaUsuario";
 import Loading from "./Components/UI/Loading/Loading";
 import CadastrarServico from "./Components/Servicos/Formulario/FormularioServico";
-// import Agendamentos from "./Pages/Agendamentos/Agendamentos";
 import { validateUser } from "./Components/User/Actions/Auth";
 
 
@@ -43,7 +42,6 @@ function App() {
   useEffect( () => {
     verifyLocalStorage();
   }, []);
-
 
   const PrivateRoute = ({ component: Component, ...rest},  ) => {
     let location = useLocation();
