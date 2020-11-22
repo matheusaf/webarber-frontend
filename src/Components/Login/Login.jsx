@@ -8,7 +8,7 @@ import AlertBox from "../UI/AlertBox/AlertBox";
 import Loading from "../UI/Loading/Loading";
 import ImageHeader from "../UI/ImageHeader/ImageHeader";
 import { Link } from "react-router-dom";
-
+import { setCacheUser } from "../User/Actions/Auth";
 const url = process.env.REACT_APP_BASE_URL;
 
 const Login = (props) => {
@@ -55,9 +55,8 @@ const Login = (props) => {
                             }
             );
             if(response.status === 200){
-                let {id, nome, idTipo, sessionToken} = await response.json();
-                let webarberUser = {id: id, nome: nome, idTipo: idTipo, sessionToken: sessionToken};
-                localStorage.setItem("webarberUser", JSON.stringify(webarberUser));
+                let user = await response.json();
+                setCacheUser(user);
                 history.push("/");
                 window.location.reload();
             }

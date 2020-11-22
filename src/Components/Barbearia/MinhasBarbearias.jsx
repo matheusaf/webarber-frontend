@@ -33,8 +33,10 @@ const MinhasBarbearias = () => {
     };
 
     useEffect(() => {
-        fetchBarbearia();
-    }, []);
+        if(webarberUser){
+            fetchBarbearia();
+        }
+    }, [webarberUser]);
 
     const renderNotFound = () => {
         return (
