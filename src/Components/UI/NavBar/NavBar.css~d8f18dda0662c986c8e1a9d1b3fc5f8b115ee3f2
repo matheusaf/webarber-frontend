@@ -1,0 +1,61 @@
+.btn-nav {
+  font-weight: bold;
+  border-radius: 10rem;
+  width: auto;
+}
+.btn-nav.login {
+  background-color: #2bce3b;
+  border: #2bce3b;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.btn-nav.login:hover {
+  color: #2bce3b;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn-nav.signup {
+  background-color: black;
+  border: #2bce3b;
+  border-width: 1px;
+  border-style: solid;
+  color: #2bce3b;
+  margin-left: 5%;
+}
+
+.btn-nav.signup:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.navbar-brand {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0px auto;
+  width: 7%;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.p-nav.user {
+  color: white;
+  width: max-content;
+  margin: 0px auto;
+}
+
+.a-nav.user {
+  font-weight: bold;
+  color: #2bce3b;
+}
+
+.col.nav {
+  width: auto;
+  display: flex;
+  align-items: center;
+}
