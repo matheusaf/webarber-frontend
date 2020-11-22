@@ -31,7 +31,7 @@ const Home = () => {
 
     const  renderNotFound = () => {
         return (
-            <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {`Não há barbearia(s) com o nome "${queryValue.value}"`}</h3>
+            <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {`Nenhuma barbearia encontrada com o nome "${queryValue.value}"`}</h3>
         );
     };
 
@@ -47,16 +47,17 @@ const Home = () => {
     };
 
     const fetchBarbearias = async () => {
+        let results = null;
         setLoading(true);
         try{
-            let results = await axios.get(`${url}/barbearias?nome=${queryValue.value}`).then((d) => d.data);
+            results = await axios.get(`${url}/barbearias?nome=${queryValue.value}`).then((d) => d.data);
             setSearchFinished(true);
-            return results;
         }
         catch(err){
             alert(err);
         }
         setLoading(false);
+        return results;
     };
 
     const handleOnClick = async (event) => {
@@ -85,9 +86,11 @@ const Home = () => {
                 <div>
                     <NavBar pagina="Home"></NavBar>
                     <div>
-                        <Input elementType={queryValue.elementType} value={queryValue.value} 
-                               elementConfig={queryValue.elementConfig} handleOnChange={handleOnChange} 
-                               style={styleSearchBar}/>
+                        <form onSubmit={handleOnClick}>
+                            <Input elementType={queryValue.elementType} value={queryValue.value} 
+                                   elementConfig={queryValue.elementConfig} handleOnChange={handleOnChange} 
+                                   style={styleSearchBar}/>
+                        </form>
                     </div>
                     <div>
                         <Button buttonColors={2} disabled={!queryValue.valid} 

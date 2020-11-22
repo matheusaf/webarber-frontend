@@ -32,23 +32,14 @@ export default function PaginaBarbearia(){
             setDadosBarberia(barbearia);
         }
         catch(err){
-            alert(err);
+            // alert(err);
         }
         setLoading(false);
     };
     
     const fetchServicos = async () => {
         try {
-            let barbeariaId = await fetch(`${url}/barbearia`, {
-				method: "get",
-				headers: new Headers({
-					"Content-Type": "application/json","Authorization": `Bearer ${webarberUser.sessionToken}`
-				}),
-            });
-            barbeariaId = await barbeariaId.json();
-            barbeariaId = barbeariaId.id;
-
-            const servicos = await axios.get(`${url}/servicos/barbearia/${barbeariaId}`).then((d) => d.data);
+            const servicos = await axios.get(`${url}/servicos/barbearia/${id}`).then((d) => d.data);
             setServicos(servicos);
         } catch(err){
             alert(err);
@@ -126,8 +117,8 @@ export default function PaginaBarbearia(){
                                 {servicos && servicos.map((obj) => tableRow(obj))}
                             </tbody>
                         </table>
-                        {webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
-                        {webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
+                        {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
+                        {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
                     </div>
                     <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent>

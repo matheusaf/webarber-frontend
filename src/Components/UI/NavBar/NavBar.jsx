@@ -81,7 +81,7 @@ export default function NavBar({pagina}){
                     <div className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`} id="navbarText">
                         <ul className="navbar-nav mr-auto">
                             {handleNavItems("Home", "/", pagina)}
-                            {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Minhas Barbearias", "/barbearias", pagina)}
+                            {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Minha Barbearia", "/barbearias", pagina)}
                             {webarberUser && handleNavItems("Meus Agendamentos", "/agendamentos", pagina)}
                         </ul>
                     </div>

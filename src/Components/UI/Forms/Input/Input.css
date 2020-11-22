@@ -16,6 +16,28 @@
   border-radius: inherit;
 }
 
+.InputElement:disabled{
+  background-color: rgb(123, 121, 121);
+  font-weight: bold;
+}
+
+.TextElement{
+  border-radius: 1rem;
+  padding: 10px;
+  height: auto;
+  width: 100%;
+  font: inherit;
+  resize: vertical;
+  overflow: auto;
+}
+
+.TextElement:focus {
+  outline: #2bce3b;
+  outline-style: solid;
+  outline-width: thin;
+  border-radius: inherit;
+}
+
 .Label {
   color: #fff;
   display: block;

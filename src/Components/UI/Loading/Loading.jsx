@@ -16,7 +16,7 @@ const Loading = () => {
             `;
 
     return(
-            <div className>
+            <div>
                 <BarLoader css={override} width={200} height={5} color={ "#2bce3b" }/>
             </div>
     );
