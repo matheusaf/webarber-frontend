@@ -11,7 +11,7 @@
 .col.label {
   max-width: max-content;
   display: flex;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .col.data {
