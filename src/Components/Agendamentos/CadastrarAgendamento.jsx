@@ -27,6 +27,7 @@ const CadastrarAgendamento = () => {
 			},
 			label: "Tipo Serviço",
 			value: "",
+			readOnly: false,
 			validation:{},
 			valid: false,
 			touched: false,
@@ -38,8 +39,23 @@ const CadastrarAgendamento = () => {
 				name: "preco",
 				type: "text",
 			},
-			disabled: true,
 			label: "Preço",
+			value: "",
+			readOnly: true,
+			validation:{},
+			valid: false,
+			touched: false,
+		},
+		data:{
+			elementType: "input",
+			elementConfig: {
+				id:"data",
+				name: "data",
+				placeholder: "Data",
+				type: "date"
+			},
+			label: "Data",
+			readOnly: false,
 			value: "",
 			validation:{},
 			valid: false,
@@ -54,6 +70,7 @@ const CadastrarAgendamento = () => {
 				type: "time"
 			},
 			label: "Horário",
+			readOnly: false,
 			value: "",
 			validation:{},
 			valid: false,
@@ -64,12 +81,11 @@ const CadastrarAgendamento = () => {
 	const fetchServicos = async() => {
 		try{
 			let servicos = await axios.get(`${url}/servicos/barbearia/${id}`).then((d) => d.data);
-			debugger;
 			setServicos(servicos);
 			let servicosOptions = servicos.reduce((arr, obj) => [...arr, {optionValue: obj.id, optionText: obj.titulo}], []);
-			setCadastrarServicoForm({...cadastrarServicoForm, ["tipoServico"] : {
-										...cadastrarServicoForm["tipoServico"],  ["elementConfig"]: {
-											...cadastrarServicoForm["tipoServico"]["elementConfig"], options:[...servicosOptions]}}});
+			setCadastrarServicoForm({...cadastrarServicoForm, tipoServico : {
+										...cadastrarServicoForm.tipoServico,  elementConfig : {
+											...cadastrarServicoForm.tipoServico.elementConfig, options:[...servicosOptions]}}});
 		}
 		catch(err){
 			alert(err);
@@ -77,7 +93,6 @@ const CadastrarAgendamento = () => {
 		setLoading(false);
 	}
 
-	console.log(cadastrarServicoForm);
 	useEffect(() => {
 		if(webarberUser){
 			fetchServicos();
@@ -87,6 +102,13 @@ const CadastrarAgendamento = () => {
 	const handleOnChange = (event) => {
 		setCadastrarServicoForm({...cadastrarServicoForm, [`${event.target.name}`]:{
 			...cadastrarServicoForm[`${event.target.name}`], value: event.target.value}});
+		if(event.target.name === "tipoServico"){
+			let preco = servicos.filter((servico) => servico.id === +event.target.value);
+			if(preco){
+				setCadastrarServicoForm({...cadastrarServicoForm, preco: {
+											...cadastrarServicoForm.preco, value: `R$ ${preco[0].preco.toFixed(2)}`}});
+			}
+		}
 	};
 
 	const criarAgendamento = async () => {
@@ -118,7 +140,7 @@ const CadastrarAgendamento = () => {
 				{servicos.length > 0 && Object.keys(cadastrarServicoForm).map((field) => 
 					<Input elementType={cadastrarServicoForm[`${field}`].elementType} label={cadastrarServicoForm[`${field}`].label}
 						value={cadastrarServicoForm[`${field}`].value} elementConfig={cadastrarServicoForm[`${field}`].elementConfig}
-						options={cadastrarServicoForm[`${field}`].options} disabled={cadastrarServicoForm[`${field}`].disabled}
+						options={cadastrarServicoForm[`${field}`].options} readOnly={cadastrarServicoForm[`${field}`].readOnly}
 						handleOnChange={handleOnChange} style={null}/>
 					)}
 				<Button buttonColors={1} id="btn agendamento" buttonText="Realizar Agendamento" handleOnClick={() => criarAgendamento()} style={buttonStyle}/>
