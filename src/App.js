@@ -20,6 +20,7 @@ import CadastrarServico from "./Components/Servicos/Formulario/FormularioServico
 import { validateUser } from "./Components/User/Actions/Auth";
 import Agendamentos from "./Components/Agendamentos/Agendamentos";
 import CadastrarAgendamento from "./Components/Agendamentos/CadastrarAgendamento";
+import Avaliacao from "./Components/Avaliacao/Avaliacao";
 
 
 require("dotenv").config();
@@ -93,6 +94,7 @@ function App() {
              <Route exact path="/cadastrarAgendamento/:id" component={CadastrarAgendamento}/>
              <Route exact path="/barbearia" component={MinhasBarbearias}/>
              <Route exact path="/barbearia/:id" component={PaginaBarbearia}/>
+             <Route exact path="/avaliacao/:id" component={Avaliacao}/>
            </UserContext.Provider>
          </Switch>
        </div>

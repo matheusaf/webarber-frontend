@@ -2,7 +2,7 @@ import axios from "axios";
 import NavBar from "../UI/NavBar/NavBar";
 import { Helmet } from "react-helmet";
 import React, {useContext, useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loading from "../UI/Loading/Loading";
 import { UserContext } from "../User/UserContext";
 
@@ -13,6 +13,8 @@ const Agendamentos = () => {
     const [agendamento, setAgendamento] = useState([]);
     const [statusAgendamento, setStatusAgendamento] = useState([]);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
 
     const fetchAgendamentos = async () => {
         setLoading(true);
@@ -20,7 +22,7 @@ const Agendamentos = () => {
             let resp = await fetch(`${url}/agendamentos`, {method:"get", 
                                                           headers: new Headers({"Content-type" : "application/json", 
                                                                                 "Authorization" : `Bearer ${webarberUser.sessionToken}`})});
-            if(resp.status === 200){
+            if (resp.status === 200) {
                 let data = await resp.json();
                 setAgendamento(data);
             }
@@ -30,6 +32,49 @@ const Agendamentos = () => {
         }
         setLoading(false);
     }; 
+
+    const cancelarAgendamento = async ({ id }) => {
+        try {
+            const response = await fetch(`${url}/agendamentos`, {
+                method: "delete",
+                body: JSON.stringify({id}),
+                headers: new Headers({
+                    "Content-type" : "application/json", 
+                    "Authorization" : `Bearer ${webarberUser.sessionToken}`
+                })
+            });
+            
+            if (response.status === 200) {
+                await fetchAgendamentos();
+            } else {
+                alert("Erro ao cancelar o agendamento");
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+
+    const finalizarAgendamento = async ({ id }) => {
+        try {
+            const response = await fetch(`${url}/agendamentos`, {
+                method: "patch",
+                body: JSON.stringify({ id, idStatus: 3}),
+                headers: new Headers({
+                    "Content-type" : "application/json", 
+                    "Authorization" : `Bearer ${webarberUser.sessionToken}`
+                })
+            });
+            
+            if (response.status === 200) {
+                await fetchAgendamentos();
+            } else {
+                alert("Erro ao cancelar o agendamento");
+            }
+        } catch (err) {
+            alert(err);
+        }
+    };
+
 
     const fetchStatusAgendamentos = async () => {
         try{
@@ -47,30 +92,35 @@ const Agendamentos = () => {
     const renderTableRows = (obj) => {
         return (
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td key={obj.id}>{obj.nome_servico}</td>
+                    <td key={`${obj.id}-data`}>{obj.data}</td>
+                    {webarberUser.idTipo === 2 && <td key={`${obj.id}-user`}>{obj.nome_usuario}</td>}
+                    <td key={`${obj.id}-status`}>{statusAgendamento[(obj.id_status-1)]}</td>
+                    {webarberUser.idTipo === 1 && <button className="btn btn-danger" onClick={() => cancelarAgendamento(obj.id)}>Cancelar agendamento</button>}
+                    {webarberUser.idTipo === 1 && <button className="btn btn-warning" onClick={() => { localStorage.setItem("nome_servico", obj.nome_servico); history.pushState(); }}> Avaliar agendamento</button>}
+                    {webarberUser.idTipo === 2 && <button className="btn btn-danger" onClick={() => finalizarAgendamento(obj.id)}> Finalizar agendamento</button>}
                 </tr>
         );
     }
     const renderPaginaAgendamentos = () => {
-        if(agendamento.length > 0){
+        if (agendamento.length > 0){
             return(
-                    <table>
+                    <table className="table table-dark">
                         <thead>
                             <tr>
-                                <th colSpan="3">Meus Agendamentos</th>
+                                <th style={{textAlign: "center"}} colSpan="5">Meus Agendamentos</th>
                             </tr>
                             <tr>
                                 <th>Serviço</th>
                                 <th>Agendamento</th>
+                                {webarberUser.idTipo === 2 && <th>Usuário</th>}
                                 <th>Situação</th>
+                                <th>Ação</th>
                             </tr>
-
-                            <tbody>
-
-                            </tbody>
                         </thead>
+                        <tbody>
+                            {agendamento.map((agend) => renderTableRows(agend))}
+                        </tbody>
                     </table>
             );
         }
@@ -84,9 +134,8 @@ const Agendamentos = () => {
     };
 
     useEffect(() => {
-        if(webarberUser){
+        if (webarberUser) {            
             fetchStatusAgendamentos();
-            
             fetchAgendamentos();
         }
     }, [webarberUser]);
@@ -97,10 +146,9 @@ const Agendamentos = () => {
             <title>Meus Agendamentos</title>
         </Helmet>
         <NavBar></NavBar>
-        <h1 style = {{color:"white", textAlign:"center"}}>
-            {loading && (<Loading/>)}
-            {renderPaginaAgendamentos()}
-        </h1>
+        <h1 style = {{color:"white", textAlign:"center"}}> Agendamento </h1>
+        {loading && (<Loading/>)}
+        {renderPaginaAgendamentos()}
         </>
     );
 }
