@@ -62,7 +62,7 @@ const Avaliacao = () => {
 		try {
 			let response = await fetch(`${url}/avaliacoes`, {
 				method: "post",
-				body: JSON.stringify(idAgendamento: url),
+				body: JSON.stringify(),
 				headers: new Headers({
 					"Content-type" : "application/json", 
 					"Authorization" : `Bearer ${webarberUser.sessionToken}`

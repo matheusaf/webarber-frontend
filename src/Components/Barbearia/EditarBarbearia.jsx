@@ -23,7 +23,9 @@ const EditarBarbearia = () => {
                                                                               "Authorization": `Bearer ${webarberUser.sessionToken}`})});
         if(response.status === 200){
             let json = await response.json();
-            setDadosBarbearia(json);
+            if(json.length > 0){
+                setDadosBarbearia(json[0]);
+            }
         }
         else{
             alert("erro");

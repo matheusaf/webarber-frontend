@@ -1,11 +1,5 @@
 import React, { useMemo, useState, useEffect} from "react";
-import {
-        BrowserRouter,
-        Switch,
-        Route,
-        Redirect,
-        useLocation
-} from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect, useLocation } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
@@ -21,7 +15,6 @@ import { validateUser } from "./Components/User/Actions/Auth";
 import Agendamentos from "./Components/Agendamentos/Agendamentos";
 import CadastrarAgendamento from "./Components/Agendamentos/CadastrarAgendamento";
 import Avaliacao from "./Components/Avaliacao/Avaliacao";
-
 
 require("dotenv").config();
 

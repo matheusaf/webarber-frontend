@@ -142,6 +142,25 @@ const CadastrarAgendamento = () => {
 			alert(error);
 		}
 	};
+
+	const renderContainer = () => {
+		if(loading){
+			return (<Loading/>);
+		}
+		else{
+			return(
+				<div className="container">
+					{servicos.length > 0 && Object.keys(agendamentoForm).map((field) => 
+					<Input elementType={agendamentoForm[`${field}`].elementType} label={agendamentoForm[`${field}`].label}
+							value={agendamentoForm[`${field}`].value} elementConfig={agendamentoForm[`${field}`].elementConfig}
+							options={agendamentoForm[`${field}`].options} readOnly={agendamentoForm[`${field}`].readOnly}
+							handleOnChange={handleOnChange} style={null}/>
+					)}
+					<Button buttonColors={1} id="btn agendamento" buttonText="Realizar Agendamento" handleOnClick={() => criarAgendamento()} style={buttonStyle}/>
+				</div>
+			);
+		}
+	};
 	
 	const buttonStyle = {
 		margin : "10px auto",
@@ -155,15 +174,7 @@ const CadastrarAgendamento = () => {
 				<title>Realizar Agendamento</title>
 			</Helmet>
 			<NavBar/>
-			<div className="container">
-				{servicos.length > 0 && Object.keys(agendamentoForm).map((field) => 
-					<Input elementType={agendamentoForm[`${field}`].elementType} label={agendamentoForm[`${field}`].label}
-						value={agendamentoForm[`${field}`].value} elementConfig={agendamentoForm[`${field}`].elementConfig}
-						options={agendamentoForm[`${field}`].options} readOnly={agendamentoForm[`${field}`].readOnly}
-						handleOnChange={handleOnChange} style={null}/>
-					)}
-				<Button buttonColors={1} id="btn agendamento" buttonText="Realizar Agendamento" handleOnClick={() => criarAgendamento()} style={buttonStyle}/>
-			</div>
+			{renderContainer()}
 		</>
 
 	)

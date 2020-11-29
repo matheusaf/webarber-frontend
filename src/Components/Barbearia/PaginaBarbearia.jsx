@@ -5,7 +5,7 @@ import Button from "../UI/Button/Button";
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import "./PaginaBarbearia.css";
+import "./Styles/PaginaBarbearia.css";
 import { UserContext } from "../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
@@ -95,25 +95,35 @@ export default function PaginaBarbearia(){
         );
     };
 
+    const handleAgendamentoButton = () => {
+        if(webarberUser){
+            history.push("/cadastrarAgendamento/1");
+        }
+        else{
+            history.push("/login");
+        }
+    };
+
     const renderAgendamentoButton = () => {
         return(
-            <Button buttonColors={2} buttonText="Realizar Agendamento" style={buttonStyle} handleOnClick={() => history.push("/cadastrarAgendamento/1")}/>
+            <Button buttonColors={2} buttonText="Realizar Agendamento" style={buttonStyle} handleOnClick={handleAgendamentoButton}/>
         );
     };
 
+
     const renderTabelaServicos = () => {
         return(
-                <table class="table table-dark" style={{marginTop: "2%"}}>
-                        <thead>
-                            <tr>
-                                <th colSpan="2" style={{display:"flex", justifyContent:"center", margin:"auto auto", fontWeight:"bold"}}>Tabela de Preços</th>
+                <table className="table table-dark" style={{marginTop: "2%", textAlign:"center"}}>
+                        <thead style={{backgroundColor:"black", color:"#2bce3b", border:"3px solid grey"}}>
+                            <tr style={{fontWeight:"bold"}}>
+                                <th colSpan="2">Tabela de Serviços</th>
                             </tr>
-                            <tr>
+                            <tr style={{fontWeight:"bold"}}>
                                 <th key="titulo">Titulo</th>
                                 <th key="valor">Valor</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{border:"3px solid grey"}}>
                             {servicos && servicos.map((obj) => tableRow(obj))}
                         </tbody>
                     </table>
