@@ -32,7 +32,7 @@ const CadastrarBarbearia = () => {
 
         if (response.status === 201) {
             alert("Barbearia cadastrada com sucesso");
-            history.push("/barbearia")
+            history.push("/barbearia");
         } else {
             const { message } = await response.json();
             alert(message);

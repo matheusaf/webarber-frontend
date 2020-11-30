@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from '../User/UserContext';
+import React, { useState, useContext } from "react";
+import { UserContext } from "../User/UserContext";
 import Helmet from "react-helmet";
 import Button from "../UI/Button/Button";
 import NavBar from "../UI/NavBar/NavBar";
@@ -43,20 +43,13 @@ const Avaliacao = () => {
 			value: "",
 			readOnly:false
 		},
-	})
-
-
-	useEffect(() => {
-		if(webarberUser){
-
-		}
-	}, [webarberUser]);
+	});
 
 	const handleOnChange = (event) => {
 		setDadosAvaliacao({...dadosAvaliacao, [`${event.target.name}`]: {
 			...dadosAvaliacao[`${event.target.name}`], value: event.target.value
-		}})
-	}
+		}});
+	};
 
 	const handleOnClick = async () => {
 		try {

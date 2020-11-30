@@ -48,7 +48,7 @@ const MinhasBarbearias = () => {
         return (
             <Button buttonColors={1} buttonText="+ Adicionar Barbearias" style={{display:"flex", margin:"auto", height:"auto"}}/>
         );
-    }
+    };
 
     const renderMinhaBarbearia = () => {
         return (

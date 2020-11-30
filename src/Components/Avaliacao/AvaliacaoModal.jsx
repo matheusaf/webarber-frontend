@@ -61,7 +61,7 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 	const handleOnChange = (event) => {
 		setAvaliacaoForm({...avaliacaoForm, [`${event.target.name}`]: {
 				...avaliacaoForm[`${event.target.name}`], value: event.target.value
-		}})
+		}});
 	};
 
 	const criarAvalicao = async () => {
@@ -72,9 +72,8 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 				descricao: avaliacaoForm.comentario.value,
 				idAgendamento: idAgendamento
 			});
-			let req = await fetch(`${url}/avaliacoes`, { method: "post",
-														 headers: new Headers({"Content-Type":"application/json",
-																				"Authorization":`Bearer ${sessionToken}`}),
+			let req = await fetch(`${url}/avaliacoes`, {method: "post", 
+														headers: new Headers({"Content-Type":"application/json", "Authorization":`Bearer ${sessionToken}`}),
 														body: avaliacao});
 			if(req.status === 200){
 				alert("Avaliação salva com sucesso.");
@@ -98,10 +97,10 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 	const renderModal = () => {
 		return(
 			<Modal isOpen={isOpen} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true} 
-				   style={modalStyle} ariaHideApp={false}>
+					style={modalStyle} ariaHideApp={false}>
 				<div>
 					<div>
-						<Button buttonColors={2} buttonText="X" handleOnClick={()=>setIsOpen(false)}/>
+						<Button buttonColors={2} buttonText="X" handleOnClick={() => setIsOpen(false)}/>
 					</div>
 					<div>
 						<h3 style={{color:"#2bce3b", display:"flex", justifyContent:"center"}}>Deixe sua avaliação</h3>
@@ -113,7 +112,7 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 						{Object.keys(avaliacaoForm).map((field) => {
 									return (
 										<Input elementType={avaliacaoForm[`${field}`].elementType} elementConfig={avaliacaoForm[`${field}`].elementConfig}
-										 		label={avaliacaoForm[`${field}`].label}	value={avaliacaoForm[`${field}`].value} 
+												label={avaliacaoForm[`${field}`].label}	value={avaliacaoForm[`${field}`].value} 
 												handleOnChange={handleOnChange} />
 									);
 						}) }

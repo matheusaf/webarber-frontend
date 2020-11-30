@@ -41,7 +41,7 @@ const CadastrarAgendamento = () => {
 				type: "text",
 			},
 			label: "Preço",
-			value: `R$ 0.00`,
+			value: "R$ 0.00",
 			readOnly: true,
 			validation:{},
 			valid: false,
@@ -98,7 +98,7 @@ const CadastrarAgendamento = () => {
 		if(webarberUser){
 			fetchServicos();
 		}
-	}, [webarberUser, fetchServicos])
+	}, [webarberUser, fetchServicos]);
 
 	const handleOnChange = (event) => {
 		let tempAgendamentoForm = {...agendamentoForm};
@@ -143,6 +143,12 @@ const CadastrarAgendamento = () => {
 		}
 	};
 
+	const buttonStyle = {
+		margin : "10px auto",
+		display : "flex",
+		justifyContent : "center"
+	};
+
 	const renderContainer = () => {
 		if(loading){
 			return (<Loading/>);
@@ -161,12 +167,6 @@ const CadastrarAgendamento = () => {
 			);
 		}
 	};
-	
-	const buttonStyle = {
-		margin : "10px auto",
-		display : "flex",
-		justifyContent : "center"
-	};
 
 	return (
 		<>
@@ -177,7 +177,7 @@ const CadastrarAgendamento = () => {
 			{renderContainer()}
 		</>
 
-	)
-}
+	);
+};
 
 export default CadastrarAgendamento;

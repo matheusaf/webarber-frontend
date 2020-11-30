@@ -103,9 +103,11 @@ const Agendamentos = () => {
                     <td key={`${obj.id}-data`}>{obj.data}</td>
                     {webarberUser.idTipo === 2 && <td key={`${obj.id}-user`}>{obj.nome_usuario}</td>}
                     <td key={`${obj.id}-status`}>{statusAgendamento[(obj.id_status-1)]}</td>
-                    {webarberUser.idTipo === 1 && obj.id_status === 3 && <button className="btn btn-warning"  style={buttonStyle} onClick={() => { setModalOpen(true); setIdAgendamento(obj.id)}}> 
-                                                        Avaliar agendamento
-                                                  </button>}
+                    {webarberUser.idTipo === 1 && obj.id_status === 3 && <button className="btn btn-warning"  style={buttonStyle} onClick={() => { 
+                                                                          setModalOpen(true); 
+                                                                          setIdAgendamento(obj.id);}}> 
+                                                                                Avaliar agendamento
+                                                                      </button>}
                     {webarberUser.idTipo === 1 && obj.id_status !== 4 && <button className="btn btn-danger" style={buttonStyle} onClick={() => cancelarAgendamento(obj.id)}>
                                                     Cancelar agendamento
                                                   </button>}
@@ -162,6 +164,6 @@ const Agendamentos = () => {
             {renderPaginaAgendamentos()}
         </>
     );
-}
+};
 
 export default Agendamentos;
