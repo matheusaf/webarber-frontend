@@ -21,8 +21,8 @@ const RatingIcon = ({baseValue = 0, getRatingValue}) => {
 						<label>
 							<input type="radio" name={`rating-${index}`} style={{display: "none"}} value={index+1} onClick={handleOnClick}/>
 							<FaStar color={(index + 1) <= (hoverRatingValue || ratingValue) ? "#2bce3b": "white"} 
-								        onMouseEnter={() => setHoverRatingValue(index+1)} onMouseLeave={() => setHoverRatingValue(0)}
-										size={50} style={{cursor:"pointer", padding:"5px"}}/>
+									onMouseEnter={() => setHoverRatingValue(index+1)} onMouseLeave={() => setHoverRatingValue(0)}
+									size={50} style={{cursor:"pointer", padding:"5px"}}/>
 						</label>
 
 					);
