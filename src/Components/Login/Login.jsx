@@ -17,7 +17,7 @@ const Login = (props) => {
     const [alertMessage, setAlertMessage ] = useState(null);
     const [loading, setLoading] = useState(false);
     const [loginForm, setLoginForm] = useState(
-        {
+    {
             email:{
                 elementType: "input",
                 elementConfig:{
@@ -96,10 +96,12 @@ const Login = (props) => {
             <div className="container login">
                 <ImageHeader/>
                 <div>
-                    {Object.keys(loginForm).map((field) => 
-                        <Input elementType={loginForm[`${field}`].elementType} label={loginForm[`${field}`].label} 
-                               value={loginForm[`${field}`].value} elementConfig={loginForm[`${field}`].elementConfig} 
-                               handleOnChange={handleOnChange} style={inputStyle}/>)}
+                    <form>
+                        {Object.keys(loginForm).map((field) => 
+                            <Input elementType={loginForm[`${field}`].elementType} label={loginForm[`${field}`].label} 
+                                value={loginForm[`${field}`].value} elementConfig={loginForm[`${field}`].elementConfig} 
+                                handleOnChange={handleOnChange} style={inputStyle}/>)}
+                    </form>
                 </div>
                 <div className="a form">
                     <Link to="/signup">

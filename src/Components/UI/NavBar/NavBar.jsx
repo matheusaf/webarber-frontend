@@ -1,11 +1,12 @@
 import "./NavBar.css";
 import logo from "../../../images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import React, { useState,  useContext } from "react";
 import { UserContext } from "../../User/UserContext";
 import Button from "../../UI/Button/Button";
 
 export default function NavBar({pagina}){
+    const history = useHistory();
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
     const { webarberUser } = useContext(UserContext);
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
@@ -13,6 +14,7 @@ export default function NavBar({pagina}){
     const handleLogout = () => {
         localStorage.removeItem("webarberUser");
         window.location.reload(true);
+        history.push("/login");
     };
 
     const handleNavItems = (navBarText, nextPageLink, currentPage) => {
@@ -81,7 +83,7 @@ export default function NavBar({pagina}){
                     <div className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`} id="navbarText">
                         <ul className="navbar-nav mr-auto">
                             {handleNavItems("Home", "/", pagina)}
-                            {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Minha Barbearia", "/barbearias", pagina)}
+                            {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Minha Barbearia", "/barbearia", pagina)}
                             {webarberUser && handleNavItems("Meus Agendamentos", "/agendamentos", pagina)}
                         </ul>
                     </div>

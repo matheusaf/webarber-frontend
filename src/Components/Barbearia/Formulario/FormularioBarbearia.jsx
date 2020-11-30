@@ -31,7 +31,7 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
                 id: "numero",
                 name: "numero",
                 type: "text",
-                maxLength:3,
+                maxLength:5,
                 placeholder: "Número"
             },
             label: "Número",
@@ -135,16 +135,14 @@ const FormularioBarbearia = ({dadosBarbearia, handleOnSubmitActiom}) => {
     useEffect(() => {
         if(dadosBarbearia){
             let tempBarbeariaForm = {...barbeariaForm};
-            Object.keys(serverDataDictionary).map((field) => {
-                tempBarbeariaForm = {...tempBarbeariaForm, [`${field}`]:{
-                ...tempBarbeariaForm[`${field}`], value: dadosBarbearia[serverDataDictionary[`${field}`]]}};
-                }
+            Object.keys(serverDataDictionary).map((field) => tempBarbeariaForm = {...tempBarbeariaForm, [`${field}`]:{
+                ...tempBarbeariaForm[`${field}`], value: dadosBarbearia[serverDataDictionary[`${field}`]]}}
             );
             tempBarbeariaForm.horarioAbertura.value = new Date(tempBarbeariaForm.horarioAbertura.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
             tempBarbeariaForm.horarioFechamento.value = new Date(tempBarbeariaForm.horarioFechamento.value).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12:false});
             setBarbeariaForm({...tempBarbeariaForm});
         }
-    }, [dadosBarbearia]);
+    }, [dadosBarbearia, barbeariaForm, serverDataDictionary]);
 
     const addressDataDictionary = {
         // endereco: "route",

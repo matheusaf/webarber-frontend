@@ -1,35 +1,42 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { UserContext } from "../User/UserContext";
 import { Helmet } from "react-helmet";
 import NavBar from "../UI/NavBar/NavBar";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
 import FormularioBarbearia from "./Formulario/FormularioBarbearia";
+import { useHistory, useParams } from "react-router-dom";
 
 const url = process.env.REACT_APP_BASE_URL;
 
 const EditarBarbearia = () => {
+    const { id } = useParams();
+    const history = useHistory();
     const { webarberUser } = useContext(UserContext);
     const [dadosBarbearia, setDadosBarbearia] = useState();
     const [loading, setLoading] = useState(true);
 
-    const fetchDadosBarbearia = async () => {
+    const fetchDadosBarbearia = useCallback(async () => {
         setLoading(true);
-        let response = await fetch(`${url}/barbearia/`, {method: "get",
+        let response = await fetch(`${url}/barbearias/`, {method: "get",
                                                         headers: new Headers({"Content-Type": "application/json",
                                                                               "Authorization": `Bearer ${webarberUser.sessionToken}`})});
         if(response.status === 200){
             let json = await response.json();
-            setDadosBarbearia(json);
+            if(json.length > 0){
+                setDadosBarbearia(json[0]);
+            }
         }
         else{
             alert("erro");
         }
-    };
+    }, [webarberUser.sessionToken]);
     
     useEffect(() => {
-        fetchDadosBarbearia();
-    }, []);
+        if(webarberUser){
+            fetchDadosBarbearia();
+        }
+    }, [webarberUser, fetchDadosBarbearia]);
 
 
     const  renderNotFound = () => {
@@ -57,6 +64,7 @@ const EditarBarbearia = () => {
             });
             if (response.status === 200) {
                 alert("Barbearia alterada com sucesso.");
+                history.push(`/barbearia/${id}`);
             } else {
                 const { message } = await response.json();
                 alert(message);

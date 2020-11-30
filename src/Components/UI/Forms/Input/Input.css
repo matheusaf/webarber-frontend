@@ -16,12 +16,12 @@
   border-radius: inherit;
 }
 
-.InputElement:disabled{
+.InputElement:disabled {
   background-color: rgb(123, 121, 121);
   font-weight: bold;
 }
 
-.TextElement{
+.TextElement {
   border-radius: 1rem;
   padding: 10px;
   height: auto;
