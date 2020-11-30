@@ -5,13 +5,13 @@
   margin: 10px auto;
   border-radius: 1rem;
   border-style: solid;
-  max-width: fit-content;
+  max-width: 30%;
 }
 
 .col.label {
   max-width: max-content;
   display: flex;
-  margin: 0 auto;
+  margin: 0px auto;
 }
 
 .col.data {
