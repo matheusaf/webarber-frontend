@@ -89,7 +89,8 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 				alert("Avaliação salva com sucesso.");
 			}
 			else{
-				alert("Erro ao salvar avaliação. Tente novamente mais tarde.");
+				let { message } = await req.json();
+				alert(message);
 			}
 		}
 		catch(err){

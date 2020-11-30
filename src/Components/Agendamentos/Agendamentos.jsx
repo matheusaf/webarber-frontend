@@ -2,7 +2,6 @@ import axios from "axios";
 import NavBar from "../UI/NavBar/NavBar";
 import { Helmet } from "react-helmet";
 import React, {useContext, useState, useEffect} from "react";
-import { useHistory } from "react-router-dom";
 import Loading from "../UI/Loading/Loading";
 import { UserContext } from "../User/UserContext";
 import AvaliacaoModal from "../Avaliacao/AvaliacaoModal";
@@ -16,7 +15,6 @@ const Agendamentos = () => {
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [idAgendamento, setIdAgendamento] = useState(null);
-    const history = useHistory();
 
     const fetchAgendamentos = async () => {
         setLoading(true);
@@ -35,11 +33,11 @@ const Agendamentos = () => {
         setLoading(false);
     }; 
 
-    const cancelarAgendamento = async ({ id }) => {
+    const cancelarAgendamento = async (id) => {
         try {
             const response = await fetch(`${url}/agendamentos`, {
-                method: "delete",
-                body: JSON.stringify({id}),
+                method: "DELETE",
+                body: JSON.stringify({id: id}),
                 headers: new Headers({
                     "Content-type" : "application/json", 
                     "Authorization" : `Bearer ${webarberUser.sessionToken}`
@@ -49,14 +47,15 @@ const Agendamentos = () => {
             if (response.status === 200) {
                 await fetchAgendamentos();
             } else {
-                alert("Erro ao cancelar o agendamento");
+                let { message } = await response.json();
+                alert(message);
             }
         } catch (err) {
             alert(err);
         }
     };
 
-    const finalizarAgendamento = async ({ id }) => {
+    const finalizarAgendamento = async (id) => {
         try {
             const response = await fetch(`${url}/agendamentos`, {
                 method: "patch",
@@ -108,7 +107,7 @@ const Agendamentos = () => {
                     {webarberUser.idTipo === 1 && obj.id_status === 3 && <button className="btn btn-warning"  style={buttonStyle} onClick={() => { setModalOpen(true); setIdAgendamento(obj.id)}}> 
                                                         Avaliar agendamento
                                                   </button>}
-                    {webarberUser.idTipo === 1 && <button className="btn btn-danger" style={buttonStyle} onClick={() => cancelarAgendamento(obj.id)}>
+                    {webarberUser.idTipo === 1 && obj.id_status !== 4 && <button className="btn btn-danger" style={buttonStyle} onClick={() => cancelarAgendamento(obj.id)}>
                                                     Cancelar agendamento
                                                   </button>}
                     {webarberUser.idTipo === 2 && <button className="btn btn-danger" style={buttonStyle} onClick={() => finalizarAgendamento(obj.id)}>
@@ -121,7 +120,7 @@ const Agendamentos = () => {
         if (agendamento.length > 0){
             return(
                     <table className="table table-dark" style={{margin:"10px auto", maxWidth:"85%", textAlign:"center"}}>
-                        <thead>
+                        <thead style={{backgroundColor:"black", color:"#2bce3b"}}>
                             <tr>
                                 <th>Serviço</th>
                                 <th>Agendamento</th>

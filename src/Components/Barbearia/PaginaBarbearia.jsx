@@ -150,7 +150,7 @@ export default function PaginaBarbearia(){
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[`${field}`]))}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
-                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && renderAgendamentoButton()}
+                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && (servicos.length > 0) && renderAgendamentoButton()}
                         {servicos.length === 0 ? renderSemServicos() : renderTabelaServicos()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
