@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
-document.body.style.backgroundColor="black";
+document.body.style.backgroundColor="yellow";
 ReactDOM.render(
       <BrowserRouter>
             <App/>

@@ -84,6 +84,7 @@ export default function NavBar({pagina}){
                         <ul className="navbar-nav mr-auto">
                             {handleNavItems("Home", "/", pagina)}
                             {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Minha Barbearia", "/barbearia", pagina)}
+                            {webarberUser && webarberUser.idTipo === 2 && handleNavItems("Usuários", "/filterUsuario", pagina)}
                             {webarberUser && handleNavItems("Meus Agendamentos", "/agendamentos", pagina)}
                         </ul>
                     </div>
