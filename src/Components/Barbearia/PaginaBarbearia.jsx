@@ -1,5 +1,5 @@
 import NavBar from "../UI/NavBar/NavBar";
-import MapComponent from "../UI/Map/MapComponent";
+// import MapComponent from "../UI/Map/MapComponent";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
 import React, { useEffect, useState, useContext, useCallback } from "react";
@@ -155,7 +155,7 @@ export default function PaginaBarbearia(){
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
                     </div>
-                    <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent>
+                    {/* <MapComponent nomeBarbearia={dadosBarbearia.nome} endereco={dadosBarbearia.endereco}></MapComponent> */}
                 </div>
         );
     };
