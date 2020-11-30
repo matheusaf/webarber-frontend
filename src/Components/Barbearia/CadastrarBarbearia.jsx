@@ -5,10 +5,12 @@ import NavBar from "../../Components/UI/NavBar/NavBar";
 import Button from "../../Components/UI/Button/Button";
 import Loading from "../../Components/UI/Loading/Loading";
 import FormularioBarbearia from "./Formulario/FormularioBarbearia";
+import { useHistory } from "react-router-dom";
 
 const url = process.env.REACT_APP_BASE_URL;
 
 const CadastrarBarbearia = () => {
+    const history = useHistory();
     const { webarberUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
 
@@ -18,6 +20,7 @@ const CadastrarBarbearia = () => {
 
         createBarbearia.horarioAbertura = new Date().setHours(...createBarbearia.horarioAbertura.split(":"));
         createBarbearia.horarioFechamento = new Date().setHours(...createBarbearia.horarioFechamento.split (":"));
+        createBarbearia.diaFuncionamento = ["segunda", "terca", "quarta", "quinta", "sexta", "sabado", "domingo"];
 
         const response = await fetch(`${url}/barbearias`, {
             method: "post",
@@ -29,6 +32,7 @@ const CadastrarBarbearia = () => {
 
         if (response.status === 201) {
             alert("Barbearia cadastrada com sucesso");
+            history.push("/barbearia");
         } else {
             const { message } = await response.json();
             alert(message);

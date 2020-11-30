@@ -9,24 +9,22 @@ const MapComponent = ({nomeBarbearia, endereco}) => {
     const mapStyles = {        
       height: "93vh",
       width: "100%"};
-    
+        
     const findAddress = async () => {
       try{
         let results = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(endereco)}&key=${MapsAPIKey}`)
           .then((r) => r.data);
-        if(results.status === "OK"){
-          let newLatLng = results.results[0].geometry.location;
-          setAddressLatLng(newLatLng);
+          if(results.status === "OK"){
+            let newLatLng = results.results[0].geometry.location;
+            setAddressLatLng(newLatLng);
+          }
         }
-      }
-      catch(err){
-        alert(err);
-      }
-    };
-
-    useEffect(() => {
-      findAddress();
-    }, []);
+        catch(err){
+          alert(err);
+        }
+      };
+      
+    useEffect(findAddress(), []);
 
     return (
       <LoadScript
