@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import NavBar from "../UI/NavBar/NavBar";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback} from "react";
 import { Link } from "react-router-dom";
 import CardBarbearia from "./CardBarbearia/CardBarberia";
 import { UserContext } from "../User/UserContext";
@@ -14,7 +14,7 @@ const MinhasBarbearias = () => {
     let [barbearia, setBarbearia] = useState();
     let [loading, setLoading] = useState(false);
     
-    const fetchBarbearia = async () => {
+    const fetchBarbearia = useCallback(async () => {
         setLoading(true);
         try{
             let res = await fetch(`${url}/barbearia`, {method: "get", 
@@ -30,13 +30,13 @@ const MinhasBarbearias = () => {
         }
         setLoading(false);
 
-    };
+    }, [webarberUser.sessionToken]);
 
     useEffect(() => {
         if(webarberUser){
             fetchBarbearia();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchBarbearia]);
 
     const renderNotFound = () => {
         return (

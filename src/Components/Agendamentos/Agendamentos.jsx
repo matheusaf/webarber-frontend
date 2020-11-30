@@ -1,7 +1,7 @@
 import axios from "axios";
 import NavBar from "../UI/NavBar/NavBar";
 import { Helmet } from "react-helmet";
-import React, {useContext, useState, useEffect} from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import Loading from "../UI/Loading/Loading";
 import { UserContext } from "../User/UserContext";
 import AvaliacaoModal from "../Avaliacao/AvaliacaoModal";
@@ -16,7 +16,7 @@ const Agendamentos = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [idAgendamento, setIdAgendamento] = useState(null);
 
-    const fetchAgendamentos = async () => {
+    const fetchAgendamentos = useCallback( async () => {
         setLoading(true);
         try{
             let resp = await fetch(`${url}/agendamentos`, {method:"get", 
@@ -31,7 +31,7 @@ const Agendamentos = () => {
             alert(err);
         }
         setLoading(false);
-    }; 
+    }, [webarberUser.sessionToken]); 
 
     const cancelarAgendamento = async (id) => {
         try {
@@ -77,7 +77,7 @@ const Agendamentos = () => {
     };
 
 
-    const fetchStatusAgendamentos = async () => {
+    const fetchStatusAgendamentos = useCallback(async () => {
         try{
             let data = await axios.get(`${url}/statusagendamento`).then((res) => res.data);
             if(data){
@@ -88,14 +88,13 @@ const Agendamentos = () => {
         catch(err){
             alert(err);
         }
-    };
+    }, []);
 
     const buttonStyle = {
         marginTop: "5px",
         marginRight:"10px",
         fontWeight:"bold"
     };
-
 
     const renderTableRows = (obj) => {
         return (
@@ -145,11 +144,11 @@ const Agendamentos = () => {
     };
 
     useEffect(() => {
-        if (webarberUser) {            
-            fetchStatusAgendamentos();
+        if(webarberUser){
             fetchAgendamentos();
+            fetchStatusAgendamentos();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchAgendamentos, fetchStatusAgendamentos]);
 
     return (
         <>

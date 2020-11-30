@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import Button from "../UI/Button/Button";
 import RatingIcon from "../UI/RatingIcon/RatingIcon";
@@ -63,14 +63,6 @@ const AvaliacaoModal = ({sessionToken, isOpen, setIsOpen, idAgendamento}) => {
 				...avaliacaoForm[`${event.target.name}`], value: event.target.value
 		}})
 	};
-
-	const fetchAvaliacao = async () => {
-
-	};
-
-	useEffect(() => {
-		
-	},[]);
 
 	const criarAvalicao = async () => {
 		try{

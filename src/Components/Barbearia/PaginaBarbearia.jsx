@@ -2,7 +2,7 @@ import NavBar from "../UI/NavBar/NavBar";
 import MapComponent from "../UI/Map/MapComponent";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import "./Styles/PaginaBarbearia.css";
@@ -23,7 +23,7 @@ export default function PaginaBarbearia(){
             cep:"CEP", telefone:"Telefone", horarioAbertura:"Horário Abertura", horarioFechamento:"Horário Fechamento"
         };
     
-    const fetchBarbearia = async() => {
+    const fetchBarbearia = useCallback(async() => {
         setLoading(true);
         try{
             const barbearia = await axios.get(`${url}/barbearias/${id}`).then((d) => d.data);
@@ -35,9 +35,9 @@ export default function PaginaBarbearia(){
             alert(err);
         }
         setLoading(false);
-    };
+    }, [id]);
     
-    const fetchServicos = async () => {
+    const fetchServicos = useCallback(async () => {
         try {
             const servicos = await axios.get(`${url}/servicos/barbearia/${id}`).then((d) => d.data);
             setServicos(servicos);
@@ -45,12 +45,12 @@ export default function PaginaBarbearia(){
             alert(err);
         }
         setLoading(false);
-    };
+    }, [id]);
 
     useEffect(() => {
         fetchServicos(); 
         fetchBarbearia();
-    }, []);
+    }, [fetchServicos, fetchBarbearia]);
 
     const renderBarbeariaDataRows = (field, value) => {
         if(fieldNameDictionary[`${field}`]){

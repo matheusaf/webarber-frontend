@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import Input from "../UI/Forms/Input/Input";
 import Button from "../UI/Button/Button";
 import Helmet from "react-helmet";
@@ -79,7 +79,7 @@ const CadastrarAgendamento = () => {
 		}
 	});
 
-	const fetchServicos = async() => {
+	const fetchServicos = useCallback(async() => {
 		try{
 			let servicos = await axios.get(`${url}/servicos/barbearia/${id}`).then((d) => d.data);
 			setServicos(servicos);
@@ -92,13 +92,13 @@ const CadastrarAgendamento = () => {
 			alert(err);
 		}
 		setLoading(false);
-	}
+	}, [id, agendamentoForm]);
 
 	useEffect(() => {
 		if(webarberUser){
 			fetchServicos();
 		}
-	}, [webarberUser])
+	}, [webarberUser, fetchServicos])
 
 	const handleOnChange = (event) => {
 		let tempAgendamentoForm = {...agendamentoForm};

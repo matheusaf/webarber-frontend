@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { UserContext } from "../User/UserContext";
 import { Helmet } from "react-helmet";
 import NavBar from "../UI/NavBar/NavBar";
@@ -16,7 +16,7 @@ const EditarBarbearia = () => {
     const [dadosBarbearia, setDadosBarbearia] = useState();
     const [loading, setLoading] = useState(true);
 
-    const fetchDadosBarbearia = async () => {
+    const fetchDadosBarbearia = useCallback(async () => {
         setLoading(true);
         let response = await fetch(`${url}/barbearias/`, {method: "get",
                                                         headers: new Headers({"Content-Type": "application/json",
@@ -30,13 +30,13 @@ const EditarBarbearia = () => {
         else{
             alert("erro");
         }
-    };
+    }, [webarberUser.sessionToken]);
     
     useEffect(() => {
         if(webarberUser){
             fetchDadosBarbearia();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchDadosBarbearia]);
 
 
     const  renderNotFound = () => {

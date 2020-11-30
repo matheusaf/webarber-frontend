@@ -1,5 +1,5 @@
 import "./PaginaUsuario.css";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../Components/User/UserContext";
 import NavBar from "../../Components/UI/NavBar/NavBar";
@@ -86,7 +86,7 @@ const PaginaUsuario = ()  => {
         autoFilled: false
     });
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         setLoading(true);
         try{
             let res = await fetch(`${url}/conta`, { method: "get",
@@ -101,13 +101,13 @@ const PaginaUsuario = ()  => {
             alert(err);
         }
         setLoading(false);
-    };
+    }, [webarberUser.sessionToken]);
 
     useEffect(() => {
         if(webarberUser){
             fetchUserData();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchUserData]);
 
     const handleFormChange = (event) => {
         setUserDataForm({...userDataForm, [`${event.target.name}`]: {
