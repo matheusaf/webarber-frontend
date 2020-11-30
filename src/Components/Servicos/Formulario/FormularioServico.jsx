@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Input from "../../UI/Forms/Input/Input";
 import Button from "../../UI/Button/Button";
 import NavBar from "../../UI/NavBar/NavBar";

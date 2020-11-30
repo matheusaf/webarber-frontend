@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { UserContext } from "../User/UserContext";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Button from "../UI/Button/Button";
 import RatingIcon from "../UI/RatingIcon/RatingIcon";

@@ -3,7 +3,7 @@ import NavBar from "../UI/NavBar/NavBar";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CardBarbearia from "./CardBarbearia/CardBarberia";
 import { UserContext } from "../User/UserContext";
 
