@@ -15,8 +15,8 @@ const Agendamentos = () => {
     const [statusAgendamento, setStatusAgendamento] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [idAgendamento, setIdAgendamento] = useState(null);
     const history = useHistory();
-
 
     const fetchAgendamentos = async () => {
         setLoading(true);
@@ -105,9 +105,15 @@ const Agendamentos = () => {
                     <td key={`${obj.id}-data`}>{obj.data}</td>
                     {webarberUser.idTipo === 2 && <td key={`${obj.id}-user`}>{obj.nome_usuario}</td>}
                     <td key={`${obj.id}-status`}>{statusAgendamento[(obj.id_status-1)]}</td>
-                    {webarberUser.idTipo === 1 && <button className="btn btn-warning"  style={buttonStyle} onClick={() => setModalOpen(true)}> Avaliar agendamento</button>}
-                    {webarberUser.idTipo === 1 && <button className="btn btn-danger" style={buttonStyle} onClick={() => cancelarAgendamento(obj.id)}>Cancelar agendamento</button>}
-                    {webarberUser.idTipo === 2 && <button className="btn btn-danger" style={buttonStyle} onClick={() => finalizarAgendamento(obj.id)}> Finalizar agendamento</button>}
+                    {webarberUser.idTipo === 1 && obj.id_status === 3 && <button className="btn btn-warning"  style={buttonStyle} onClick={() => { setModalOpen(true); setIdAgendamento(obj.id)}}> 
+                                                        Avaliar agendamento
+                                                  </button>}
+                    {webarberUser.idTipo === 1 && <button className="btn btn-danger" style={buttonStyle} onClick={() => cancelarAgendamento(obj.id)}>
+                                                    Cancelar agendamento
+                                                  </button>}
+                    {webarberUser.idTipo === 2 && <button className="btn btn-danger" style={buttonStyle} onClick={() => finalizarAgendamento(obj.id)}>
+                                                    Finalizar agendamento
+                                                  </button>}
                 </tr>
         );
     };
@@ -154,7 +160,7 @@ const Agendamentos = () => {
             <NavBar></NavBar>
             <h3 style = {{textAlign:"center", color:"#2bce3b"}}> Meus Agendamento </h3>
             {loading && (<Loading/>)}
-            {modalOpen && <AvaliacaoModal isOpen={modalOpen}/>}
+            {modalOpen && <AvaliacaoModal isOpen={modalOpen} sessionToken={webarberUser.sessionToken} idAgendamento={idAgendamento} setIsOpen={setModalOpen}/>}
             {renderPaginaAgendamentos()}
         </>
     );

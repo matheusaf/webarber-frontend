@@ -1,4 +1,3 @@
-import "./SignUp.css";
 import Helmet from "react-helmet";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Forms/Input/Input";
