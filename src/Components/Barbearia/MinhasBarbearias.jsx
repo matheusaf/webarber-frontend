@@ -2,8 +2,8 @@ import { Helmet } from "react-helmet";
 import NavBar from "../UI/NavBar/NavBar";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
-import React, { useState, useEffect, useContext } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { useState, useEffect, useContext, useCallback} from "react";
+import { Link } from "react-router-dom";
 import CardBarbearia from "./CardBarbearia/CardBarberia";
 import { UserContext } from "../User/UserContext";
 
@@ -14,7 +14,7 @@ const MinhasBarbearias = () => {
     let [barbearia, setBarbearia] = useState();
     let [loading, setLoading] = useState(false);
     
-    const fetchBarbearia = async () => {
+    const fetchBarbearia = useCallback(async () => {
         setLoading(true);
         try{
             let res = await fetch(`${url}/barbearia`, {method: "get", 
@@ -30,13 +30,13 @@ const MinhasBarbearias = () => {
         }
         setLoading(false);
 
-    };
+    }, [webarberUser.sessionToken]);
 
     useEffect(() => {
         if(webarberUser){
             fetchBarbearia();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchBarbearia]);
 
     const renderNotFound = () => {
         return (
@@ -44,12 +44,18 @@ const MinhasBarbearias = () => {
         );
     };
 
+    const renderButton = () => {
+        return (
+            <Button buttonColors={1} buttonText="+ Adicionar Barbearias" style={{display:"flex", margin:"auto", height:"auto"}}/>
+        );
+    }
+
     const renderMinhaBarbearia = () => {
         return (
                 <div>
                     <NavBar></NavBar>
                     <Link to="/cadastrarBarbearia">
-                        <Button buttonColors={1} buttonText="+ Adicionar Barbearias" style={{display:"flex", margin:"auto", height:"auto"}}/>
+                    {!barbearia && renderButton()}
                     </Link>
                     <div>
                         {barbearia && <CardBarbearia barbearia={barbearia}> </CardBarbearia>}

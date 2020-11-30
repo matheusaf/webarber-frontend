@@ -1,5 +1,5 @@
 import "./PaginaUsuario.css";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../Components/User/UserContext";
 import NavBar from "../../Components/UI/NavBar/NavBar";
@@ -86,7 +86,7 @@ const PaginaUsuario = ()  => {
         autoFilled: false
     });
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         setLoading(true);
         try{
             let res = await fetch(`${url}/conta`, { method: "get",
@@ -101,13 +101,13 @@ const PaginaUsuario = ()  => {
             alert(err);
         }
         setLoading(false);
-    };
+    }, [webarberUser.sessionToken]);
 
     useEffect(() => {
         if(webarberUser){
             fetchUserData();
         }
-    }, [webarberUser]);
+    }, [webarberUser, fetchUserData]);
 
     const handleFormChange = (event) => {
         setUserDataForm({...userDataForm, [`${event.target.name}`]: {
@@ -119,7 +119,7 @@ const PaginaUsuario = ()  => {
         setEditMode(true);
     };
 
-    const handleSaveButton = async () => {
+    const handleSaveChanges = async () => {
         setEditMode(false);
         try{
             let updatedUser = Object.keys(userDataForm).reduce((obj, prop) => ({...obj, [`${prop}`]: userDataForm[`${prop}`].value }),{});
@@ -176,7 +176,7 @@ const PaginaUsuario = ()  => {
                                 )}
                         </form>
                         {!editMode ? <Button id="btn editar" buttonStyle={1} buttonText="Editar Perfil" handleOnClick={handleEditButton} style={buttonStyle}/> 
-                                    : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveButton} style={buttonStyle}/>}
+                                    : <Button disabled={!userDataForm.touched} id="btn signup" buttonText="Salvar" handleOnClick={handleSaveChanges} style={buttonStyle}/>}
                     </div>
                 </div>
             </div>

@@ -1,4 +1,3 @@
-import "./SignUp.css";
 import Helmet from "react-helmet";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Forms/Input/Input";
@@ -13,6 +12,7 @@ const url = process.env.REACT_APP_BASE_URL;
 const SignUp = ({email, password}) => {
     let history = useHistory();
     const [loading, setLoading] = useState(false);
+    // const [tipoPessoa, setTipoPessoa] = useState("");
     // const [alertMessage, setAlertMessage] = useState(null);
     const maskNumDocumento = {CPF: {mask:"999.999.999-99", placeholder: "123.456.789.10"}, 
                               CNPJ: {mask: "99.999.999/9999-9", placeholder: "12.345.789/000-0"}};
@@ -211,6 +211,7 @@ const SignUp = ({email, password}) => {
 
     const handleOnChange = (event) => {
             if(event.target.name === "tipoPessoa") {
+                // setTipoPessoa(event.target.value);
                 setSignUpForm({...signUpForm, [`${event.target.name}`]:{ 
                     ...signUpForm[`${event.target.name}`], value: event.target.value, 
                     },
@@ -239,11 +240,13 @@ const SignUp = ({email, password}) => {
     const renderSignUpForm = () => {
         return(
                 <div>
-                    <ImageHeader/>
-                    {Object.keys(signUpForm).map((field) => 
-                            <Input elementType={signUpForm[`${field}`].elementType} label={signUpForm[`${field}`].label} 
+                    <div className="container">
+                        <ImageHeader/>
+                        {Object.keys(signUpForm).map((field) => 
+                                <Input elementType={signUpForm[`${field}`].elementType} label={signUpForm[`${field}`].label} 
                                 value={signUpForm[`${field}`].value} elementConfig={signUpForm[`${field}`].elementConfig} 
                                 options={signUpForm[`${field}`].options} handleOnChange={handleOnChange} style={inputStyle}/>)}
+                    </div>
                     <div className="a form">
                         <Link to="/login">
                             Já é cadastrado?
