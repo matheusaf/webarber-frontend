@@ -2,10 +2,10 @@ import NavBar from "../UI/NavBar/NavBar";
 import MapComponent from "../UI/Map/MapComponent";
 import Loading from "../UI/Loading/Loading";
 import Button from "../UI/Button/Button";
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import "./Styles/PaginaBarbearia.css";
+import "./PaginaBarbearia.css";
 import { UserContext } from "../User/UserContext";
 
 const url = process.env.REACT_APP_BASE_URL;
@@ -23,7 +23,7 @@ export default function PaginaBarbearia(){
             cep:"CEP", telefone:"Telefone", horarioAbertura:"Horário Abertura", horarioFechamento:"Horário Fechamento"
         };
     
-    const fetchBarbearia = useCallback(async() => {
+    const fetchBarbearia = async() => {
         setLoading(true);
         try{
             const barbearia = await axios.get(`${url}/barbearias/${id}`).then((d) => d.data);
@@ -35,9 +35,9 @@ export default function PaginaBarbearia(){
             // alert(err);
         }
         setLoading(false);
-    }, [id]);
+    };
     
-    const fetchServicos = useCallback(async () => {
+    const fetchServicos = async () => {
         try {
             const servicos = await axios.get(`${url}/servicos/barbearia/${id}`).then((d) => d.data);
             setServicos(servicos);
@@ -45,12 +45,12 @@ export default function PaginaBarbearia(){
             alert(err);
         }
         setLoading(false);
-    }, [id]);
+    };
 
     useEffect(() => {
-        fetchServicos(); 
         fetchBarbearia();
-    }, [fetchServicos, fetchBarbearia]);
+        fetchServicos(); 
+    }, []);
 
     const renderBarbeariaDataRows = (field, value) => {
         if(fieldNameDictionary[`${field}`]){
@@ -70,15 +70,15 @@ export default function PaginaBarbearia(){
     const buttonStyle = {
         display: "flex",
         justifyContent:"center",
-        margin: "20px auto"
+        margin: "10px auto"
     };
 
-    const tableRow = (obj) => {
+       const tableRow = (obj) => {
         return (
                 <tr key={`row-${obj.id}`}>
                     <td data-testid={`titulo-${obj.id}`} key={`titulo-${obj.id}`}>{obj.titulo}</td>
                     {/* <td data-testid={`descricao-${obj.id}`} key={`descricao-${obj.id}`}>{obj.descricao}</td> */}
-                    <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{`R$ ${obj.preco.toFixed(2)}`}</td>
+                    <td data-testid={`valor-${obj.id}`} key={`valor-${obj.id}`}>{obj.preco}</td>
                 </tr>
         );
     };
@@ -91,50 +91,7 @@ export default function PaginaBarbearia(){
 
     const renderServiceButton = () => {
         return(
-            <Button buttonColors={2} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
-        );
-    };
-
-    const handleAgendamentoButton = () => {
-        if(webarberUser){
-            history.push("/cadastrarAgendamento/1");
-        }
-        else{
-            history.push("/login");
-        }
-    };
-
-    const renderAgendamentoButton = () => {
-        return(
-            <Button buttonColors={2} buttonText="Realizar Agendamento" style={buttonStyle} handleOnClick={handleAgendamentoButton}/>
-        );
-    };
-
-
-    const renderTabelaServicos = () => {
-        return(
-                <table className="table table-dark" style={{marginTop: "2%", textAlign:"center"}}>
-                        <thead style={{backgroundColor:"black", color:"#2bce3b", border:"3px solid grey"}}>
-                            <tr style={{fontWeight:"bold"}}>
-                                <th colSpan="2">Tabela de Serviços</th>
-                            </tr>
-                            <tr style={{fontWeight:"bold"}}>
-                                <th key="titulo">Titulo</th>
-                                <th key="valor">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody style={{border:"3px solid grey"}}>
-                            {servicos && servicos.map((obj) => tableRow(obj))}
-                        </tbody>
-                    </table>
-            );
-    };
-
-    const renderSemServicos = () => {
-        return(
-                <h5 className="notFound">
-                    Sem serviços cadastrados
-                </h5>
+            <Button buttonColors={1} buttonText="Adicionar Serviço" style={buttonStyle} handleOnClick={() => history.push("/cadastrarServico")}/>
         );
     };
 
@@ -149,9 +106,18 @@ export default function PaginaBarbearia(){
                         </div>
                         <div className="card-body">
                         {dadosBarbearia && Object.keys(dadosBarbearia).map((field) => renderBarbeariaDataRows(field, dadosBarbearia[`${field}`]))}
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                    <th key="titulo" data-testid="titulo">Titulo</th>
+                                    <th key="valor" data-testid="Valor">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {servicos && servicos.map((obj) => tableRow(obj))}
+                            </tbody>
+                        </table>
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderEditButton()}
-                        {(!webarberUser || (webarberUser && webarberUser.id !== dadosBarbearia.user_id)) && (servicos.length > 0) && renderAgendamentoButton()}
-                        {servicos.length === 0 ? renderSemServicos() : renderTabelaServicos()}
                         {webarberUser && webarberUser.id === dadosBarbearia.user_id && renderServiceButton()}
                         </div>
                     </div>

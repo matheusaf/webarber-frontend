@@ -36,7 +36,7 @@ const Home = () => {
     };
 
     const validateQuery = (value) => {
-        return value.trim() !== null;
+        return value.trim() !== "";
     };
 
     const handleOnChange = (event) => {
