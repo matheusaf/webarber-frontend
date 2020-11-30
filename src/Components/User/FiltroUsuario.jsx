@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import Button from "../UI/Button/Button";
 import NavBar from "../UI/NavBar/NavBar";
 import Input from "../UI/Forms/Input/Input";
@@ -9,9 +9,28 @@ import Helmet from "react-helmet";
 const url  = process.env.REACT_BASE_URL;
 
 const FiltroUsuario = () => {
+    const { webarberUser } = useContext(UserContext);
     const [userResults, setUserResults] = useState([]);
+    const [buttonEnabled, setButtonEnabled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState({
+        tipoUsuario:{
+            elementType: "select",
+            elementConfig:{
+                id:"tipoUsuario",
+                name:"tipoUsuario",
+                placeholder: "Escolha o tipo de usuário",
+                options:[
+                    {optionValue: "1", optionText: "Usuário"},
+                    {optionValue: "2", optionText: "Moderador"}
+                ],
+            },
+            label: "Tipo Usuário",
+            value: "",
+            validation: {},
+            valid: false,
+            touched: false
+        },
         query: {
             elementType: "input",
             elementConfig: {
@@ -29,27 +48,27 @@ const FiltroUsuario = () => {
                 name: "queryRadio"
             },
             value: ""
-        }
+        },
     });
 
-    const fetchUsers = async() => {
+    const fetchUsers = useCallback(async() => {
         setLoading(true);
         try {
-            let req = await fetch(`${url}/filtro?${query.radio.value}=${query.query.value}`, {method:"GET",
+            let req = await fetch(`${url}/filtro?${query.tipoUsuario.value}=${query.query.value}`, {method:"GET",
                                                 headers: new Headers({"Content-Type":"application/json"})});
             if (req.status !== 200){
-                alert("Erro ao trazer filtro");
+                alert("Não foi possível filtrar os usuários")
             }
             else{
-                let { message } = await req.json();
-                alert(message);
+                let json = await req.json();
+                setUserResults(json);
             }
         }
         catch(err){
             alert(err);
         }
         setLoading(false);
-    };
+    }, [query]);
 
     const tableRow = (obj) => {
         return (
@@ -97,10 +116,12 @@ const FiltroUsuario = () => {
         }});
     };
 
-    const handleButton = (event) => {
-        if (!radio) return;
-        
-    };
+
+    useEffect(() => {
+        if(webarberUser){
+            setButtonEnabled(true);
+        }
+    }, [webarberUser, setButtonEnabled]);
 
     const renderResults = () => {
 
@@ -121,7 +142,7 @@ const FiltroUsuario = () => {
                 {Object.keys(query).map((field) => <Input elementType={query[`${field}`].elementType} elementConfig={query[`${field}`].elementConfig}
                                                             label={query[`${field}`].label} value={query[`${field}`].value} 
                                                             handleOnChange={handleOnChange}/>)}
-                <Button buttonColors={2} buttonText="Buscar" handleOnClick={handleButton} enabled={(radio.value === "" || radio.value === undefined)? false : true}/>
+                <Button disabled={!buttonEnabled} buttonColors={2} buttonText="Buscar" handleOnClick={fetchUsers()}/>
                 {renderTabelaFiltro()}
             </div>
         </>
