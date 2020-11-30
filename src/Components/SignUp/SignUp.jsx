@@ -15,7 +15,7 @@ const SignUp = ({email, password}) => {
     // const [tipoPessoa, setTipoPessoa] = useState("");
     // const [alertMessage, setAlertMessage] = useState(null);
     const maskNumDocumento = {CPF: {mask:"999.999.999-99", placeholder: "123.456.789.10"}, 
-                              CNPJ: {mask: "99.999.999/9999-9", placeholder: "12.345.789/000-0"}};
+                              CNPJ: {mask: "99.999.999/9999-99", placeholder: "12.345.789/0000-00"}};
     const[signUpForm, setSignUpForm] = useState ({
         nome:{
             elementType: "input",
