@@ -38,6 +38,7 @@ const MinhasBarbearias = () => {
         }
     }, [webarberUser, fetchBarbearia]);
 
+
     const renderNotFound = () => {
         return (
             <h3 style={{justifyContent:"center",display:"flex", margin:"auto", color:"red", marginTop:"1%", width:"auto"}}> {"Você não possui barbearia(s) cadastrada(s)."}</h3>

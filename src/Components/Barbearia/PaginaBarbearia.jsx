@@ -32,7 +32,7 @@ export default function PaginaBarbearia(){
             setDadosBarberia(barbearia);
         }
         catch(err){
-            alert(err);
+            // alert(err);
         }
         setLoading(false);
     }, [id]);

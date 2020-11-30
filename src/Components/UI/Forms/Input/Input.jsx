@@ -8,7 +8,6 @@ const googleMapsAPIKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const googleMapsAPILibraries = ["places"];
 
  const Input = ({readOnly=false,disabled=false, elementType, elementConfig, label, value, handleOnChange, validation, valid, touched, style=null, setAddressValue=null}) => {
-
     const renderSelectOptions = ({optionValue, optionText}) => {
         return (
             <option key={optionValue} className = "option" value={optionValue}>
