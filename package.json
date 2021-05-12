@@ -11,7 +11,7 @@
     "bootstrap": "^4.5.2",
     "dotenv": "^8.2.0",
     "google": "^2.1.0",
-    "postcss": "7.0.32",
+    "postcss": "8.2.10",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-geocode": "^0.2.2",
