@@ -61,6 +61,7 @@ const FiltroUsuario = () => {
             }
             else{
                 let json = await req.json();
+                console.log(json);
                 setUserResults(json);
             }
         }
